@@ -1,5 +1,5 @@
 {
-  "version": "2026-09-04",
+  "version": "2026-09-23",
   "general": [
     {
       "id": 1,
@@ -5335,40 +5335,40 @@
     },
     {
       "id": 145,
-      "de": "Was ist ein deutsches Gesetz zum Schutz der Kinder?",
-      "en": "What is a German law protecting children?",
-      "ur": "بچوں کے تحفظ کا جرمن قانون کیا ہے؟",
-      "ar": "ما قانون ألماني يحمي الأطفال؟",
+      "de": "In Deutschland wird die Staatsgewalt geteilt. Für welche Staatsgewalt arbeitet ein Richter / eine Richterin? Für die …",
+      "en": "In Germany, state power is divided. Which branch of state power does a judge work for? For the …",
+      "ur": "جرمنی میں ریاستی طاقت کو تقسیم کیا گیا ہے۔ جج کس ریاستی طاقت کے لیے کام کرتا ہے؟",
+      "ar": "تنقسم سلطة الدولة في ألمانيا. لأي سلطة يعمل القاضي؟",
       "options": [
         {
-          "de": "Kinder dürfen nicht geschlagen werden.",
-          "en": "Children must not be hit.",
-          "ur": "بچوں کو مارنا منع ہے۔",
-          "ar": "يُحظر ضرب الأطفال."
+          "de": "Judikative.",
+          "en": "Judiciary.",
+          "ur": "عدلیہ۔",
+          "ar": "السلطة القضائية."
         },
         {
-          "de": "Kinder dürfen keine Süßigkeiten essen.",
-          "en": "Children may not eat sweets.",
-          "ur": "بچے مٹھائی نہیں کھا سکتے۔",
-          "ar": "لا يحق للأطفال أكل الحلوى."
+          "de": "Exekutive.",
+          "en": "Executive.",
+          "ur": "انتظامیہ۔",
+          "ar": "السلطة التنفيذية."
         },
         {
-          "de": "Kinder müssen jeden Tag Sport treiben.",
-          "en": "Children must exercise every day.",
-          "ur": "بچوں کو روزانہ ورزش کرنی ہوگی۔",
-          "ar": "يجب على الأطفال ممارسة الرياضة يوميًا."
+          "de": "Presse.",
+          "en": "Press.",
+          "ur": "پریس۔",
+          "ar": "الصحافة."
         },
         {
-          "de": "Kinder dürfen nicht allein spielen.",
-          "en": "Children may not play alone.",
-          "ur": "بچے اکیلے نہیں کھیل سکتے۔",
-          "ar": "لا يحق للأطفال اللعب بمفردهم."
+          "de": "Legislative.",
+          "en": "Legislature.",
+          "ur": "مقننہ۔",
+          "ar": "السلطة التشريعية."
         }
       ],
       "correct": 0,
-      "exp_en": "Since 2000, §1631 BGB gives children the right to a violence-free upbringing. Corporal punishment and psychological harm are illegal. This was a major legal shift — physical discipline was previously considered acceptable.",
-      "exp_ur": "2000 سے، §1631 BGB بچوں کو تشدد سے پاک پرورش کا حق دیتا ہے: \"بچوں کو تشدد سے پاک پرورش کا حق ہے۔ جسمانی سزا، نفسیاتی نقصان، اور دیگر تذلیل آمیز اقدامات ناقابل قبول ہیں۔\" والدین کا بچوں کو مارنا غیر قانونی ہے۔",
-      "exp_ar": "يُحظر ضرب الأطفال في ألمانيا. القانون الألماني يمنع جميع أشكال العقاب البدني منذ عام 2000. كل طفل له الحق في التنشئة خالية من العنف."
+      "exp_en": "Judges belong to the Judikative (judiciary), the branch of state power responsible for interpreting and applying the law — distinct from the executive, legislature, or the press, which is not a branch of state power at all.",
+      "exp_ur": "ججز عدلیہ (Judikative) کا حصہ ہیں، جو قانون کی تشریح اور اطلاق کے لیے ذمہ دار ریاستی طاقت کی شاخ ہے — انتظامیہ، مقننہ، یا پریس (جو ریاستی طاقت کی شاخ ہی نہیں) سے مختلف۔",
+      "exp_ar": "ينتمي القضاة إلى السلطة القضائية (Judikative)، فرع سلطة الدولة المسؤول عن تفسير القانون وتطبيقه — بخلاف السلطة التنفيذية أو التشريعية أو الصحافة (التي ليست فرعًا من سلطة الدولة أصلاً)."
     },
     {
       "id": 146,
@@ -6001,40 +6001,40 @@
     },
     {
       "id": 163,
-      "de": "Wann wurde die Bundesrepublik Deutschland gegründet?",
-      "en": "When was the Federal Republic of Germany founded?",
-      "ur": "جرمن وفاقی جمہوریہ کب قائم ہوئی؟",
-      "ar": "متى تأسست جمهورية ألمانيا الاتحادية؟",
+      "de": "In welchem Jahr zerstörten die Nationalsozialisten Synagogen und jüdische Geschäfte in Deutschland?",
+      "en": "In what year did the National Socialists destroy synagogues and Jewish businesses in Germany?",
+      "ur": "نازیوں نے جرمنی میں عبادت گاہیں اور یہودی کاروبار کس سال تباہ کیے؟",
+      "ar": "في أي عام دمّر النازيون الكُنس اليهودية والمتاجر اليهودية في ألمانيا؟",
       "options": [
         {
-          "de": "1949",
-          "en": "1949",
-          "ur": "1949",
-          "ar": "1949"
+          "de": "1925",
+          "en": "1925",
+          "ur": "1925",
+          "ar": "1925"
         },
         {
-          "de": "1933",
-          "en": "1933",
-          "ur": "1933",
-          "ar": "1933"
+          "de": "1930",
+          "en": "1930",
+          "ur": "1930",
+          "ar": "1930"
+        },
+        {
+          "de": "1938",
+          "en": "1938",
+          "ur": "1938",
+          "ar": "1938"
         },
         {
           "de": "1945",
           "en": "1945",
           "ur": "1945",
           "ar": "1945"
-        },
-        {
-          "de": "1953",
-          "en": "1953",
-          "ur": "1953",
-          "ar": "1953"
         }
       ],
-      "correct": 0,
-      "exp_en": "The Federal Republic of Germany (BRD/West Germany) was founded on May 23, 1949 when the Basic Law (Grundgesetz) came into effect. The German Democratic Republic (DDR/East Germany) was founded on October 7, 1949. Both states existed until reunification on October 3, 1990.",
-      "exp_ur": "The Federal Republic of Germany (BRD/West Germany) was founded on May 23, 1949 when the Basic Law (Grundgesetz) came into effect. The German Democratic Republic (DDR/East Germany) was founded on October 7, 1949. Both states existed until reunification on October 3, 1990.",
-      "exp_ar": "تأسست جمهورية ألمانيا الاتحادية رسميًا في 23 مايو 1949 حين دخل القانون الأساسي حيّز التنفيذ. كانت في البداية ألمانيا الغربية فقط ثم أصبحت تمثّل كل ألمانيا بعد التوحيد عام 1990."
+      "correct": 2,
+      "exp_en": "The Nazis destroyed synagogues and Jewish businesses across Germany in 1938, during the November Pogrom (Kristallnacht) on November 9, 1938.",
+      "exp_ur": "نازیوں نے 1938 میں جرمنی بھر میں یہودی عبادت گاہوں اور کاروبار کو تباہ کیا، جو 9 نومبر 1938 کے نومبر پوگروم (کرسٹل نائٹ) کے دوران ہوا۔",
+      "exp_ar": "دمّر النازيون الكُنس اليهودية والمتاجر اليهودية في جميع أنحاء ألمانيا عام 1938، خلال مذبحة نوفمبر (ليلة الكريستال) في 9 نوفمبر 1938."
     },
     {
       "id": 164,
@@ -8152,10 +8152,10 @@
     },
     {
       "id": 221,
-      "de": "Was bedeutet Freizügigkeit innerhalb der EU?",
-      "en": "What does freedom of movement within the EU mean?",
-      "ur": "EU کے اندر آزادانہ نقل و حرکت کا کیا مطلب ہے؟",
-      "ar": "ماذا تعني حرية التنقل داخل الاتحاد الأوروبي؟",
+      "de": "Deutschland ist Mitglied des Schengener Abkommens. Was bedeutet das?",
+      "en": "Germany is a member of the Schengen Agreement. What does that mean?",
+      "ur": "جرمنی شینگن معاہدے کا رکن ہے۔ اس کا کیا مطلب ہے؟",
+      "ar": "ألمانيا عضو في اتفاقية شنغن. ماذا يعني ذلك؟",
       "options": [
         {
           "de": "Deutsche können in viele Länder Europas ohne Passkontrolle reisen.",
@@ -8183,16 +8183,16 @@
         }
       ],
       "correct": 0,
-      "exp_en": "Freedom of movement (Freizügigkeit) refers specifically to passport-free travel within the Schengen Area of Europe — not global travel or currency use.",
-      "exp_ur": "آزادانہ نقل و حرکت (Freizügigkeit) خاص طور پر یورپ کے شینگن علاقے کے اندر بغیر پاسپورٹ کے سفر سے متعلق ہے — عالمی سفر یا کرنسی کے استعمال سے نہیں۔",
-      "exp_ar": "تشير حرية التنقل (Freizügigkeit) تحديدًا إلى السفر دون جواز سفر داخل منطقة شنغن الأوروبية — وليس السفر العالمي أو استخدام العملة."
+      "exp_en": "The Schengen Agreement allows passport-free travel between member countries within Europe — not global travel or currency use.",
+      "exp_ur": "شینگن معاہدہ رکن ممالک کے درمیان یورپ کے اندر بغیر پاسپورٹ کے سفر کی اجازت دیتا ہے — عالمی سفر یا کرنسی کے استعمال کی نہیں۔",
+      "exp_ar": "تسمح اتفاقية شنغن بالسفر دون جواز سفر بين الدول الأعضاء داخل أوروبا — وليس السفر العالمي أو استخدام العملة."
     },
     {
       "id": 222,
-      "de": "Welches Land ist NICHT Mitglied der Europäischen Union?",
-      "en": "Which country is NOT a member of the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا رکن نہیں ہے؟",
-      "ar": "أي دولة ليست عضوًا في الاتحاد الأوروبي؟",
+      "de": "Welches Land ist ein Nachbarland von Deutschland?",
+      "en": "Which country is a neighboring country of Germany?",
+      "ur": "کون سا ملک جرمنی کا ہمسایہ ملک ہے؟",
+      "ar": "أي دولة هي دولة مجاورة لألمانيا؟",
       "options": [
         {
           "de": "Ungarn",
@@ -8220,16 +8220,16 @@
         }
       ],
       "correct": 3,
-      "exp_en": "Switzerland is famously NOT an EU member (though it participates in Schengen) — Hungary, Portugal, and Spain are all EU members.",
-      "exp_ur": "سوئٹزرلینڈ مشہور طور پر EU کا رکن نہیں ہے (اگرچہ یہ شینگن میں شریک ہے) — ہنگری، پرتگال، اور اسپین سب EU کے ارکان ہیں۔",
-      "exp_ar": "سويسرا ليست عضوًا في الاتحاد الأوروبي (رغم مشاركتها في شنغن) — أما المجر والبرتغال وإسبانيا فكلها أعضاء في الاتحاد."
+      "exp_en": "Switzerland directly borders Germany to the south — Hungary, Portugal, and Spain do not.",
+      "exp_ur": "سوئٹزرلینڈ جنوب میں براہِ راست جرمنی سے سرحد ملاتا ہے — ہنگری، پرتگال اور اسپین نہیں۔",
+      "exp_ar": "تحد سويسرا ألمانيا مباشرة من الجنوب — أما المجر والبرتغال وإسبانيا فلا."
     },
     {
       "id": 223,
-      "de": "Welches Land ist Mitglied der Europäischen Union?",
-      "en": "Which country is a member of the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا رکن ہے؟",
-      "ar": "أي دولة عضو في الاتحاد الأوروبي؟",
+      "de": "Welches Land ist ein Nachbarland von Deutschland?",
+      "en": "Which country is a neighboring country of Germany?",
+      "ur": "کون سا ملک جرمنی کا ہمسایہ ملک ہے؟",
+      "ar": "أي دولة هي دولة مجاورة لألمانيا؟",
       "options": [
         {
           "de": "Rumänien",
@@ -8257,9 +8257,9 @@
         }
       ],
       "correct": 2,
-      "exp_en": "All four are actually EU members — the answer key indicates Poland as the option intended, though Romania, Bulgaria, and Greece are also EU members. (This question likely tests recognition of a specific accession date context.)",
-      "exp_ur": "چاروں دراصل EU کے ارکان ہیں — جواب پولینڈ کو بتاتا ہے، اگرچہ رومانیہ، بلغاریہ، اور یونان بھی EU کے ارکان ہیں۔",
-      "exp_ar": "الدول الأربع أعضاء بالفعل في الاتحاد الأوروبي — يشير مفتاح الإجابة إلى بولندا، رغم أن رومانيا وبلغاريا واليونان أعضاء أيضًا."
+      "exp_en": "Poland directly borders Germany to the east — Romania, Bulgaria, and Greece do not.",
+      "exp_ur": "پولینڈ مشرق میں براہِ راست جرمنی سے سرحد ملاتا ہے — رومانیہ، بلغاریہ اور یونان نہیں۔",
+      "exp_ar": "تحد بولندا ألمانيا مباشرة من الشرق — أما رومانيا وبلغاريا واليونان فلا."
     },
     {
       "id": 224,
@@ -8337,48 +8337,48 @@
     },
     {
       "id": 226,
-      "de": "Welches Land ist Mitglied der Europäischen Union?",
-      "en": "Which country is a member of the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا رکن ہے؟",
-      "ar": "أي دولة عضو في الاتحاد الأوروبي؟",
+      "de": "Welche ist die Flagge der Europäischen Union?",
+      "en": "Which is the flag of the European Union?",
+      "ur": "یورپی یونین کا پرچم کون سا ہے؟",
+      "ar": "ما هو علم الاتحاد الأوروبي؟",
       "image": "images/226.png",
       "options": [
         {
           "de": "2",
-          "en": "2",
-          "ur": "2",
-          "ar": "2"
+          "en": "Image 2",
+          "ur": "تصویر 2",
+          "ar": "الصورة 2"
         },
         {
           "de": "1",
-          "en": "1",
-          "ur": "1",
-          "ar": "1"
+          "en": "Image 1",
+          "ur": "تصویر 1",
+          "ar": "الصورة 1"
         },
         {
           "de": "4",
-          "en": "4",
-          "ur": "4",
-          "ar": "4"
+          "en": "Image 4",
+          "ur": "تصویر 4",
+          "ar": "الصورة 4"
         },
         {
           "de": "3",
-          "en": "3",
-          "ur": "3",
-          "ar": "3"
+          "en": "Image 3",
+          "ur": "تصویر 3",
+          "ar": "الصورة 3"
         }
       ],
       "correct": 0,
-      "exp_en": "This question uses a numbered map — option 2 (as marked) is the correct EU member state shown.",
-      "exp_ur": "یہ سوال ایک نمبر والے نقشے کا استعمال کرتا ہے — آپشن 2 (جیسا کہ نشان زد ہے) دکھایا گیا درست EU رکن ملک ہے۔",
-      "exp_ar": "يستخدم هذا السؤال خريطة مرقمة — الخيار 2 (كما هو محدد) هو الدولة العضو الصحيحة في الاتحاد الأوروبي الموضحة."
+      "exp_en": "The EU flag is blue with a circle of gold stars, shown as image 2 among the choices.",
+      "exp_ur": "یورپی یونین کا پرچم نیلا ہے جس پر سنہری ستاروں کا دائرہ ہے، جو آپشنز میں تصویر 2 کے طور پر دکھایا گیا ہے۔",
+      "exp_ar": "علم الاتحاد الأوروبي أزرق يحتوي على دائرة من النجوم الذهبية، ويظهر كالصورة رقم 2 بين الخيارات."
     },
     {
       "id": 227,
-      "de": "Welches Land gehört nicht zur Europäischen Union?",
-      "en": "Which country does not belong to the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا حصہ نہیں ہے؟",
-      "ar": "أي دولة لا تنتمي إلى الاتحاد الأوروبي؟",
+      "de": "Welches Land ist ein Nachbarland von Deutschland?",
+      "en": "Which country is a neighboring country of Germany?",
+      "ur": "کون سا ملک جرمنی کا ہمسایہ ملک ہے؟",
+      "ar": "أي دولة هي دولة مجاورة لألمانيا؟",
       "options": [
         {
           "de": "Finnland",
@@ -8406,16 +8406,16 @@
         }
       ],
       "correct": 1,
-      "exp_en": "Denmark IS an EU member. (Norway is the actual non-member among Nordic states, but per the source key, this variant marks Denmark — verify against current official listing.)",
-      "exp_ur": "ڈنمارک EU کا رکن ہے۔ (ناروے دراصل نورڈک ممالک میں غیر رکن ہے، لیکن ماخذ کے مطابق، یہ ورژن ڈنمارک کو نشان زد کرتا ہے — موجودہ سرکاری فہرست سے تصدیق کریں۔)",
-      "exp_ar": "الدنمارك عضو بالفعل في الاتحاد الأوروبي. (النرويج هي الدولة غير العضو الفعلية بين الدول الإسكندنافية، لكن وفقًا للمصدر، يُشار هنا إلى الدنمارك — يُرجى التحقق من القائمة الرسمية الحالية.)"
+      "exp_en": "Denmark directly borders Germany to the north — Finland, Norway, and Sweden do not.",
+      "exp_ur": "ڈنمارک شمال میں براہِ راست جرمنی سے سرحد ملاتا ہے — فن لینڈ، ناروے اور سویڈن نہیں۔",
+      "exp_ar": "تحد الدنمارك ألمانيا مباشرة من الشمال — أما فنلندا والنرويج والسويد فلا."
     },
     {
       "id": 228,
-      "de": "Was war eine Folge der EU-Osterweiterung im Jahr 2004?",
-      "en": "What was a consequence of the EU's 2004 eastward enlargement?",
-      "ur": "2004 میں EU کی مشرقی توسیع کا ایک نتیجہ کیا تھا؟",
-      "ar": "ما هي إحدى نتائج توسع الاتحاد الأوروبي شرقًا عام 2004؟",
+      "de": "Wie wird der Beitritt der DDR zur Bundesrepublik Deutschland im Jahr 1990 allgemein genannt?",
+      "en": "What is the GDR's accession to the Federal Republic of Germany in 1990 generally called?",
+      "ur": "1990 میں GDR کا جرمن وفاقی جمہوریہ میں شامل ہونا عام طور پر کیا کہلاتا ہے؟",
+      "ar": "ماذا يُسمى انضمام جمهورية ألمانيا الديمقراطية إلى جمهورية ألمانيا الاتحادية عام 1990 بشكل عام؟",
       "options": [
         {
           "de": "NATO-Osterweiterung",
@@ -8443,16 +8443,16 @@
         }
       ],
       "correct": 3,
-      "exp_en": "This question tests recognition that German reunification (1990) preceded and is distinct from the EU's 2004 eastward enlargement — a separate historical event.",
-      "exp_ur": "یہ سوال اس شناخت کی جانچ کرتا ہے کہ جرمن دوبارہ اتحاد (1990) EU کی 2004 کی مشرقی توسیع سے پہلے ہوا اور اس سے الگ ہے — ایک الگ تاریخی واقعہ۔",
-      "exp_ar": "يختبر هذا السؤال إدراك أن إعادة التوحيد الألماني (1990) سبقت توسع الاتحاد الأوروبي شرقًا عام 2004 وتختلف عنه — حدث تاريخي منفصل."
+      "exp_en": "This event is called German reunification (Deutsche Wiedervereinigung) — distinct from the EU's later eastward enlargement in 2004.",
+      "exp_ur": "اس واقعے کو جرمن دوبارہ اتحاد (Deutsche Wiedervereinigung) کہا جاتا ہے — جو 2004 میں EU کی بعد کی مشرقی توسیع سے الگ ہے۔",
+      "exp_ar": "يُسمى هذا الحدث إعادة التوحيد الألماني (Deutsche Wiedervereinigung) — ويختلف عن توسع الاتحاد الأوروبي شرقًا لاحقًا عام 2004."
     },
     {
       "id": 229,
-      "de": "Welches Land ist Mitglied der Europäischen Union?",
-      "en": "Which country is a member of the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا رکن ہے؟",
-      "ar": "أي دولة عضو في الاتحاد الأوروبي؟",
+      "de": "Welches Land ist ein Nachbarland von Deutschland?",
+      "en": "Which country is a neighboring country of Germany?",
+      "ur": "کون سا ملک جرمنی کا ہمسایہ ملک ہے؟",
+      "ar": "أي دولة هي دولة مجاورة لألمانيا؟",
       "options": [
         {
           "de": "Spanien",
@@ -8480,9 +8480,9 @@
         }
       ],
       "correct": 3,
-      "exp_en": "Luxembourg is highlighted here as an EU founding member — Spain and Bulgaria are also EU members, but Norway is not.",
-      "exp_ur": "لکسمبرگ کو یہاں EU کے بانی رکن کے طور پر نمایاں کیا گیا ہے — اسپین اور بلغاریہ بھی EU کے ارکان ہیں، لیکن ناروے نہیں۔",
-      "exp_ar": "يُبرَز لوكسمبورغ هنا كعضو مؤسس في الاتحاد الأوروبي — إسبانيا وبلغاريا أعضاء أيضًا، لكن النرويج ليست كذلك."
+      "exp_en": "Luxembourg directly borders Germany to the west — Spain, Bulgaria, and Norway do not.",
+      "exp_ur": "لکسمبرگ مغرب میں براہِ راست جرمنی سے سرحد ملاتا ہے — اسپین، بلغاریہ اور ناروے نہیں۔",
+      "exp_ar": "تحد لوكسمبورغ ألمانيا مباشرة من الغرب — أما إسبانيا وبلغاريا والنرويج فلا."
     },
     {
       "id": 230,
@@ -8523,10 +8523,10 @@
     },
     {
       "id": 231,
-      "de": "Was bedeutet der Begriff „Amerikaner in Europa\" im Zusammenhang mit dem Marshallplan?",
-      "en": "What does the term \"Americans in Europe\" mean in the context of the Marshall Plan?",
-      "ur": "مارشل پلان کے تناظر میں \"یورپ میں امریکی\" کی اصطلاح کا کیا مطلب ہے؟",
-      "ar": "ماذا يعني مصطلح \"الأمريكيون في أوروبا\" في سياق خطة مارشال؟",
+      "de": "Was bedeutet der Begriff „europäische Integration“?",
+      "en": "What does the term \"European integration\" mean?",
+      "ur": "\"یورپی انضمام\" کی اصطلاح کا کیا مطلب ہے؟",
+      "ar": "ماذا يعني مصطلح \"التكامل الأوروبي\"؟",
       "options": [
         {
           "de": "Damit sind amerikanische Einwanderer in Europa gemeint.",
@@ -8554,9 +8554,9 @@
         }
       ],
       "correct": 3,
-      "exp_en": "This tests recognition that European integration (leading to the EU) is sometimes compared to how the US states unified — the phrase alludes to European unification following the Marshall Plan era.",
-      "exp_ur": "یہ اس شناخت کی جانچ کرتا ہے کہ یورپی اتحاد (جو EU کا باعث بنا) کبھی کبھار امریکی ریاستوں کے اتحاد سے تشبیہ دیا جاتا ہے۔",
-      "exp_ar": "يختبر هذا إدراك أن التكامل الأوروبي (الذي أدى إلى الاتحاد الأوروبي) يُقارن أحيانًا بكيفية توحد الولايات الأمريكية."
+      "exp_en": "European integration refers to the political and economic union of European states into the EU.",
+      "exp_ur": "یورپی انضمام سے مراد یورپی ریاستوں کا EU میں سیاسی اور معاشی اتحاد ہے۔",
+      "exp_ar": "يشير التكامل الأوروبي إلى الاتحاد السياسي والاقتصادي للدول الأوروبية في الاتحاد الأوروبي."
     },
     {
       "id": 232,
@@ -8597,10 +8597,10 @@
     },
     {
       "id": 233,
-      "de": "Welches Land ist Mitglied der Europäischen Union?",
-      "en": "Which country is a member of the European Union?",
-      "ur": "کون سا ملک یورپی یونین کا رکن ہے؟",
-      "ar": "أي دولة عضو في الاتحاد الأوروبي؟",
+      "de": "Welches Land ist ein Nachbarland von Deutschland?",
+      "en": "Which country is a neighboring country of Germany?",
+      "ur": "کون سا ملک جرمنی کا ہمسایہ ملک ہے؟",
+      "ar": "أي دولة هي دولة مجاورة لألمانيا؟",
       "options": [
         {
           "de": "Tschechien",
@@ -8628,9 +8628,9 @@
         }
       ],
       "correct": 0,
-      "exp_en": "Czech Republic is highlighted here — all four listed countries are in fact EU members.",
-      "exp_ur": "یہاں چیک ریپبلک کو نمایاں کیا گیا ہے — چاروں درج شدہ ممالک دراصل EU کے ارکان ہیں۔",
-      "exp_ar": "يُبرَز هنا جمهورية التشيك — جميع الدول الأربع المذكورة أعضاء بالفعل في الاتحاد الأوروبي."
+      "exp_en": "The Czech Republic directly borders Germany to the southeast — Bulgaria, Greece, and Portugal do not.",
+      "exp_ur": "چیک ریپبلک جنوب مشرق میں براہِ راست جرمنی سے سرحد ملاتا ہے — بلغاریہ، یونان اور پرتگال نہیں۔",
+      "exp_ar": "تحد جمهورية التشيك ألمانيا مباشرة من الجنوب الشرقي — أما بلغاريا واليونان والبرتغال فلا."
     },
     {
       "id": 234,
@@ -8709,40 +8709,40 @@
     },
     {
       "id": 236,
-      "de": "Deutschland ist Gründungsmitglied der Europäischen Union seit …",
-      "en": "Germany has been a founding member of the European Union since …",
-      "ur": "جرمنی یورپی یونین کا بانی رکن کب سے ہے؟",
-      "ar": "ألمانيا عضو مؤسس في الاتحاد الأوروبي منذ …",
+      "de": "Wie viele Mitgliedstaaten hat die EU heute?",
+      "en": "How many member states does the EU have today?",
+      "ur": "آج EU کے کتنے رکن ممالک ہیں؟",
+      "ar": "كم عدد الدول الأعضاء في الاتحاد الأوروبي اليوم؟",
       "options": [
         {
           "de": "21",
-          "en": "1921",
-          "ur": "1921",
-          "ar": "1921"
+          "en": "21",
+          "ur": "21",
+          "ar": "21"
         },
         {
           "de": "23",
-          "en": "1923",
-          "ur": "1923",
-          "ar": "1923"
+          "en": "23",
+          "ur": "23",
+          "ar": "23"
         },
         {
           "de": "25",
-          "en": "1925",
-          "ur": "1925",
-          "ar": "1925"
+          "en": "25",
+          "ur": "25",
+          "ar": "25"
         },
         {
           "de": "27",
-          "en": "1957 (Treaties of Rome)",
-          "ur": "1957 (رومی معاہدے)",
-          "ar": "1957 (معاهدات روما)"
+          "en": "27",
+          "ur": "27",
+          "ar": "27"
         }
       ],
       "correct": 3,
-      "exp_en": "Germany was a founding member of the European Economic Community established by the Treaties of Rome in 1957.",
-      "exp_ur": "جرمنی 1957 میں رومی معاہدوں کے ذریعے قائم ہونے والی یورپی اقتصادی کمیونٹی کا بانی رکن تھا۔",
-      "exp_ar": "كانت ألمانيا عضوًا مؤسسًا في الجماعة الاقتصادية الأوروبية التي أُنشئت بموجب معاهدات روما عام 1957."
+      "exp_en": "The European Union currently has 27 member states.",
+      "exp_ur": "یورپی یونین کے فی الحال 27 رکن ممالک ہیں۔",
+      "exp_ar": "يضم الاتحاد الأوروبي حاليًا 27 دولة عضوًا."
     },
     {
       "id": 237,
@@ -8931,10 +8931,10 @@
     },
     {
       "id": 242,
-      "de": "Wer trägt in Deutschland die Hauptverantwortung für die Erziehung der Kinder?",
-      "en": "Who bears the main responsibility for raising children in Germany?",
-      "ur": "جرمنی میں بچوں کی پرورش کی بنیادی ذمہ داری کس پر ہے؟",
-      "ar": "من يتحمل المسؤولية الرئيسية عن تربية الأطفال في ألمانيا؟",
+      "de": "Wer entscheidet, ob ein Kind in Deutschland in den Kindergarten geht?",
+      "en": "Who decides whether a child in Germany attends kindergarten?",
+      "ur": "جرمنی میں یہ فیصلہ کون کرتا ہے کہ بچہ کنڈرگارٹن جائے گا یا نہیں؟",
+      "ar": "من يقرر ما إذا كان الطفل سيذهب إلى الحضانة في ألمانيا؟",
       "options": [
         {
           "de": "der Staat",
@@ -8946,13 +8946,13 @@
           "de": "die Bundesländer",
           "en": "the federal states",
           "ur": "وفاقی ریاستیں",
-          "ar": "الولايات الاتحادية"
+          "ar": "الولايات"
         },
         {
           "de": "die Eltern / die Erziehungsberechtigten",
-          "en": "the parents/legal guardians",
-          "ur": "والدین/سرپرست",
-          "ar": "الوالدان/الأوصياء الشرعيون"
+          "en": "the parents / legal guardians",
+          "ur": "والدین / سرپرست",
+          "ar": "الوالدان / الأوصياء الشرعيون"
         },
         {
           "de": "die Schulen",
@@ -8962,16 +8962,16 @@
         }
       ],
       "correct": 2,
-      "exp_en": "Parents (or legal guardians) hold the primary responsibility for raising their children, as protected under Germany's Basic Law.",
-      "exp_ur": "والدین (یا سرپرست) اپنے بچوں کی پرورش کی بنیادی ذمہ داری رکھتے ہیں، جیسا کہ جرمنی کے بنیادی قانون کے تحت محفوظ ہے۔",
-      "exp_ar": "يتحمل الوالدان (أو الأوصياء الشرعيون) المسؤولية الأساسية عن تربية أطفالهما، وهو أمر محمي بموجب القانون الأساسي الألماني."
+      "exp_en": "It is the parents (or legal guardians) who decide whether their child attends kindergarten in Germany — not the state, the federal states, or the schools.",
+      "exp_ur": "یہ والدین (یا سرپرست) ہیں جو فیصلہ کرتے ہیں کہ بچہ کنڈرگارٹن جائے گا یا نہیں — نہ کہ ریاست، وفاقی ریاستیں، یا اسکول۔",
+      "exp_ar": "الوالدان (أو الأوصياء الشرعيون) هما من يقرران ما إذا كان الطفل سيذهب إلى الحضانة في ألمانيا — وليس الدولة أو الولايات أو المدارس."
     },
     {
       "id": 243,
-      "de": "Maik und Sybille möchten gegen die Schließung ihrer Schwimmhalle demonstrieren. Was müssen sie tun?",
-      "en": "Maik and Sybille want to demonstrate against the closure of their swimming pool. What must they do?",
-      "ur": "میک اور سیبیلے اپنے سوئمنگ پول کی بندش کے خلاف مظاہرہ کرنا چاہتے ہیں۔ انہیں کیا کرنا ہوگا؟",
-      "ar": "يريد مايك وسيبيله التظاهر ضد إغلاق حمام السباحة الخاص بهما. ماذا يجب أن يفعلا؟",
+      "de": "Maik und Sybille wollen mit Freunden an ihrem deutschen Wohnort eine Demonstration auf der Straße abhalten. Was müssen sie vorher tun?",
+      "en": "Maik and Sybille want to hold a street demonstration with friends where they live in Germany. What must they do beforehand?",
+      "ur": "مائیک اور سیبیلے اپنے جرمن رہائشی علاقے میں دوستوں کے ساتھ سڑک پر مظاہرہ کرنا چاہتے ہیں۔ انہیں پہلے کیا کرنا ہوگا؟",
+      "ar": "يريد مايك وسيبيله تنظيم مظاهرة في الشارع مع أصدقاء في مكان إقامتهما الألماني. ماذا يجب أن يفعلا أولاً؟",
       "options": [
         {
           "de": "Sie müssen nichts tun. Man darf in Deutschland jederzeit überall demonstrieren.",
@@ -8994,7 +8994,7 @@
         {
           "de": "Maik und Sybille müssen einen neuen Verein gründen, weil nur Vereine demonstrieren dürfen.",
           "en": "Maik and Sybille must found a new club, because only clubs may demonstrate.",
-          "ur": "میک اور سیبیلے کو نیا کلب قائم کرنا ہوگا، کیونکہ صرف کلب ہی مظاہرہ کر سکتے ہیں۔",
+          "ur": "مائیک اور سیبیلے کو نیا کلب قائم کرنا ہوگا، کیونکہ صرف کلب ہی مظاہرہ کر سکتے ہیں۔",
           "ar": "يجب على مايك وسيبيله تأسيس نادٍ جديد، لأن النوادي فقط يمكنها التظاهر."
         }
       ],
@@ -9042,10 +9042,10 @@
     },
     {
       "id": 245,
-      "de": "Welches Paar kann in Deutschland offiziell heiraten?",
-      "en": "Which couple can officially marry in Germany?",
-      "ur": "جرمنی میں کون سا جوڑا سرکاری طور پر شادی کر سکتا ہے؟",
-      "ar": "أي زوجين يمكنهما الزواج رسميًا في ألمانيا؟",
+      "de": "Wer darf in Deutschland nicht als Paar zusammenleben?",
+      "en": "Who is NOT allowed to live together as a couple in Germany?",
+      "ur": "جرمنی میں کون سا جوڑا بطور جوڑا اکٹھے نہیں رہ سکتا؟",
+      "ar": "من لا يجوز له العيش كزوجين معًا في ألمانيا؟",
       "options": [
         {
           "de": "Hans (20) und Marie (19)",
@@ -9073,16 +9073,16 @@
         }
       ],
       "correct": 3,
-      "exp_en": "This question tests recognition of the legal marriage age (18) — since 2017, all listed adult same-sex or opposite-sex couples of legal age may marry in Germany; a 13-year-old cannot.",
-      "exp_ur": "یہ سوال قانونی شادی کی عمر (18 سال) کی شناخت کی جانچ کرتا ہے — 2017 سے، جرمنی میں قانونی عمر کے تمام ہم جنس یا مخالف جنس جوڑے شادی کر سکتے ہیں؛ 13 سالہ بچہ نہیں کر سکتا۔",
-      "exp_ar": "يختبر هذا السؤال إدراك السن القانوني للزواج (18 عامًا) — منذ عام 2017، يمكن لجميع الأزواج البالغين من نفس الجنس أو الجنس الآخر الزواج في ألمانيا؛ لا يمكن لطفلة عمرها 13 عامًا ذلك."
+      "exp_en": "Anne is only 13, below the legal age of consent and marriage in Germany, so she may not live together as a couple with Tim — unlike the other pairs, who are all adults.",
+      "exp_ur": "این کی عمر صرف 13 سال ہے، جو جرمنی میں قانونی رضامندی اور شادی کی عمر سے کم ہے، اس لیے وہ ٹِم کے ساتھ بطور جوڑا نہیں رہ سکتی — دیگر جوڑوں کے برعکس، جو سب بالغ ہیں۔",
+      "exp_ar": "آن تبلغ من العمر 13 عامًا فقط، وهي أقل من سن الرضا والزواج القانوني في ألمانيا، لذا لا يجوز لها العيش مع تيم كزوجين — بخلاف الأزواج الآخرين، وجميعهم بالغون."
     },
     {
       "id": 246,
-      "de": "Ab welchem Alter dürfen Jugendliche in Deutschland ohne Erlaubnis der Eltern in die Disco gehen?",
-      "en": "From what age can young people in Germany go to a disco without parental permission?",
-      "ur": "جرمنی میں نوجوان والدین کی اجازت کے بغیر کس عمر سے ڈسکو جا سکتے ہیں؟",
-      "ar": "من أي عمر يمكن للشباب في ألمانيا الذهاب إلى ديسكو دون إذن الوالدين؟",
+      "de": "Ab welchem Alter ist man in Deutschland volljährig?",
+      "en": "From what age is a person legally an adult in Germany?",
+      "ur": "جرمنی میں کس عمر سے کوئی شخص بالغ تصور ہوتا ہے؟",
+      "ar": "من أي عمر يُعتبر الشخص بالغًا في ألمانيا؟",
       "options": [
         {
           "de": "16",
@@ -9110,9 +9110,9 @@
         }
       ],
       "correct": 1,
-      "exp_en": "Under the Jugendschutzgesetz (Youth Protection Act), unrestricted access without parental accompaniment/permission for late hours typically applies from age 18, though limited access starts earlier with restrictions.",
-      "exp_ur": "نوجوانوں کے تحفظ کے قانون (Jugendschutzgesetz) کے تحت، والدین کی رفاقت/اجازت کے بغیر دیر تک بلا پابندی رسائی عام طور پر 18 سال کی عمر سے لاگو ہوتی ہے، اگرچہ محدود رسائی پہلے پابندیوں کے ساتھ شروع ہوتی ہے۔",
-      "exp_ar": "بموجب قانون حماية الشباب (Jugendschutzgesetz)، يُسمح عادة بالدخول غير المقيد دون مرافقة/إذن الوالدين في ساعات متأخرة من سن 18 عامًا، رغم أن الدخول المحدود يبدأ في وقت أبكر مع قيود."
+      "exp_en": "In Germany, a person reaches legal adulthood (Volljährigkeit) at age 18, gaining full legal rights and responsibilities.",
+      "exp_ur": "جرمنی میں انسان 18 سال کی عمر میں قانونی بالغ (Volljährigkeit) ہو جاتا ہے، جس سے اسے مکمل قانونی حقوق اور ذمہ داریاں حاصل ہوتی ہیں۔",
+      "exp_ar": "يبلغ الشخص سن الرشد القانوني (Volljährigkeit) في ألمانيا عند 18 عامًا، ويحصل عندها على كامل الحقوق والمسؤوليات القانونية."
     },
     {
       "id": 247,
@@ -10078,40 +10078,40 @@
     },
     {
       "id": 273,
-      "de": "Wenn ein Kind in Deutschland vernachlässigt wird, wer wird informiert?",
-      "en": "If a child is neglected in Germany, who is informed?",
-      "ur": "اگر جرمنی میں کسی بچے کو نظرانداز کیا جائے تو کسے آگاہ کیا جاتا ہے؟",
-      "ar": "إذا أُهمل طفل في ألمانيا، من الذي يُبلَّغ؟",
+      "de": "Bei Erziehungsproblemen gehen Sie in Deutschland …",
+      "en": "For parenting/upbringing problems in Germany, you go to …",
+      "ur": "جرمنی میں پرورش کے مسائل کی صورت میں آپ کہاں جاتے ہیں؟",
+      "ar": "في حال وجود مشاكل تربوية في ألمانيا، إلى أين تذهب؟",
       "options": [
         {
-          "de": "zum Arzt / zur Ärztin.",
+          "de": "dem Arzt / der Ärztin.",
           "en": "the doctor.",
-          "ur": "ڈاکٹر کو۔",
+          "ur": "ڈاکٹر کے پاس۔",
           "ar": "الطبيب."
         },
         {
-          "de": "zum Gesundheitsamt.",
+          "de": "dem Gesundheitsamt.",
           "en": "the health office.",
-          "ur": "صحت کے دفتر کو۔",
+          "ur": "صحت کے دفتر۔",
           "ar": "مكتب الصحة."
         },
         {
-          "de": "zum Einwohnermeldeamt.",
+          "de": "dem Einwohnermeldeamt.",
           "en": "the residents' registration office.",
-          "ur": "رہائشیوں کے رجسٹریشن دفتر کو۔",
+          "ur": "رہائشیوں کے رجسٹریشن دفتر۔",
           "ar": "مكتب تسجيل السكان."
         },
         {
-          "de": "zum Jugendamt.",
+          "de": "dem Jugendamt.",
           "en": "the youth welfare office.",
-          "ur": "یوتھ ویلفیئر آفس کو۔",
+          "ur": "یوتھ ویلفیئر آفس۔",
           "ar": "مكتب رعاية الشباب."
         }
       ],
       "correct": 3,
-      "exp_en": "As with earlier questions, the Jugendamt (youth welfare office) is informed and takes action in cases of child neglect.",
-      "exp_ur": "پہلے کے سوالات کی طرح، یوتھ ویلفیئر آفس (Jugendamt) کو آگاہ کیا جاتا ہے اور یہ بچے کی نظراندازی کی صورتوں میں کارروائی کرتا ہے۔",
-      "exp_ar": "كما في الأسئلة السابقة، يُبلَّغ مكتب رعاية الشباب (Jugendamt) ويتخذ إجراءً في حالات إهمال الأطفال."
+      "exp_en": "For parenting or child-rearing problems, the Jugendamt (youth welfare office) is the responsible authority in Germany — not a doctor, health office, or residents' office.",
+      "exp_ur": "پرورش یا بچوں کی تربیت کے مسائل کے لیے، یوتھ ویلفیئر آفس (Jugendamt) جرمنی میں ذمہ دار ادارہ ہے — ڈاکٹر، صحت کے دفتر، یا رہائشیوں کے دفتر کی بجائے۔",
+      "exp_ar": "بالنسبة لمشاكل التربية أو تنشئة الأطفال، مكتب رعاية الشباب (Jugendamt) هو الجهة المسؤولة في ألمانيا — وليس الطبيب أو مكتب الصحة أو مكتب السكان."
     },
     {
       "id": 274,
@@ -10634,39 +10634,39 @@
     {
       "id": 288,
       "de": "Woraus begründet sich Deutschlands besondere Verantwortung für Israel?",
-      "en": "What is the basis for Germany's special responsibility toward Israel?",
-      "ur": "جرمنی کی اسرائیل کے لیے خاص ذمہ داری کی بنیاد کیا ہے؟",
-      "ar": "ما أساس المسؤولية الخاصة لألمانيا تجاه إسرائيل؟",
+      "en": "What is the basis of Germany's special responsibility toward Israel?",
+      "ur": "اسرائیل کے لیے جرمنی کی خصوصی ذمہ داری کی بنیاد کیا ہے؟",
+      "ar": "على ماذا تستند مسؤولية ألمانيا الخاصة تجاه إسرائيل؟",
       "options": [
         {
           "de": "aus der Mitgliedschaft in der Europäischen Union (EU)",
-          "en": "from its EU membership",
-          "ur": "EU رکنیت سے",
-          "ar": "عضويتها في الاتحاد الأوروبي"
+          "en": "from EU membership",
+          "ur": "EU کی رکنیت سے",
+          "ar": "من العضوية في الاتحاد الأوروبي"
         },
         {
-          "de": "aus den nationalsozialistischen Verbrechen",
-          "en": "from the National Socialist crimes",
-          "ur": "نازی جرائم سے",
-          "ar": "الجرائم النازية"
+          "de": "aus den nationalsozialistischen Verbrechen gegen Juden",
+          "en": "from the National Socialist crimes against Jews",
+          "ur": "یہودیوں کے خلاف نازی جرائم سے",
+          "ar": "من الجرائم النازية ضد اليهود"
         },
         {
           "de": "aus dem Grundgesetz der Bundesrepublik Deutschland",
-          "en": "from the German Basic Law",
-          "ur": "بنیادی قانون سے",
-          "ar": "القانون الأساسي الألماني"
+          "en": "from Germany's Basic Law",
+          "ur": "جرمنی کے بنیادی قانون سے",
+          "ar": "من القانون الأساسي الألماني"
         },
         {
           "de": "aus der christlichen Tradition",
-          "en": "from the Christian tradition",
+          "en": "from Christian tradition",
           "ur": "عیسائی روایت سے",
-          "ar": "التقاليد المسيحية"
+          "ar": "من التقليد المسيحي"
         }
       ],
       "correct": 1,
-      "exp_en": "Germany's special responsibility for Israel stems from the Nazi crimes — above all the Holocaust, in which 6 million Jews were systematically murdered. This responsibility is considered part of Germany's \"Staatsräson\" (reason of state). It means Germany supports Israel's right to exist, combats antisemitism, and maintains a special diplomatic relationship with Israel. This commitment is not based on EU membership, the Basic Law text, or religious tradition, but directly on the historical guilt of the Nazi era.",
-      "exp_ur": "جرمنی کی اسرائیل کے لیے خاص ذمہ داری نازی جرائم — سب سے بڑھ کر ہولوکاسٹ جس میں 60 لاکھ یہودی منظم طریقے سے قتل کیے گئے — سے پیدا ہوتی ہے۔ اس ذمہ داری کو جرمنی کی \"Staatsräson\" (وجہ ریاست) کا حصہ سمجھا جاتا ہے۔ اس کا مطلب ہے جرمنی اسرائیل کے حق وجود کی حمایت کرتا ہے، سام دشمنی سے لڑتا ہے، اور اسرائیل کے ساتھ خصوصی سفارتی تعلقات رکھتا ہے۔",
-      "exp_ar": "تنبثق المسؤولية الخاصة لألمانيا تجاه إسرائيل من الجرائم النازية وفي مقدمتها الهولوكوست. تُعدّ حماية إسرائيل جزءًا من \"مبررات وجود الدولة\" (Staatsräson) الألمانية."
+      "exp_en": "Germany's special responsibility toward Israel stems from the Nazi crimes committed against Jews during the Holocaust — not from EU membership, the Basic Law, or Christian tradition.",
+      "exp_ur": "اسرائیل کے لیے جرمنی کی خصوصی ذمہ داری ہولوکاسٹ کے دوران یہودیوں کے خلاف نازی جرائم سے نکلتی ہے — نہ کہ EU کی رکنیت، بنیادی قانون، یا عیسائی روایت سے۔",
+      "exp_ar": "تنبع مسؤولية ألمانيا الخاصة تجاه إسرائيل من الجرائم النازية المرتكبة ضد اليهود خلال الهولوكوست — وليس من العضوية في الاتحاد الأوروبي أو القانون الأساسي أو التقليد المسيحي."
     },
     {
       "id": 289,
@@ -10892,10 +10892,10 @@
     },
     {
       "id": 295,
-      "de": "Welche Religion hat in Deutschland die meisten Anhänger?",
-      "en": "Which religion has the most followers in Germany?",
-      "ur": "جرمنی میں کس مذہب کے سب سے زیادہ پیروکار ہیں؟",
-      "ar": "أي دين له أكبر عدد من الأتباع في ألمانيا؟",
+      "de": "Welche Religion hat die europäische und deutsche Kultur geprägt?",
+      "en": "Which religion has shaped European and German culture?",
+      "ur": "کس مذہب نے یورپی اور جرمن ثقافت کو تشکیل دیا ہے؟",
+      "ar": "أي دين شكّل الثقافة الأوروبية والألمانية؟",
       "options": [
         {
           "de": "der Hinduismus",
@@ -10923,9 +10923,9 @@
         }
       ],
       "correct": 1,
-      "exp_en": "Christianity (Catholic and Protestant combined) remains the largest religion in Germany, though membership has been declining.",
-      "exp_ur": "عیسائیت (کیتھولک اور پروٹسٹنٹ ملا کر) جرمنی میں اب بھی سب سے بڑا مذہب ہے، اگرچہ رکنیت میں کمی آ رہی ہے۔",
-      "exp_ar": "تظل المسيحية (الكاثوليكية والبروتستانتية مجتمعتين) أكبر دين في ألمانيا، رغم تراجع عدد أتباعها."
+      "exp_en": "Christianity has historically shaped European and German culture, traditions, and institutions over many centuries.",
+      "exp_ur": "عیسائیت نے تاریخی طور پر یورپی اور جرمن ثقافت، روایات اور اداروں کو صدیوں سے تشکیل دیا ہے۔",
+      "exp_ar": "شكّلت المسيحية تاريخيًا الثقافة الأوروبية والألمانية وتقاليدها ومؤسساتها على مدى قرون عديدة."
     },
     {
       "id": 296,

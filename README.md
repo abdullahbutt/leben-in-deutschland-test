@@ -13,8 +13,11 @@
 # 🇩🇪 German Citizenship Test — with English Translations
 
 > 🇵🇰 اردو ترجمہ کے لیے — [Urdu Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/urdu/README.md)
+> 🇸🇦 للنسخة العربية — [Arabic Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/arabic/README.md)
 
-> All **300 general + 160 state-specific** questions from the official **BAMF Einbürgerungstest / Leben in Deutschland** test catalog, with English translations, correct answers highlighted in ✅, and explanations.
+> All **300 general + 160 state-specific** questions from the official **BAMF Einbürgerungstest / Leben in Deutschland** test catalog, with correct answers highlighted in ✅ and explanations.
+>
+> The [live website](https://leben.wordfeather.com/) offers the full test in **6 languages** — English, Urdu, Arabic, German, Turkish, and Russian. This repository's source content (this branch, plus the `urdu` and `arabic` branches) covers English, Urdu, and Arabic; German, Turkish, and Russian are generated separately for the site.
 
 Based on the official BAMF catalog (Stand: 07.05.2025).
 

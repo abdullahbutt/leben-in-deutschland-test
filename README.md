@@ -152,7 +152,7 @@ Each question follows this format:
 
 **Code** (`build.js`, `quiz.html`, `sw.js`, HTML/CSS/JS): [MIT License](LICENSE) — free to use, modify, and learn from.
 
-**Content** (question translations, explanations, Urdu/English text): [CC BY-NC 4.0](LICENSE-CONTENT.md) — free for personal and educational use. Commercial use or redistribution for profit is **not permitted** without explicit written permission.
+**Content** (question translations, explanations, text in English, Urdu, Arabic, German, Turkish, and Russian): [CC BY-NC 4.0](LICENSE-CONTENT.md) — free for personal and educational use. Commercial use or redistribution for profit is **not permitted** without explicit written permission.
 
 > This project is open source for personal and educational use.
 > The translations and explanations represent significant original work.

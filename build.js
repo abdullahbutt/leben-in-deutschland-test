@@ -3078,6 +3078,21 @@ function buildSitemap() {
     const allSlugs = [...ORDERED_QUESTIONS, ...ORDERED_STATES];
     const today = BUILD_DATE;
 
+    // For the two static pages not covered by the per-language content loop
+    // (the root landing page and quiz.html), use each file's real filesystem
+    // modification date instead of blanket "today" — otherwise these two
+    // entries would force sitemap.xml to look different on every single
+    // build, even when nothing anywhere actually changed.
+    const fileLastMod = (relPath) => {
+        try {
+            return fs.statSync(path.join(ROOT, relPath)).mtime.toISOString().slice(0, 10);
+        } catch (e) {
+            return today; // file missing/unreadable — fall back safely
+        }
+    };
+    const rootIndexDate = fileLastMod('index.html');
+    const quizHtmlDate = fileLastMod('quiz.html');
+
     // Priority map: index and question sets are most important
     const priority = (slug) => {
         if (slug === 'index') return '1.0';
@@ -3099,16 +3114,16 @@ function buildSitemap() {
     <xhtml:link rel="alternate" hreflang="ur" href="${SITE_BASE_URL}/ur/index.html"/>
     <xhtml:link rel="alternate" hreflang="ar" href="${SITE_BASE_URL}/ar/index.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/index.html"/>
-    <lastmod>${today}</lastmod>
+    <lastmod>${rootIndexDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>`;
 
-    // Quiz page — high priority, it’s a key feature page
+    // Quiz page — high priority, it's a key feature page
     urls += `
   <url>
     <loc>${SITE_BASE_URL}/quiz.html</loc>
-    <lastmod>${today}</lastmod>
+    <lastmod>${quizHtmlDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>`;

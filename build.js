@@ -527,13 +527,19 @@ const BAMF_TEST_CENTER_URL = 'https://oet.bamf.de/ords/oetut/f?p=514:1::::::';
 let BUILD_DATE = new Date().toISOString().slice(0, 10);
 const TODAYS_BUILD_DATE = BUILD_DATE; // the real "today", kept aside since BUILD_DATE gets reused as scratch space below
 
+// Records each page's real last-changed date (not just "today"), so
+// buildSitemap() can give every URL an accurate <lastmod> instead of
+// stamping every single URL with today's date on every build.
+const PAGE_LASTMOD = new Map(); // key: "lang/slug.html" -> date string
+
 // Writes a generated page only if its content (ignoring the "Last updated"
 // date) actually changed since the last build. renderFn is called with
 // BUILD_DATE temporarily set to the file's *existing* on-disk date first;
 // if that reproduces the file byte-for-byte, nothing really changed, so we
 // leave the file untouched (no new date, no git diff noise). Only when
 // content genuinely differs do we re-render with today's date and write.
-function writeIfChanged(filePath, renderFn) {
+// sitemapKey, if given, records this page's resulting date for buildSitemap().
+function writeIfChanged(filePath, renderFn, sitemapKey) {
     const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
     const dateMatch = existing && existing.match(/class="foot-meta">[^<]*(\d{4}-\d{2}-\d{2})/);
     const existingDate = dateMatch ? dateMatch[1] : null;
@@ -548,6 +554,7 @@ function writeIfChanged(filePath, renderFn) {
         const candidate = renderFn();
         BUILD_DATE = TODAYS_BUILD_DATE;
         if (normalize(candidate) === normalize(existing)) {
+            if (sitemapKey) PAGE_LASTMOD.set(sitemapKey, existingDate);
             return false; // unchanged — skip write entirely
         }
     } else {
@@ -556,6 +563,7 @@ function writeIfChanged(filePath, renderFn) {
 
     const finalHtml = renderFn();
     fs.writeFileSync(filePath, finalHtml);
+    if (sitemapKey) PAGE_LASTMOD.set(sitemapKey, TODAYS_BUILD_DATE);
     return true;
 }
 const SITE_BASE_URL = 'https://leben.wordfeather.com';
@@ -3013,7 +3021,7 @@ function buildLang(lang) {
         }
 
         const html = () => renderPage({ lang, title, bodyHtml, slug });
-        const wrote = writeIfChanged(path.join(outDir, `${slug}.html`), html);
+        const wrote = writeIfChanged(path.join(outDir, `${slug}.html`), html, `${lang}/${slug}.html`);
         slugs.push(slug);
         console.log(`  ${wrote ? '✓' : '·'} ${lang}/${slug}.html${wrote ? '' : ' (unchanged)'}`);
     }
@@ -3022,7 +3030,7 @@ function buildLang(lang) {
     // We no longer use README.md content as the index — it was designed for
     // GitHub readers, not website visitors, and was inconsistent between languages.
     const indexHtmlFn = () => renderIndex({ lang, slugs });
-    const indexWrote = writeIfChanged(path.join(outDir, 'index.html'), indexHtmlFn);
+    const indexWrote = writeIfChanged(path.join(outDir, 'index.html'), indexHtmlFn, `${lang}/index.html`);
     console.log(`  ${indexWrote ? '✓' : '·'} ${lang}/index.html${indexWrote ? '' : ' (unchanged)'}`);
 }
 
@@ -3107,6 +3115,7 @@ function buildSitemap() {
 
     // Per-language index pages
     for (const lang of ['en', 'ur', 'ar', 'de', 'tr', 'ru']) {
+        const indexDate = PAGE_LASTMOD.get(`${lang}/index.html`) || today;
         urls += `
   <url>
     <loc>${SITE_BASE_URL}/${lang}/index.html</loc>
@@ -3117,7 +3126,7 @@ function buildSitemap() {
     <xhtml:link rel="alternate" hreflang="tr" href="${SITE_BASE_URL}/tr/index.html"/>
     <xhtml:link rel="alternate" hreflang="ru" href="${SITE_BASE_URL}/ru/index.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/index.html"/>
-    <lastmod>${today}</lastmod>
+    <lastmod>${indexDate}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.95</priority>
   </url>`;
@@ -3134,26 +3143,37 @@ function buildSitemap() {
             const altLinks = ALL_LANGS
                 .map((l) => `    <xhtml:link rel="alternate" hreflang="${l}" href="${SITE_BASE_URL}/${l}/${slug}.html"/>`)
                 .join('\n');
+            const pageDate = PAGE_LASTMOD.get(`${lang}/${slug}.html`) || today;
             urls += `
   <url>
     <loc>${SITE_BASE_URL}/${lang}/${slug}.html</loc>
 ${altLinks}
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/${slug}.html"/>
-    <lastmod>${today}</lastmod>
+    <lastmod>${pageDate}</lastmod>
     <changefreq>${cf}</changefreq>
     <priority>${p}</priority>
   </url>`;
         }
     }
 
+    // Only rewrite sitemap.xml if it actually differs from what's on disk —
+    // same reasoning as the HTML pages: a file with no real changes
+    // shouldn't get touched just because the build ran on a new day.
+    const sitemapPath = path.join(ROOT, 'sitemap.xml');
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 </urlset>`;
 
-    fs.writeFileSync(path.join(ROOT, 'sitemap.xml'), sitemap);
-    console.log('✓ sitemap.xml written');
+    const normalize = (s) => s.replace(/\r\n/g, '\n');
+    const existingSitemap = fs.existsSync(sitemapPath) ? fs.readFileSync(sitemapPath, 'utf8') : null;
+    if (existingSitemap && normalize(existingSitemap) === normalize(sitemap)) {
+        console.log('· sitemap.xml unchanged');
+    } else {
+        fs.writeFileSync(sitemapPath, sitemap);
+        console.log('✓ sitemap.xml written');
+    }
 
     // robots.txt
     const robots = `User-agent: *

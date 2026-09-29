@@ -196,19 +196,18 @@
 
 ### Question 163
 
-**🇩🇪** Wann wurde die Bundesrepublik Deutschland gegründet?
-**🇵🇰** جرمن وفاقی جمہوریہ کب قائم ہوئی؟
+**🇩🇪** In welchem Jahr zerstörten die Nationalsozialisten Synagogen und jüdische Geschäfte in Deutschland?
+**🇵🇰** نازیوں نے جرمنی میں عبادت گاہیں اور یہودی کاروبار کس سال تباہ کیے؟
 
 | | Deutsch | اردو |
 |---|---|---|
-| ✅ | **1949** | **1949** |
-| ○ | 1933 | 1933 |
+| ○ | 1925 | 1925 |
+| ○ | 1930 | 1930 |
+| ✅ | **1938** | **1938** |
 | ○ | 1945 | 1945 |
-| ○ | 1953 | 1953 |
 
-> **📝 وضاحت:** The Federal Republic of Germany (BRD/West Germany) was founded on May 23, 1949 when the Basic Law (Grundgesetz) came into effect. The German Democratic Republic (DDR/East Germany) was founded on October 7, 1949. Both states existed until reunification on October 3, 1990.
+> **📝 وضاحت:** نازیوں نے 1938 میں جرمنی بھر میں یہودی عبادت گاہوں اور کاروبار کو تباہ کیا، جو 9 نومبر 1938 کے نومبر پوگروم (کرسٹل نائٹ) کے دوران ہوا۔
 
----
 
 ### Question 164
 

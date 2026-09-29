@@ -710,19 +710,18 @@
 
 ### Question 145
 
-**🇩🇪** Was ist ein deutsches Gesetz zum Schutz der Kinder?
-**🇵🇰** بچوں کے تحفظ کا جرمن قانون کیا ہے؟
+**🇩🇪** In Deutschland wird die Staatsgewalt geteilt. Für welche Staatsgewalt arbeitet ein Richter / eine Richterin? Für die …
+**🇵🇰** جرمنی میں ریاستی طاقت کو تقسیم کیا گیا ہے۔ جج کس ریاستی طاقت کے لیے کام کرتا ہے؟
 
 | | Deutsch | اردو |
 |---|---|---|
-| ✅ | **Kinder dürfen nicht geschlagen werden.** | **بچوں کو مارنا منع ہے۔** |
-| ○ | Kinder dürfen keine Süßigkeiten essen. | بچے مٹھائی نہیں کھا سکتے۔ |
-| ○ | Kinder müssen jeden Tag Sport treiben. | بچوں کو روزانہ ورزش کرنی ہوگی۔ |
-| ○ | Kinder dürfen nicht allein spielen. | بچے اکیلے نہیں کھیل سکتے۔ |
+| ✅ | **Judikative.** | **عدلیہ۔** |
+| ○ | Exekutive. | انتظامیہ۔ |
+| ○ | Presse. | پریس۔ |
+| ○ | Legislative. | مقننہ۔ |
 
-> **📝 وضاحت:** 2000 سے، §1631 BGB بچوں کو تشدد سے پاک پرورش کا حق دیتا ہے: "بچوں کو تشدد سے پاک پرورش کا حق ہے۔ جسمانی سزا، نفسیاتی نقصان، اور دیگر تذلیل آمیز اقدامات ناقابل قبول ہیں۔" والدین کا بچوں کو مارنا غیر قانونی ہے۔
+> **📝 وضاحت:** ججز عدلیہ (Judikative) کا حصہ ہیں، جو قانون کی تشریح اور اطلاق کے لیے ذمہ دار ریاستی طاقت کی شاخ ہے — انتظامیہ، مقننہ، یا پریس (جو ریاستی طاقت کی شاخ ہی نہیں) سے مختلف۔
 
----
 
 ### Question 146
 

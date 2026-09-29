@@ -356,19 +356,18 @@
 
 ### Question 273
 
-**🇩🇪** Wenn ein Kind in Deutschland vernachlässigt wird, wer wird informiert?
-**🇵🇰** اگر جرمنی میں کسی بچے کو نظرانداز کیا جائے تو کسے آگاہ کیا جاتا ہے؟
+**🇩🇪** Bei Erziehungsproblemen gehen Sie in Deutschland …
+**🇵🇰** جرمنی میں پرورش کے مسائل کی صورت میں آپ کہاں جاتے ہیں؟
 
 | | Deutsch | اردو |
 |---|---|---|
-| ○ | zum Arzt / zur Ärztin. | ڈاکٹر کو۔ |
-| ○ | zum Gesundheitsamt. | صحت کے دفتر کو۔ |
-| ○ | zum Einwohnermeldeamt. | رہائشیوں کے رجسٹریشن دفتر کو۔ |
-| ✅ | **zum Jugendamt.** | **یوتھ ویلفیئر آفس کو۔** |
+| ○ | dem Arzt / der Ärztin. | ڈاکٹر کے پاس۔ |
+| ○ | dem Gesundheitsamt. | صحت کے دفتر۔ |
+| ○ | dem Einwohnermeldeamt. | رہائشیوں کے رجسٹریشن دفتر۔ |
+| ✅ | **dem Jugendamt.** | **یوتھ ویلفیئر آفس۔** |
 
-> **📝 وضاحت:** پہلے کے سوالات کی طرح، یوتھ ویلفیئر آفس (Jugendamt) کو آگاہ کیا جاتا ہے اور یہ بچے کی نظراندازی کی صورتوں میں کارروائی کرتا ہے۔
+> **📝 وضاحت:** پرورش یا بچوں کی تربیت کے مسائل کے لیے، یوتھ ویلفیئر آفس (Jugendamt) جرمنی میں ذمہ دار ادارہ ہے — ڈاکٹر، صحت کے دفتر، یا رہائشیوں کے دفتر کی بجائے۔
 
----
 
 ### Question 274
 
@@ -597,18 +596,17 @@
 ### Question 288
 
 **🇩🇪** Woraus begründet sich Deutschlands besondere Verantwortung für Israel?
-**🇵🇰** جرمنی کی اسرائیل کے لیے خاص ذمہ داری کی بنیاد کیا ہے؟
+**🇵🇰** اسرائیل کے لیے جرمنی کی خصوصی ذمہ داری کی بنیاد کیا ہے؟
 
 | | Deutsch | اردو |
 |---|---|---|
-| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | EU رکنیت سے |
-| ✅ | **aus den nationalsozialistischen Verbrechen** | **نازی جرائم سے** |
-| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | بنیادی قانون سے |
+| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | EU کی رکنیت سے |
+| ✅ | **aus den nationalsozialistischen Verbrechen gegen Juden** | **یہودیوں کے خلاف نازی جرائم سے** |
+| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | جرمنی کے بنیادی قانون سے |
 | ○ | aus der christlichen Tradition | عیسائی روایت سے |
 
-> **📝 وضاحت:** جرمنی کی اسرائیل کے لیے خاص ذمہ داری نازی جرائم — سب سے بڑھ کر ہولوکاسٹ جس میں 60 لاکھ یہودی منظم طریقے سے قتل کیے گئے — سے پیدا ہوتی ہے۔ اس ذمہ داری کو جرمنی کی "Staatsräson" (وجہ ریاست) کا حصہ سمجھا جاتا ہے۔ اس کا مطلب ہے جرمنی اسرائیل کے حق وجود کی حمایت کرتا ہے، سام دشمنی سے لڑتا ہے، اور اسرائیل کے ساتھ خصوصی سفارتی تعلقات رکھتا ہے۔
+> **📝 وضاحت:** اسرائیل کے لیے جرمنی کی خصوصی ذمہ داری ہولوکاسٹ کے دوران یہودیوں کے خلاف نازی جرائم سے نکلتی ہے — نہ کہ EU کی رکنیت، بنیادی قانون، یا عیسائی روایت سے۔
 
----
 
 ### Question 289
 
@@ -708,8 +706,8 @@
 
 ### Question 295
 
-**🇩🇪** Welche Religion hat in Deutschland die meisten Anhänger?
-**🇵🇰** جرمنی میں کس مذہب کے سب سے زیادہ پیروکار ہیں؟
+**🇩🇪** Welche Religion hat die europäische und deutsche Kultur geprägt?
+**🇵🇰** کس مذہب نے یورپی اور جرمن ثقافت کو تشکیل دیا ہے؟
 
 | | Deutsch | اردو |
 |---|---|---|
@@ -718,9 +716,8 @@
 | ○ | der Buddhismus | بدھ مت |
 | ○ | der Islam | اسلام |
 
-> **📝 وضاحت:** عیسائیت (کیتھولک اور پروٹسٹنٹ ملا کر) جرمنی میں اب بھی سب سے بڑا مذہب ہے، اگرچہ رکنیت میں کمی آ رہی ہے۔
+> **📝 وضاحت:** عیسائیت نے تاریخی طور پر یورپی اور جرمن ثقافت، روایات اور اداروں کو صدیوں سے تشکیل دیا ہے۔
 
----
 
 ### Question 296
 

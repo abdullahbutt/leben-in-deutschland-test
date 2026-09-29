@@ -524,7 +524,40 @@ const PAYPAL_URL = 'https://paypal.me/abdullahbuttde';
 const WORDFEATHER_URL = 'https://wordfeather.com/dictionary.html';
 const BAMF_CATALOG_URL = 'https://www.bamf.de/SharedDocs/Anlagen/DE/Integration/Einbuergerung/gesamtfragenkatalog-lebenindeutschland.html';
 const BAMF_TEST_CENTER_URL = 'https://oet.bamf.de/ords/oetut/f?p=514:1::::::';
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+let BUILD_DATE = new Date().toISOString().slice(0, 10);
+const TODAYS_BUILD_DATE = BUILD_DATE; // the real "today", kept aside since BUILD_DATE gets reused as scratch space below
+
+// Writes a generated page only if its content (ignoring the "Last updated"
+// date) actually changed since the last build. renderFn is called with
+// BUILD_DATE temporarily set to the file's *existing* on-disk date first;
+// if that reproduces the file byte-for-byte, nothing really changed, so we
+// leave the file untouched (no new date, no git diff noise). Only when
+// content genuinely differs do we re-render with today's date and write.
+function writeIfChanged(filePath, renderFn) {
+    const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : null;
+    const dateMatch = existing && existing.match(/class="foot-meta">[^<]*(\d{4}-\d{2}-\d{2})/);
+    const existingDate = dateMatch ? dateMatch[1] : null;
+
+    // Windows checkouts convert LF -> CRLF on disk, but freshly-rendered
+    // content always uses plain \n — normalize both before comparing so
+    // that alone never looks like a "real" content change.
+    const normalize = (s) => s.replace(/\r\n/g, '\n');
+
+    if (existing && existingDate) {
+        BUILD_DATE = existingDate;
+        const candidate = renderFn();
+        BUILD_DATE = TODAYS_BUILD_DATE;
+        if (normalize(candidate) === normalize(existing)) {
+            return false; // unchanged — skip write entirely
+        }
+    } else {
+        BUILD_DATE = TODAYS_BUILD_DATE;
+    }
+
+    const finalHtml = renderFn();
+    fs.writeFileSync(filePath, finalHtml);
+    return true;
+}
 const SITE_BASE_URL = 'https://leben.wordfeather.com';
 const OG_IMAGE_URL = `${SITE_BASE_URL}/icons/og-image.png`;
 const CLOUDFLARE_ANALYTICS_TOKEN = 'd435b2572b82459cb083e37f7c734b75';
@@ -2979,18 +3012,18 @@ function buildLang(lang) {
             bodyHtml = introHtml + bodyHtml;
         }
 
-        const html = renderPage({ lang, title, bodyHtml, slug });
-        fs.writeFileSync(path.join(outDir, `${slug}.html`), html);
+        const html = () => renderPage({ lang, title, bodyHtml, slug });
+        const wrote = writeIfChanged(path.join(outDir, `${slug}.html`), html);
         slugs.push(slug);
-        console.log(`  ✓ ${lang}/${slug}.html`);
+        console.log(`  ${wrote ? '✓' : '·'} ${lang}/${slug}.html${wrote ? '' : ' (unchanged)'}`);
     }
 
     // Per-language index: always use the purpose-built renderIndex homepage.
     // We no longer use README.md content as the index — it was designed for
     // GitHub readers, not website visitors, and was inconsistent between languages.
-    const indexHtml = renderIndex({ lang, slugs });
-    fs.writeFileSync(path.join(outDir, 'index.html'), indexHtml);
-    console.log(`  ✓ ${lang}/index.html`);
+    const indexHtmlFn = () => renderIndex({ lang, slugs });
+    const indexWrote = writeIfChanged(path.join(outDir, 'index.html'), indexHtmlFn);
+    console.log(`  ${indexWrote ? '✓' : '·'} ${lang}/index.html${indexWrote ? '' : ' (unchanged)'}`);
 }
 
 // Build a unique build ID — current ISO timestamp, sanitized for cache key use

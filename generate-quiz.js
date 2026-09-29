@@ -461,16 +461,30 @@ function generateQuizData() {
     const general = buildGeneral();
     const states  = buildStates();
 
-    const output = {
-        version: new Date().toISOString().slice(0, 10),
-        general,
-        states,
-    };
-
     const outPath = path.join(ROOT, 'quiz-data.json');
-    fs.writeFileSync(outPath, JSON.stringify(output, null, 2));
-    const kb = Math.round(fs.statSync(outPath).size / 1024);
-    console.log(`✓ quiz-data.json written (${general.length} general, ${Object.keys(states).length} states, ${kb} KB)`);
+    const todaysDate = new Date().toISOString().slice(0, 10);
+
+    // Only stamp today's date if the actual question data changed —
+    // otherwise re-running the build on a new day would touch this file
+    // (and every page's embedded quiz-data reference) for no real reason.
+    const existing = fs.existsSync(outPath) ? fs.readFileSync(outPath, 'utf8') : null;
+    let existingVersion = null;
+    if (existing) {
+        try { existingVersion = JSON.parse(existing).version; } catch (e) { /* ignore */ }
+    }
+    const candidateOldDated = JSON.stringify({ version: existingVersion || todaysDate, general, states }, null, 2);
+    const normalize = (s) => s.replace(/\r\n/g, '\n');
+
+    let finalOutput;
+    if (existing && existingVersion && normalize(candidateOldDated) === normalize(existing)) {
+        finalOutput = existing; // truly unchanged — keep the file exactly as-is
+        console.log(`· quiz-data.json unchanged (still version ${existingVersion})`);
+    } else {
+        finalOutput = JSON.stringify({ version: todaysDate, general, states }, null, 2);
+        fs.writeFileSync(outPath, finalOutput);
+        const kb = Math.round(fs.statSync(outPath).size / 1024);
+        console.log(`✓ quiz-data.json written (${general.length} general, ${Object.keys(states).length} states, ${kb} KB)`);
+    }
 }
 
 module.exports = { generateQuizData };

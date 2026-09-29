@@ -359,19 +359,18 @@
 
 ### Question 273
 
-**🇩🇪 Deutsch:** Wenn ein Kind in Deutschland vernachlässigt wird, wer wird informiert?
-**🇬🇧 English:** If a child is neglected in Germany, who is informed?
+**🇩🇪** Bei Erziehungsproblemen gehen Sie in Deutschland …
+**🇬🇧** For parenting/upbringing problems in Germany, you go to …
 
 | | Deutsch | English |
 |---|---|---|
-| ○ | zum Arzt / zur Ärztin. | the doctor. |
-| ○ | zum Gesundheitsamt. | the health office. |
-| ○ | zum Einwohnermeldeamt. | the residents' registration office. |
-| ✅ | **zum Jugendamt.** | **the youth welfare office.** |
+| ○ | dem Arzt / der Ärztin. | the doctor. |
+| ○ | dem Gesundheitsamt. | the health office. |
+| ○ | dem Einwohnermeldeamt. | the residents' registration office. |
+| ✅ | **dem Jugendamt.** | **the youth welfare office.** |
 
-> **📝 Explanation:** As with earlier questions, the Jugendamt (youth welfare office) is informed and takes action in cases of child neglect.
+> **📝 Explanation:** For parenting or child-rearing problems, the Jugendamt (youth welfare office) is the responsible authority in Germany — not a doctor, health office, or residents' office.
 
----
 
 ### Question 274
 
@@ -599,19 +598,18 @@
 
 ### Question 288
 
-**🇩🇪 Deutsch:** Woraus begründet sich Deutschlands besondere Verantwortung für Israel?
-**🇬🇧 English:** What is the basis for Germany's special responsibility toward Israel?
+**🇩🇪** Woraus begründet sich Deutschlands besondere Verantwortung für Israel?
+**🇬🇧** What is the basis of Germany's special responsibility toward Israel?
 
 | | Deutsch | English |
 |---|---|---|
-| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | from its EU membership |
-| ✅ | **aus den nationalsozialistischen Verbrechen** | **from the National Socialist crimes** |
-| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | from the German Basic Law |
-| ○ | aus der christlichen Tradition | from the Christian tradition |
+| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | from EU membership |
+| ✅ | **aus den nationalsozialistischen Verbrechen gegen Juden** | **from the National Socialist crimes against Jews** |
+| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | from Germany's Basic Law |
+| ○ | aus der christlichen Tradition | from Christian tradition |
 
-> **📝 Explanation:** Germany's special responsibility for Israel stems from the Nazi crimes — above all the Holocaust, in which 6 million Jews were systematically murdered. This responsibility is considered part of Germany's "Staatsräson" (reason of state). It means Germany supports Israel's right to exist, combats antisemitism, and maintains a special diplomatic relationship with Israel. This commitment is not based on EU membership, the Basic Law text, or religious tradition, but directly on the historical guilt of the Nazi era.
+> **📝 Explanation:** Germany's special responsibility toward Israel stems from the Nazi crimes committed against Jews during the Holocaust — not from EU membership, the Basic Law, or Christian tradition.
 
----
 
 ### Question 289
 
@@ -711,8 +709,8 @@
 
 ### Question 295
 
-**🇩🇪 Deutsch:** Welche Religion hat in Deutschland die meisten Anhänger?
-**🇬🇧 English:** Which religion has the most followers in Germany?
+**🇩🇪** Welche Religion hat die europäische und deutsche Kultur geprägt?
+**🇬🇧** Which religion has shaped European and German culture?
 
 | | Deutsch | English |
 |---|---|---|
@@ -721,9 +719,8 @@
 | ○ | der Buddhismus | Buddhism |
 | ○ | der Islam | Islam |
 
-> **📝 Explanation:** Christianity (Catholic and Protestant combined) remains the largest religion in Germany, though membership has been declining.
+> **📝 Explanation:** Christianity has historically shaped European and German culture, traditions, and institutions over many centuries.
 
----
 
 ### Question 296
 

@@ -713,19 +713,18 @@
 
 ### Question 145
 
-**🇩🇪 Deutsch:** Was ist ein deutsches Gesetz zum Schutz der Kinder?
-**🇬🇧 English:** What is a German law protecting children?
+**🇩🇪 Deutsch:** In Deutschland wird die Staatsgewalt geteilt. Für welche Staatsgewalt arbeitet ein Richter / eine Richterin? Für die …
+**🇬🇧 English:** In Germany, state power is divided. Which branch of state power does a judge work for? For the …
 
 | | Deutsch | English |
 |---|---|---|
-| ✅ | **Kinder dürfen nicht geschlagen werden.** | **Children must not be hit.** |
-| ○ | Kinder dürfen keine Süßigkeiten essen. | Children may not eat sweets. |
-| ○ | Kinder müssen jeden Tag Sport treiben. | Children must exercise every day. |
-| ○ | Kinder dürfen nicht allein spielen. | Children may not play alone. |
+| ✅ | **Judikative.** | **Judiciary.** |
+| ○ | Exekutive. | Executive. |
+| ○ | Presse. | Press. |
+| ○ | Legislative. | Legislature. |
 
-> **📝 Explanation:** Since 2000, §1631 BGB gives children the right to a violence-free upbringing. Corporal punishment and psychological harm are illegal. This was a major legal shift — physical discipline was previously considered acceptable.
+> **📝 Explanation:** Judges belong to the Judikative (judiciary), the branch of state power responsible for interpreting and applying the law — distinct from the executive, legislature, or the press, which is not a branch of state power at all.
 
----
 
 ### Question 146
 

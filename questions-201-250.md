@@ -331,8 +331,8 @@
 
 ### Question 221
 
-**🇩🇪 Deutsch:** Was bedeutet Freizügigkeit innerhalb der EU?
-**🇬🇧 English:** What does freedom of movement within the EU mean?
+**🇩🇪** Deutschland ist Mitglied des Schengener Abkommens. Was bedeutet das?
+**🇬🇧** Germany is a member of the Schengen Agreement. What does that mean?
 
 | | Deutsch | English |
 |---|---|---|
@@ -341,14 +341,13 @@
 | ○ | Deutsche können ohne Passkontrolle in jedes Land reisen. | Germans can travel to any country without passport control. |
 | ○ | Deutsche können in jedem Land mit dem Euro bezahlen. | Germans can pay with the Euro in any country. |
 
-> **📝 Explanation:** Freedom of movement (Freizügigkeit) refers specifically to passport-free travel within the Schengen Area of Europe — not global travel or currency use.
+> **📝 Explanation:** The Schengen Agreement allows passport-free travel between member countries within Europe — not global travel or currency use.
 
----
 
 ### Question 222
 
-**🇩🇪 Deutsch:** Welches Land ist NICHT Mitglied der Europäischen Union?
-**🇬🇧 English:** Which country is NOT a member of the European Union?
+**🇩🇪** Welches Land ist ein Nachbarland von Deutschland?
+**🇬🇧** Which country is a neighboring country of Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -357,14 +356,13 @@
 | ○ | Spanien | Spain |
 | ✅ | **Schweiz** | **Switzerland** |
 
-> **📝 Explanation:** Switzerland is famously NOT an EU member (though it participates in Schengen) — Hungary, Portugal, and Spain are all EU members.
+> **📝 Explanation:** Switzerland directly borders Germany to the south — Hungary, Portugal, and Spain do not.
 
----
 
 ### Question 223
 
-**🇩🇪 Deutsch:** Welches Land ist Mitglied der Europäischen Union?
-**🇬🇧 English:** Which country is a member of the European Union?
+**🇩🇪** Welches Land ist ein Nachbarland von Deutschland?
+**🇬🇧** Which country is a neighboring country of Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -373,9 +371,8 @@
 | ✅ | **Polen** | **Poland** |
 | ○ | Griechenland | Greece |
 
-> **📝 Explanation:** All four are actually EU members — the answer key indicates Poland as the option intended, though Romania, Bulgaria, and Greece are also EU members. (This question likely tests recognition of a specific accession date context.)
+> **📝 Explanation:** Poland directly borders Germany to the east — Romania, Bulgaria, and Greece do not.
 
----
 
 ### Question 224
 
@@ -411,26 +408,25 @@
 
 ### Question 226
 
-**🇩🇪 Deutsch:** Welches Land ist Mitglied der Europäischen Union?
-**🇬🇧 English:** Which country is a member of the European Union?
+**🇩🇪** Welche ist die Flagge der Europäischen Union?
+**🇬🇧** Which is the flag of the European Union?
 
 ![Question 226](../images/226.png)
 
 | | Deutsch | English |
 |---|---|---|
-| ✅ | **2** | **2** |
-| ○ | 1 | 1 |
-| ○ | 4 | 4 |
-| ○ | 3 | 3 |
+| ✅ | **2** | **Image 2** |
+| ○ | 1 | Image 1 |
+| ○ | 4 | Image 4 |
+| ○ | 3 | Image 3 |
 
-> **📝 Explanation:** This question uses a numbered map — option 2 (as marked) is the correct EU member state shown.
+> **📝 Explanation:** The EU flag is blue with a circle of gold stars, shown as image 2 among the choices.
 
----
 
 ### Question 227
 
-**🇩🇪 Deutsch:** Welches Land gehört nicht zur Europäischen Union?
-**🇬🇧 English:** Which country does not belong to the European Union?
+**🇩🇪** Welches Land ist ein Nachbarland von Deutschland?
+**🇬🇧** Which country is a neighboring country of Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -439,14 +435,13 @@
 | ○ | Norwegen | Norway |
 | ○ | Schweden | Sweden |
 
-> **📝 Explanation:** Denmark IS an EU member. (Norway is the actual non-member among Nordic states, but per the source key, this variant marks Denmark — verify against current official listing.)
+> **📝 Explanation:** Denmark directly borders Germany to the north — Finland, Norway, and Sweden do not.
 
----
 
 ### Question 228
 
-**🇩🇪 Deutsch:** Was war eine Folge der EU-Osterweiterung im Jahr 2004?
-**🇬🇧 English:** What was a consequence of the EU's 2004 eastward enlargement?
+**🇩🇪** Wie wird der Beitritt der DDR zur Bundesrepublik Deutschland im Jahr 1990 allgemein genannt?
+**🇬🇧** What is the GDR's accession to the Federal Republic of Germany in 1990 generally called?
 
 | | Deutsch | English |
 |---|---|---|
@@ -455,14 +450,13 @@
 | ○ | Europäische Gemeinschaft | European Community |
 | ✅ | **Deutsche Wiedervereinigung** | **German reunification** |
 
-> **📝 Explanation:** This question tests recognition that German reunification (1990) preceded and is distinct from the EU's 2004 eastward enlargement — a separate historical event.
+> **📝 Explanation:** This event is called German reunification (Deutsche Wiedervereinigung) — distinct from the EU's later eastward enlargement in 2004.
 
----
 
 ### Question 229
 
-**🇩🇪 Deutsch:** Welches Land ist Mitglied der Europäischen Union?
-**🇬🇧 English:** Which country is a member of the European Union?
+**🇩🇪** Welches Land ist ein Nachbarland von Deutschland?
+**🇬🇧** Which country is a neighboring country of Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -471,9 +465,8 @@
 | ○ | Norwegen | Norway |
 | ✅ | **Luxemburg** | **Luxembourg** |
 
-> **📝 Explanation:** Luxembourg is highlighted here as an EU founding member — Spain and Bulgaria are also EU members, but Norway is not.
+> **📝 Explanation:** Luxembourg directly borders Germany to the west — Spain, Bulgaria, and Norway do not.
 
----
 
 ### Question 230
 
@@ -493,8 +486,8 @@
 
 ### Question 231
 
-**🇩🇪 Deutsch:** Was bedeutet der Begriff „Amerikaner in Europa" im Zusammenhang mit dem Marshallplan?
-**🇬🇧 English:** What does the term "Americans in Europe" mean in the context of the Marshall Plan?
+**🇩🇪** Was bedeutet der Begriff „europäische Integration“?
+**🇬🇧** What does the term "European integration" mean?
 
 | | Deutsch | English |
 |---|---|---|
@@ -503,9 +496,8 @@
 | ○ | Damit sind europäische Auswanderer in den USA gemeint. | It refers to European emigrants in the USA. |
 | ✅ | **Der Begriff meint den Zusammenschluss europäischer Staaten zur EU.** | **The term refers to the union of European states into the EU.** |
 
-> **📝 Explanation:** This tests recognition that European integration (leading to the EU) is sometimes compared to how the US states unified — the phrase alludes to European unification following the Marshall Plan era.
+> **📝 Explanation:** European integration refers to the political and economic union of European states into the EU.
 
----
 
 ### Question 232
 
@@ -525,8 +517,8 @@
 
 ### Question 233
 
-**🇩🇪 Deutsch:** Welches Land ist Mitglied der Europäischen Union?
-**🇬🇧 English:** Which country is a member of the European Union?
+**🇩🇪** Welches Land ist ein Nachbarland von Deutschland?
+**🇬🇧** Which country is a neighboring country of Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -535,9 +527,8 @@
 | ○ | Griechenland | Greece |
 | ○ | Portugal | Portugal |
 
-> **📝 Explanation:** Czech Republic is highlighted here — all four listed countries are in fact EU members.
+> **📝 Explanation:** The Czech Republic directly borders Germany to the southeast — Bulgaria, Greece, and Portugal do not.
 
----
 
 ### Question 234
 
@@ -575,19 +566,18 @@
 
 ### Question 236
 
-**🇩🇪 Deutsch:** Deutschland ist Gründungsmitglied der Europäischen Union seit …
-**🇬🇧 English:** Germany has been a founding member of the European Union since …
+**🇩🇪** Wie viele Mitgliedstaaten hat die EU heute?
+**🇬🇧** How many member states does the EU have today?
 
 | | Deutsch | English |
 |---|---|---|
-| ○ | 21 | 1921 |
-| ○ | 23 | 1923 |
-| ○ | 25 | 1925 |
-| ✅ | **27** | **1957 (Treaties of Rome)** |
+| ○ | 21 | 21 |
+| ○ | 23 | 23 |
+| ○ | 25 | 25 |
+| ✅ | **27** | **27** |
 
-> **📝 Explanation:** Germany was a founding member of the European Economic Community established by the Treaties of Rome in 1957.
+> **📝 Explanation:** The European Union currently has 27 member states.
 
----
 
 ### Question 237
 
@@ -671,24 +661,23 @@
 
 ### Question 242
 
-**🇩🇪 Deutsch:** Wer trägt in Deutschland die Hauptverantwortung für die Erziehung der Kinder?
-**🇬🇧 English:** Who bears the main responsibility for raising children in Germany?
+**🇩🇪 Deutsch:** Wer entscheidet, ob ein Kind in Deutschland in den Kindergarten geht?
+**🇬🇧 English:** Who decides whether a child in Germany attends kindergarten?
 
 | | Deutsch | English |
 |---|---|---|
 | ○ | der Staat | the state |
 | ○ | die Bundesländer | the federal states |
-| ✅ | **die Eltern / die Erziehungsberechtigten** | **the parents/legal guardians** |
+| ✅ | **die Eltern / die Erziehungsberechtigten** | **the parents / legal guardians** |
 | ○ | die Schulen | the schools |
 
-> **📝 Explanation:** Parents (or legal guardians) hold the primary responsibility for raising their children, as protected under Germany's Basic Law.
+> **📝 Explanation:** It is the parents (or legal guardians) who decide whether their child attends kindergarten in Germany — not the state, the federal states, or the schools.
 
----
 
 ### Question 243
 
-**🇩🇪 Deutsch:** Maik und Sybille möchten gegen die Schließung ihrer Schwimmhalle demonstrieren. Was müssen sie tun?
-**🇬🇧 English:** Maik and Sybille want to demonstrate against the closure of their swimming pool. What must they do?
+**🇩🇪 Deutsch:** Maik und Sybille wollen mit Freunden an ihrem deutschen Wohnort eine Demonstration auf der Straße abhalten. Was müssen sie vorher tun?
+**🇬🇧 English:** Maik and Sybille want to hold a street demonstration with friends where they live in Germany. What must they do beforehand?
 
 | | Deutsch | English |
 |---|---|---|
@@ -699,7 +688,6 @@
 
 > **📝 Explanation:** Demonstrations must be registered (angemeldet) with local authorities in advance — freedom of assembly is a right, but subject to registration requirements.
 
----
 
 ### Question 244
 
@@ -719,8 +707,8 @@
 
 ### Question 245
 
-**🇩🇪 Deutsch:** Welches Paar kann in Deutschland offiziell heiraten?
-**🇬🇧 English:** Which couple can officially marry in Germany?
+**🇩🇪 Deutsch:** Wer darf in Deutschland nicht als Paar zusammenleben?
+**🇬🇧 English:** Who is NOT allowed to live together as a couple in Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -729,14 +717,13 @@
 | ○ | Sofie (35) und Lisa (40) | Sofie (35) and Lisa (40) |
 | ✅ | **Anne (13) und Tim (25)** | **Anne (13) and Tim (25)** |
 
-> **📝 Explanation:** This question tests recognition of the legal marriage age (18) — since 2017, all listed adult same-sex or opposite-sex couples of legal age may marry in Germany; a 13-year-old cannot.
+> **📝 Explanation:** Anne is only 13, below the legal age of consent and marriage in Germany, so she may not live together as a couple with Tim — unlike the other pairs, who are all adults.
 
----
 
 ### Question 246
 
-**🇩🇪 Deutsch:** Ab welchem Alter dürfen Jugendliche in Deutschland ohne Erlaubnis der Eltern in die Disco gehen?
-**🇬🇧 English:** From what age can young people in Germany go to a disco without parental permission?
+**🇩🇪 Deutsch:** Ab welchem Alter ist man in Deutschland volljährig?
+**🇬🇧 English:** From what age is a person legally an adult in Germany?
 
 | | Deutsch | English |
 |---|---|---|
@@ -745,9 +732,8 @@
 | ○ | 19 | 19 |
 | ○ | 21 | 21 |
 
-> **📝 Explanation:** Under the Jugendschutzgesetz (Youth Protection Act), unrestricted access without parental accompaniment/permission for late hours typically applies from age 18, though limited access starts earlier with restrictions.
+> **📝 Explanation:** In Germany, a person reaches legal adulthood (Volljährigkeit) at age 18, gaining full legal rights and responsibilities.
 
----
 
 ### Question 247
 

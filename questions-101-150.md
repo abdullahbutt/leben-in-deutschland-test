@@ -710,19 +710,18 @@
 
 ### Question 145
 
-**🇩🇪** Was ist ein deutsches Gesetz zum Schutz der Kinder?
-**🇸🇦** ما قانون ألماني يحمي الأطفال؟
+**🇩🇪** In Deutschland wird die Staatsgewalt geteilt. Für welche Staatsgewalt arbeitet ein Richter / eine Richterin? Für die …
+**🇸🇦** تنقسم سلطة الدولة في ألمانيا. لأي سلطة يعمل القاضي؟
 
 | | Deutsch | العربية |
 |---|---|---|
-| ✅ | **Kinder dürfen nicht geschlagen werden.** | **يُحظر ضرب الأطفال.** |
-| ○ | Kinder dürfen keine Süßigkeiten essen. | لا يحق للأطفال أكل الحلوى. |
-| ○ | Kinder müssen jeden Tag Sport treiben. | يجب على الأطفال ممارسة الرياضة يوميًا. |
-| ○ | Kinder dürfen nicht allein spielen. | لا يحق للأطفال اللعب بمفردهم. |
+| ✅ | **Judikative.** | **السلطة القضائية.** |
+| ○ | Exekutive. | السلطة التنفيذية. |
+| ○ | Presse. | الصحافة. |
+| ○ | Legislative. | السلطة التشريعية. |
 
-> **📝 الشرح:** يُحظر ضرب الأطفال في ألمانيا. القانون الألماني يمنع جميع أشكال العقاب البدني منذ عام 2000. كل طفل له الحق في التنشئة خالية من العنف.
+> **📝 الشرح:** ينتمي القضاة إلى السلطة القضائية (Judikative)، فرع سلطة الدولة المسؤول عن تفسير القانون وتطبيقه — بخلاف السلطة التنفيذية أو التشريعية أو الصحافة (التي ليست فرعًا من سلطة الدولة أصلاً).
 
----
 
 ### Question 146
 

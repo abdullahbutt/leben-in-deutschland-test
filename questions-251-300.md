@@ -356,19 +356,18 @@
 
 ### Question 273
 
-**🇩🇪** Wenn ein Kind in Deutschland vernachlässigt wird, wer wird informiert?
-**🇸🇦** إذا أُهمل طفل في ألمانيا، من الذي يُبلَّغ؟
+**🇩🇪** Bei Erziehungsproblemen gehen Sie in Deutschland …
+**🇸🇦** في حال وجود مشاكل تربوية في ألمانيا، إلى أين تذهب؟
 
 | | Deutsch | العربية |
 |---|---|---|
-| ○ | zum Arzt / zur Ärztin. | الطبيب. |
-| ○ | zum Gesundheitsamt. | مكتب الصحة. |
-| ○ | zum Einwohnermeldeamt. | مكتب تسجيل السكان. |
-| ✅ | **zum Jugendamt.** | **مكتب رعاية الشباب.** |
+| ○ | dem Arzt / der Ärztin. | الطبيب. |
+| ○ | dem Gesundheitsamt. | مكتب الصحة. |
+| ○ | dem Einwohnermeldeamt. | مكتب تسجيل السكان. |
+| ✅ | **dem Jugendamt.** | **مكتب رعاية الشباب.** |
 
-> **📝 الشرح:** كما في الأسئلة السابقة، يُبلَّغ مكتب رعاية الشباب (Jugendamt) ويتخذ إجراءً في حالات إهمال الأطفال.
+> **📝 الشرح:** بالنسبة لمشاكل التربية أو تنشئة الأطفال، مكتب رعاية الشباب (Jugendamt) هو الجهة المسؤولة في ألمانيا — وليس الطبيب أو مكتب الصحة أو مكتب السكان.
 
----
 
 ### Question 274
 
@@ -597,18 +596,17 @@
 ### Question 288
 
 **🇩🇪** Woraus begründet sich Deutschlands besondere Verantwortung für Israel?
-**🇸🇦** ما أساس المسؤولية الخاصة لألمانيا تجاه إسرائيل؟
+**🇸🇦** على ماذا تستند مسؤولية ألمانيا الخاصة تجاه إسرائيل؟
 
 | | Deutsch | العربية |
 |---|---|---|
-| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | عضويتها في الاتحاد الأوروبي |
-| ✅ | **aus den nationalsozialistischen Verbrechen** | **الجرائم النازية** |
-| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | القانون الأساسي الألماني |
-| ○ | aus der christlichen Tradition | التقاليد المسيحية |
+| ○ | aus der Mitgliedschaft in der Europäischen Union (EU) | من العضوية في الاتحاد الأوروبي |
+| ✅ | **aus den nationalsozialistischen Verbrechen gegen Juden** | **من الجرائم النازية ضد اليهود** |
+| ○ | aus dem Grundgesetz der Bundesrepublik Deutschland | من القانون الأساسي الألماني |
+| ○ | aus der christlichen Tradition | من التقليد المسيحي |
 
-> **📝 الشرح:** تنبثق المسؤولية الخاصة لألمانيا تجاه إسرائيل من الجرائم النازية وفي مقدمتها الهولوكوست. تُعدّ حماية إسرائيل جزءًا من "مبررات وجود الدولة" (Staatsräson) الألمانية.
+> **📝 الشرح:** تنبع مسؤولية ألمانيا الخاصة تجاه إسرائيل من الجرائم النازية المرتكبة ضد اليهود خلال الهولوكوست — وليس من العضوية في الاتحاد الأوروبي أو القانون الأساسي أو التقليد المسيحي.
 
----
 
 ### Question 289
 
@@ -708,8 +706,8 @@
 
 ### Question 295
 
-**🇩🇪** Welche Religion hat in Deutschland die meisten Anhänger?
-**🇸🇦** أي دين له أكبر عدد من الأتباع في ألمانيا؟
+**🇩🇪** Welche Religion hat die europäische und deutsche Kultur geprägt?
+**🇸🇦** أي دين شكّل الثقافة الأوروبية والألمانية؟
 
 | | Deutsch | العربية |
 |---|---|---|
@@ -718,9 +716,8 @@
 | ○ | der Buddhismus | البوذية |
 | ○ | der Islam | الإسلام |
 
-> **📝 الشرح:** تظل المسيحية (الكاثوليكية والبروتستانتية مجتمعتين) أكبر دين في ألمانيا، رغم تراجع عدد أتباعها.
+> **📝 الشرح:** شكّلت المسيحية تاريخيًا الثقافة الأوروبية والألمانية وتقاليدها ومؤسساتها على مدى قرون عديدة.
 
----
 
 ### Question 296
 

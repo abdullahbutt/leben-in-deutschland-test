@@ -23,26 +23,20 @@ Based on the official BAMF catalog (Stand: 07.05.2025).
 
 > ⚠️ **Important:** For educational purposes only. Questions about current officeholders (Chancellor, Minister-Presidents) change with elections — always verify on the [BAMF website](https://www.bamf.de) before your test.
 
-## 🚀 Quick Start
-
-New here? Start with [Questions 1–50](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/english/questions-001-050.md), then find your state in the table below.
 ---
 
-## 📋 About the Test
+## 🚀 Start Here
 
-| Detail | Info |
-|---|---|
-| **Official Name** | Test "Leben in Deutschland" / Einbürgerungstest |
-| **Questions in Exam** | 33 (from the pool of 460) |
-| **Time** | 60 minutes |
-| **Pass** | 17 correct out of 33 |
-| **Fee** | €25 per attempt |
-| **Format** | Multiple choice — 4 options, 1 correct |
-| **State Questions** | 3 of the 33 are specific to your Bundesland |
+### 👉 [**Take the interactive quiz on leben.wordfeather.com**](https://leben.wordfeather.com/) 👈
+
+The website is the recommended way to study: it shows images (coats of arms, maps, flags) properly, tracks your progress, gives instant feedback, and works offline. It's the same content as this repo, kept in sync automatically.
+
+The tables below are a **static reference** — useful for a quick lookup or offline reading, but they're plain markdown files, not the interactive quiz.
 
 ---
 
-## 📑 General Questions (1–300)
+<details>
+<summary>📑 <strong>Browse general questions (1–300) as raw markdown files</strong></summary>
 
 | File | Questions | Topics |
 |---|---|---|
@@ -53,11 +47,12 @@ New here? Start with [Questions 1–50](https://github.com/abdullahbutt/leben-in
 | [Questions 201–250](questions-201-250.md) | 201–250 | Reunification, Culture, Geography |
 | [Questions 251–300](questions-251-300.md) | 251–300 | Society, Religion, Daily Life |
 
----
+</details>
 
-## 🗺️ State Questions (301–310)
+<details>
+<summary>🗺️ <strong>Browse state questions (301–310) as raw markdown files</strong></summary>
 
-Pick your Bundesland — each has 10 additional questions about its capital, coat of arms, Minister-President, geography, and history.
+Each state has 10 additional questions about its capital, coat of arms, Minister-President, geography, and history.
 
 | State | English Name | Capital |
 |---|---|---|
@@ -78,11 +73,27 @@ Pick your Bundesland — each has 10 additional questions about its capital, coa
 | [Schleswig-Holstein](schleswig-holstein.md) | Schleswig-Holstein | Kiel |
 | [Thüringen](thueringen.md) | Thuringia | Erfurt |
 
+</details>
+
+---
+
+## 📋 About the Test
+
+| Detail | Info |
+|---|---|
+| **Official Name** | Test "Leben in Deutschland" / Einbürgerungstest |
+| **Questions in Exam** | 33 (from the pool of 460) |
+| **Time** | 60 minutes |
+| **Pass** | 17 correct out of 33 |
+| **Fee** | €25 per attempt |
+| **Format** | Multiple choice — 4 options, 1 correct |
+| **State Questions** | 3 of the 33 are specific to your Bundesland |
+
 ---
 
 ## 🖼️ Questions with Images
 
-Some questions include images (coats of arms, maps, flags). These are marked with 🖼️ in the files. To see the actual images, use the [BAMF Interactive Test Center](https://oet.bamf.de/ords/oetut/f?p=514:1:0) — select your state and navigate to the question number.
+Some questions include images (coats of arms, maps, flags). These render properly on the [website](https://leben.wordfeather.com/). In the raw markdown files, they're marked with 🖼️; to see the actual images there, use the [BAMF Interactive Test Center](https://oet.bamf.de/ords/oetut/f?p=514:1:0) — select your state and navigate to the question number.
 
 **General questions with images:**
 | Question | Image Shows |
@@ -122,9 +133,9 @@ Some questions include images (coats of arms, maps, flags). These are marked wit
 
 ---
 
-## 📖 How to Read This Guide
+## 📖 How to Read the Raw Markdown Files
 
-Each question follows this format:
+Each question in the collapsed file tables above follows this format:
 
 > ### Question X
 > **🇩🇪** German question

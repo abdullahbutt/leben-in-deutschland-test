@@ -604,7 +604,9 @@ const ORDERED_ALL = [...ORDERED_QUESTIONS, ...ORDERED_STATES];
 // Tracker, theme toggle, random nav, back-to-top and SW registration live in one
 // external file instead of being inlined into every page. The content hash is used
 // as a ?v= cache-buster, so pages only change when this script does.
+// Line endings are normalised so the hash is identical on Windows and Linux (CI) checkouts.
 const SHARED_JS = fs.readFileSync(path.join(ROOT, 'page.template.js'), 'utf8')
+    .replace(/\r\n/g, '\n')
     .replace('/*__ORDERED_ALL__*/[]', JSON.stringify(ORDERED_ALL));
 const SHARED_JS_HASH = require('crypto').createHash('sha1').update(SHARED_JS).digest('hex').slice(0, 10);
 fs.mkdirSync(path.join(ROOT, 'assets'), { recursive: true });

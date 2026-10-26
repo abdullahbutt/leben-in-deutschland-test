@@ -329,6 +329,8 @@
         .opt-btn.correct .opt-label { background: var(--success); color: #fff; }
         .opt-btn.wrong   { border-color: var(--error);   background: color-mix(in srgb, var(--error)   12%, var(--card)); }
         .opt-btn.wrong   .opt-label { background: var(--error);   color: #fff; }
+        .opt-btn.selected { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--card)); }
+        .opt-btn.selected .opt-label { background: var(--primary); color: #fff; }
         .opt-btn.ur-text { font-family: 'Jameel Noori Nastaleeq', serif; direction: rtl; font-size: 1rem; }
         /* Explanation */
         .explanation-box {
@@ -400,6 +402,18 @@
         .review-q  { font-weight: 600; margin-bottom: .4rem; }
         .review-your   { color: var(--error);   }
         .review-correct{ color: var(--success); font-weight: 600; }
+        .review-image  { max-width: 100%; max-height: 220px; border-radius: .5rem; margin: .4rem 0; display: block; }
+        .review-trans  {
+            margin-top: .6rem;
+            padding-top: .6rem;
+            border-top: 1px dashed var(--border);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        .review-trans[dir="rtl"] { font-family: 'Jameel Noori Nastaleeq', serif; line-height: 2; font-size: 1.05rem; }
+        .review-trans[dir="rtl"][lang="ar"] { font-family: 'Indopak Nastaleeq', serif; }
+        .review-trans .rt-label { font-weight: 700; color: var(--muted); font-size: .8rem; display: block; }
+        .review-trans .rt-expl  { margin-top: .4rem; color: var(--muted); }
         .btn-restart {
             width: 100%;
             padding: .85rem;
@@ -1115,6 +1129,7 @@ function startQuiz(questions, withTimer) {
     }));
     quiz.current  = 0;
     quiz.answered = false;
+    quiz.exam     = !!withTimer;   // real-exam simulation: no feedback until the results screen
 
     if (withTimer) {
         quiz.seconds = 60 * 60; // 60 minutes
@@ -1203,6 +1218,20 @@ function answerQuestion(shufflePos) {
     const item = quiz.questions[quiz.current];
     const { indices, correctAtShuffled } = item.shuffledOptions;
     item.yourAnswer = shufflePos;
+
+    // Exam simulation (timed full test): like the real test, give no feedback or
+    // explanation while answering - results and translations come on the final screen.
+    if (quiz.exam) {
+        document.querySelectorAll('.opt-btn').forEach((btn, i) => {
+            btn.disabled = true;
+            if (i === shufflePos) btn.classList.add('selected');
+        });
+        const btnNextExam = document.getElementById('btnNext');
+        const isLastExam = quiz.current === quiz.questions.length - 1;
+        btnNextExam.textContent = isLastExam ? u.finish : u.next;
+        btnNextExam.classList.add('show');
+        return;
+    }
 
     // Disable all buttons and highlight
     const btns = document.querySelectorAll('.opt-btn');
@@ -1359,10 +1388,24 @@ function finishQuiz() {
             const div = document.createElement('div');
             div.className = 'review-item';
             div.style.direction = 'ltr'; // review content is German
+            // Translations + explanation in the selected language (German UI: explanation only)
+            const qTrans   = LANG !== 'de' ? (q[LANG] || '') : '';
+            const cTrans   = LANG !== 'de' ? (correctOpt[LANG] || '') : '';
+            const explText = q['exp_' + LANG] || q.exp_en || '';
+            const rtl      = (LANG === 'ur' || LANG === 'ar') ? ' dir="rtl" lang="' + LANG + '"' : '';
+            const transHtml = (qTrans || cTrans || explText) ? `
+                <div class="review-trans"${rtl}>
+                    ${qTrans ? `<div>${escHtml(qTrans)}</div>` : ''}
+                    ${cTrans ? `<div class="review-correct">✓ ${escHtml(cTrans)}</div>` : ''}
+                    ${explText ? `<div class="rt-expl">${escHtml(explText)}</div>` : ''}
+                </div>` : '';
+            const imgHtml = q.image ? `<img class="review-image" src="${escHtml(q.image)}" alt="">` : '';
             div.innerHTML = `
                 <div class="review-q">${escHtml(qText || q.de)}</div>
+                ${imgHtml}
                 <div class="review-your">✗ ${escHtml(u.yourAnswer)} ${escHtml(yourOptText)}</div>
                 <div class="review-correct">✓ ${escHtml(u.correctAnswer)} ${escHtml(correctText)}</div>
+                ${transHtml}
             `;
             reviewEl.appendChild(div);
         });

@@ -31,6 +31,41 @@ const EXTRA_EXPL = {
 };
 const STATE_EXPL = loadJson('state-explanations.json');
 
+// Turkish / Russian question + option text (index-aligned with the English options)
+const EXTRA_Q = { tr: loadJson('tr-questions.json'), ru: loadJson('ru-questions.json') };
+const STATE_Q = loadJson('state-questions.json');   // STATE_Q[slug][301] = { tr: {q, opts}, ru: {q, opts} }
+
+// { tr, ru } question text for a general question, or {} if missing
+function extraQuestionText(id) {
+    const out = {};
+    for (const l of ['tr', 'ru']) {
+        const e = EXTRA_Q[l][String(id)];
+        if (e && e.q) out[l] = e.q;
+    }
+    return out;
+}
+// { tr, ru } option text for option index i of a general question
+function extraOptionText(id, i) {
+    const out = {};
+    for (const l of ['tr', 'ru']) {
+        const e = EXTRA_Q[l][String(id)];
+        if (e && e.opts && e.opts[i]) out[l] = e.opts[i];
+    }
+    return out;
+}
+function extraStateQuestionText(slug, num) {
+    const e = (STATE_Q[slug] || {})[String(num)] || {};
+    const out = {};
+    for (const l of ['tr', 'ru']) if (e[l] && e[l].q) out[l] = e[l].q;
+    return out;
+}
+function extraStateOptionText(slug, num, i) {
+    const e = (STATE_Q[slug] || {})[String(num)] || {};
+    const out = {};
+    for (const l of ['tr', 'ru']) if (e[l] && e[l].opts && e[l].opts[i]) out[l] = e[l].opts[i];
+    return out;
+}
+
 // { exp_de, exp_tr, exp_ru } for a general question id (only languages that have text)
 function extraGeneralExp(id) {
     const out = {};
@@ -253,12 +288,14 @@ function buildGeneral() {
                 en:             enQ.translated,
                 ur:             urQ ? urQ.translated : enQ.translated,
                 ar:             arQ ? arQ.translated : '',
+                ...extraQuestionText(enQ.id),
                 ...(enQ.image ? { image: enQ.image } : {}),
                 options:        enQ.options.map((opt, i) => ({
                     de: opt.de,
                     en: opt.translated,
                     ur: urQ ? (urQ.options[i]?.translated || opt.translated) : opt.translated,
                     ar: arQ ? (arQ.options[i]?.translated || '') : '',
+                    ...extraOptionText(enQ.id, i),
                 })),
                 correct:        enQ.correct,
                 exp_en:         enQ.explanation,
@@ -469,12 +506,14 @@ function buildStateQuestionsFromMd(slug, meta) {
                 en:      enQ.translated,
                 ur:      urQ ? urQ.translated : enQ.translated,
                 ar:      arQ ? arQ.translated : '',
+                ...extraStateQuestionText(slug, enQ.id),
                 ...(enQ.image ? { image: enQ.image } : {}),
                 options: enQ.options.map((opt, i) => ({
                     de: opt.de,
                     en: opt.translated,
                     ur: urQ ? (urQ.options[i]?.translated || opt.translated) : opt.translated,
                     ar: arQ ? (arQ.options[i]?.translated || '') : '',
+                    ...extraStateOptionText(slug, enQ.id, i),
                 })),
                 correct: enQ.correct,
                 exp_en:  enQ.explanation,

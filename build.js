@@ -88,6 +88,10 @@ const STATE_SUBHEADING_LABELS = {
          'Siyasi Eğitim', 'Eyalet Başkenti', 'Harita Konumu', 'Hükümet Başkanı', 'Bakanlıklar'],
     ru: ['Герб', 'Округ', 'Срок полномочий ландтага', 'Возраст голосования', 'Флаг земли',
          'Гражданское образование', 'Столица земли', 'Расположение на карте', 'Глава правительства', 'Министерства'],
+    ur: ['ریاستی نشان', 'ضلع', 'ریاستی اسمبلی کی مدت', 'ووٹ دینے کی عمر', 'ریاستی پرچم',
+         'شہری تعلیم', 'دارالحکومت', 'نقشے پر محل وقوع', 'سربراہِ حکومت', 'وزارتیں'],
+    ar: ['شعار الولاية', 'المقاطعة', 'مدة المجلس التشريعي للولاية', 'سن الاقتراع', 'علم الولاية',
+         'التربية المدنية', 'عاصمة الولاية', 'الموقع على الخريطة', 'رئيس الحكومة', 'الوزارات'],
 };
 const SOURCES = {
     en: path.join(ROOT, 'sources', 'english'),
@@ -2049,8 +2053,9 @@ function renderIndex({ lang, slugs }) {
     // State cards
     const stateCards = stateSlugs.map(slug => {
         const t = titles[slug] || slug;
-        return `<a class="idx-card idx-card--state" href="./${slug}.html">
+        return `<a class="idx-card idx-card--state" href="./${slug}.html" data-state="${slug}">
             <span class="idx-card-label">${escapeHtml(t)}</span>
+            <span class="idx-card-count" data-count-for="${slug}" aria-hidden="true"></span>
         </a>`;
     }).join('');
 
@@ -2297,6 +2302,8 @@ function renderIndex({ lang, slugs }) {
         }
         .idx-card-icon { font-size: 1.4rem; }
         .idx-card--state { flex-direction: row; justify-content: start; gap: .5rem; font-size: .85rem; padding: .7rem .85rem; }
+        .idx-card-count { margin-inline-start: auto; font-size: .72rem; color: var(--muted); white-space: nowrap; }
+        .idx-card-count.done { color: var(--success, #16a34a); font-weight: 700; }
         .idx-quiz-cta {
             display: block;
             margin: 1.75rem 0 .5rem;
@@ -2331,6 +2338,11 @@ function renderIndex({ lang, slugs }) {
                 <span class="pt-pct" id="ptPct">0%</span>
             </div>
             <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptFill" style="width:0%"></div></div>
+            <div class="pt-header" style="margin-top:.85rem">
+                <span>${isUr ? '🗺️ ریاستی سوالات:' : isAr ? '🗺️ أسئلة الولايات:' : isDe ? '🗺️ Länderfragen:' : isTr ? '🗺️ Eyalet soruları:' : isRu ? '🗺️ Вопросы по землям:' : '🗺️ State questions:'} <strong id="ptStateCount">0</strong> / 160 ${isUr ? 'سیکھ لیے' : isAr ? 'تعلّمتها' : isDe ? 'gelernt' : isTr ? 'öğrenildi' : isRu ? 'изучено' : 'learned'}</span>
+                <span class="pt-pct" id="ptStatePct">0%</span>
+            </div>
+            <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptStateFill" style="width:0%"></div></div>
             <button class="pt-reset" onclick="if(confirm('${isUr ? 'تمام پیش رفت مٹا دی جائے؟' : isAr ? 'هل تريد إعادة تعيين كل التقدم؟' : isDe ? 'Gesamten Fortschritt zurücksetzen?' : isTr ? 'Tüm ilerleme sıfırlansın mı?' : isRu ? 'Сбросить весь прогресс?' : 'Reset all progress?'}')){localStorage.removeItem('gct_learned');location.reload();}">${isUr ? 'پیش رفت ری سیٹ کریں' : isAr ? 'إعادة تعيين التقدم' : isDe ? 'Fortschritt zurücksetzen' : isTr ? 'İlerlemeyi sıfırla' : isRu ? 'Сбросить прогресс' : 'Reset progress'}</button>
         </div>
         <script>
@@ -2802,7 +2814,7 @@ function buildLang(lang) {
         // by each question's position (301=index 0 .. 310=index 9) rather
         // than by the English text itself, so this doesn't depend on exactly
         // matching old wording.
-        if (['de', 'tr', 'ru'].includes(lang) && STATE_SUBHEADING_LABELS[lang] && slug !== 'index') {
+        if (['de', 'tr', 'ru', 'ur', 'ar'].includes(lang) && STATE_SUBHEADING_LABELS[lang] && slug !== 'index') {
             const labels = STATE_SUBHEADING_LABELS[lang];
             bodyHtml = bodyHtml.replace(
                 /(<h3 id="q-(\d+)">[^—<]*—\s*)([^<]*)(<\/h3>)/g,
@@ -2814,6 +2826,29 @@ function buildLang(lang) {
                     return `${prefix}${label}${suffix}`;
                 }
             );
+        }
+
+        // Chrome text the markdown sources only provide in English:
+        //  - "Back to Main README" is GitHub wording; on the site it is the home page
+        //  - Urdu/Arabic question headings ("Question 42" → "سوال 42" / "السؤال 42")
+        //  - state page H1: localized state name + localized "State Questions" label
+        {
+            const BACK_HOME = { en: 'Back to home', ur: 'ہوم پیج پر واپس', ar: 'العودة إلى الصفحة الرئيسية' };
+            if (BACK_HOME[lang]) bodyHtml = bodyHtml.replace(/Back to Main README/g, BACK_HOME[lang]);
+
+            const Q_WORD = { ur: 'سوال', ar: 'السؤال' };
+            if (Q_WORD[lang]) {
+                bodyHtml = bodyHtml.replace(/(<h3 id="q-\d+">)Question (\d+)/g, `$1${Q_WORD[lang]} $2`);
+            }
+
+            const STATE_H1 = { de: 'Fragen zum Bundesland', ur: 'ریاستی سوالات', ar: 'أسئلة الولاية' };
+            const stateName = (TITLES[lang] || {})[slug];
+            if (slug !== 'index' && stateName) {
+                bodyHtml = bodyHtml.replace(
+                    /<h1>([^<]*?) — (State Questions|Eyalet Soruları|Вопросы по земле) \(301–310\)<\/h1>/,
+                    (m, oldName, oldLabel) => `<h1>${escapeHtml(stateName)} — ${STATE_H1[lang] || oldLabel} (301–310)</h1>`
+                );
+            }
         }
 
         // State-question text + options (TR/RU only — DE pages show German
@@ -2967,7 +3002,21 @@ function buildSitemap() {
     // modification date instead of blanket "today" — otherwise these two
     // entries would force sitemap.xml to look different on every single
     // build, even when nothing anywhere actually changed.
+    // Prefer the file's last commit date (stable across machines and CI checkouts);
+    // fall back to mtime when git history isn't usable (shallow clone, uncommitted edits).
+    const gitLastMod = (relPath) => {
+        try {
+            const cp = require('child_process');
+            const git = (args) => cp.execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+            if (git(['rev-parse', '--is-shallow-repository']) === 'true') return null;
+            if (git(['status', '--porcelain', '--', relPath])) return null;
+            const d = git(['log', '-1', '--format=%cs', '--', relPath]);
+            return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d : null;
+        } catch (e) { return null; }
+    };
     const fileLastMod = (relPath) => {
+        const fromGit = gitLastMod(relPath);
+        if (fromGit) return fromGit;
         try {
             return fs.statSync(path.join(ROOT, relPath)).mtime.toISOString().slice(0, 10);
         } catch (e) {

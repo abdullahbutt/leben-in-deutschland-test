@@ -1006,6 +1006,8 @@
         }
         .idx-card-icon { font-size: 1.4rem; }
         .idx-card--state { flex-direction: row; justify-content: start; gap: .5rem; font-size: .85rem; padding: .7rem .85rem; }
+        .idx-card-count { margin-inline-start: auto; font-size: .72rem; color: var(--muted); white-space: nowrap; }
+        .idx-card-count.done { color: var(--success, #16a34a); font-weight: 700; }
         .idx-quiz-cta {
             display: block;
             margin: 1.75rem 0 .5rem;
@@ -1040,6 +1042,11 @@
                 <span class="pt-pct" id="ptPct">0%</span>
             </div>
             <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptFill" style="width:0%"></div></div>
+            <div class="pt-header" style="margin-top:.85rem">
+                <span>🗺️ Länderfragen: <strong id="ptStateCount">0</strong> / 160 gelernt</span>
+                <span class="pt-pct" id="ptStatePct">0%</span>
+            </div>
+            <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptStateFill" style="width:0%"></div></div>
             <button class="pt-reset" onclick="if(confirm('Gesamten Fortschritt zurücksetzen?')){localStorage.removeItem('gct_learned');location.reload();}">Fortschritt zurücksetzen</button>
         </div>
         <script>
@@ -1077,38 +1084,54 @@
         </a></div>
 
         <p class="idx-section-title">🗺️ Länderfragen</p>
-        <div class="idx-grid idx-grid--states"><a class="idx-card idx-card--state" href="./baden-wuerttemberg.html">
+        <div class="idx-grid idx-grid--states"><a class="idx-card idx-card--state" href="./baden-wuerttemberg.html" data-state="baden-wuerttemberg">
             <span class="idx-card-label">Baden-Württemberg</span>
-        </a><a class="idx-card idx-card--state" href="./bayern.html">
+            <span class="idx-card-count" data-count-for="baden-wuerttemberg" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./bayern.html" data-state="bayern">
             <span class="idx-card-label">Bayern</span>
-        </a><a class="idx-card idx-card--state" href="./berlin.html">
+            <span class="idx-card-count" data-count-for="bayern" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./berlin.html" data-state="berlin">
             <span class="idx-card-label">Berlin</span>
-        </a><a class="idx-card idx-card--state" href="./brandenburg.html">
+            <span class="idx-card-count" data-count-for="berlin" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./brandenburg.html" data-state="brandenburg">
             <span class="idx-card-label">Brandenburg</span>
-        </a><a class="idx-card idx-card--state" href="./bremen.html">
+            <span class="idx-card-count" data-count-for="brandenburg" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./bremen.html" data-state="bremen">
             <span class="idx-card-label">Bremen</span>
-        </a><a class="idx-card idx-card--state" href="./hamburg.html">
+            <span class="idx-card-count" data-count-for="bremen" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./hamburg.html" data-state="hamburg">
             <span class="idx-card-label">Hamburg</span>
-        </a><a class="idx-card idx-card--state" href="./hessen.html">
+            <span class="idx-card-count" data-count-for="hamburg" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./hessen.html" data-state="hessen">
             <span class="idx-card-label">Hessen</span>
-        </a><a class="idx-card idx-card--state" href="./mecklenburg-vorpommern.html">
+            <span class="idx-card-count" data-count-for="hessen" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./mecklenburg-vorpommern.html" data-state="mecklenburg-vorpommern">
             <span class="idx-card-label">Mecklenburg-Vorpommern</span>
-        </a><a class="idx-card idx-card--state" href="./niedersachsen.html">
+            <span class="idx-card-count" data-count-for="mecklenburg-vorpommern" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./niedersachsen.html" data-state="niedersachsen">
             <span class="idx-card-label">Niedersachsen</span>
-        </a><a class="idx-card idx-card--state" href="./nordrhein-westfalen.html">
+            <span class="idx-card-count" data-count-for="niedersachsen" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./nordrhein-westfalen.html" data-state="nordrhein-westfalen">
             <span class="idx-card-label">Nordrhein-Westfalen</span>
-        </a><a class="idx-card idx-card--state" href="./rheinland-pfalz.html">
+            <span class="idx-card-count" data-count-for="nordrhein-westfalen" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./rheinland-pfalz.html" data-state="rheinland-pfalz">
             <span class="idx-card-label">Rheinland-Pfalz</span>
-        </a><a class="idx-card idx-card--state" href="./saarland.html">
+            <span class="idx-card-count" data-count-for="rheinland-pfalz" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./saarland.html" data-state="saarland">
             <span class="idx-card-label">Saarland</span>
-        </a><a class="idx-card idx-card--state" href="./sachsen.html">
+            <span class="idx-card-count" data-count-for="saarland" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./sachsen.html" data-state="sachsen">
             <span class="idx-card-label">Sachsen</span>
-        </a><a class="idx-card idx-card--state" href="./sachsen-anhalt.html">
+            <span class="idx-card-count" data-count-for="sachsen" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./sachsen-anhalt.html" data-state="sachsen-anhalt">
             <span class="idx-card-label">Sachsen-Anhalt</span>
-        </a><a class="idx-card idx-card--state" href="./schleswig-holstein.html">
+            <span class="idx-card-count" data-count-for="sachsen-anhalt" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./schleswig-holstein.html" data-state="schleswig-holstein">
             <span class="idx-card-label">Schleswig-Holstein</span>
-        </a><a class="idx-card idx-card--state" href="./thueringen.html">
+            <span class="idx-card-count" data-count-for="schleswig-holstein" aria-hidden="true"></span>
+        </a><a class="idx-card idx-card--state" href="./thueringen.html" data-state="thueringen">
             <span class="idx-card-label">Thüringen</span>
+            <span class="idx-card-count" data-count-for="thueringen" aria-hidden="true"></span>
         </a></div>
     
         </article>
@@ -1147,7 +1170,7 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Nach oben" title="Nach oben">↑</button>
 
-    <script defer src="../assets/page.js?v=b6a9aaf248"></script>
+    <script defer src="../assets/page.js?v=06e64818b0"></script>
 
     <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, GDPR-compliant) -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d435b2572b82459cb083e37f7c734b75"}'></script>

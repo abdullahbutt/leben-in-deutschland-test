@@ -73,6 +73,28 @@
         });
     })();
 
+    // Index page: per-state and total state-question progress (stored ids are "<slug>-<n>")
+    (function () {
+        const fill = document.getElementById('ptStateFill');
+        if (!fill) return;
+        let learned = [];
+        try { learned = JSON.parse(localStorage.getItem('gct_learned') || '[]'); } catch (e) {}
+        const ids = new Set(Array.isArray(learned) ? learned.filter(v => typeof v === 'string') : []);
+        let total = 0;
+        document.querySelectorAll('[data-count-for]').forEach(el => {
+            const slug = el.getAttribute('data-count-for');
+            let n = 0;
+            for (let i = 301; i <= 310; i++) if (ids.has(slug + '-' + i)) n++;
+            total += n;
+            el.textContent = n ? n + '/10' : '';
+            el.classList.toggle('done', n === 10);
+        });
+        const pct = Math.min(100, Math.round(total / 160 * 100));
+        document.getElementById('ptStateCount').textContent = total;
+        document.getElementById('ptStatePct').textContent = pct + '%';
+        fill.style.width = pct + '%';
+    })();
+
     // Theme already applied by inline script in <head> — this handles the toggle click
     const root = document.documentElement;
     const themeToggle = document.getElementById('themeToggle');

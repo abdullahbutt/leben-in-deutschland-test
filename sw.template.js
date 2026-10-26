@@ -22,6 +22,7 @@ const PRECACHE_URLS = [
   './index.html',
   './quiz.html',
   './quiz-data.json',
+  './assets/page.js?v=__SHARED_JS_HASH__',
   './privacy.html',
   './sitemap.xml',
   './robots.txt',

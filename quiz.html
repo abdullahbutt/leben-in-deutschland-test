@@ -668,6 +668,9 @@ const UI = {
         historyPass: 'PASS',
         historyFail: 'FAIL',
         historyPractice: 'Practice',
+        historyFull: 'Full Test',
+        historyState: 'State',
+        practiceSummary: 'You answered {n} correctly.',
     },
     ur: {
         quizTitle: '🎯 مشق کوئز',
@@ -707,6 +710,9 @@ const UI = {
         historyPass: 'کامیاب',
         historyFail: 'ناکام',
         historyPractice: 'مشق',
+        historyFull: 'اصل امتحان',
+        historyState: 'ریاستی',
+        practiceSummary: 'آپ نے {n} سوالات درست حل کیے۔',
     },
     de: {
         quizTitle: '🎯 Übungsquiz',
@@ -746,6 +752,9 @@ const UI = {
         historyPass: 'BESTANDEN',
         historyFail: 'NICHT BEST.',
         historyPractice: 'Übung',
+        historyFull: 'Volltest',
+        historyState: 'Bundesland',
+        practiceSummary: 'Sie haben {n} Fragen richtig beantwortet.',
     },
     ar: {
         quizTitle: '🎯 اختبار تدريبي',
@@ -785,6 +794,9 @@ const UI = {
         historyPass: 'نجاح',
         historyFail: 'رسوب',
         historyPractice: 'تدريب',
+        historyFull: 'الاختبار الكامل',
+        historyState: 'الولاية',
+        practiceSummary: 'أجبت عن {n} أسئلة بشكل صحيح.',
     },
     tr: {
         quizTitle: '🎯 Pratik Sınavı',
@@ -824,6 +836,9 @@ const UI = {
         historyPass: 'GEÇTİ',
         historyFail: 'GEÇEMEDİ',
         historyPractice: 'Pratik',
+        historyFull: 'Tam Sınav',
+        historyState: 'Eyalet',
+        practiceSummary: '{n} soruyu doğru cevapladınız.',
     },
     ru: {
         quizTitle: '🎯 Тренировочный тест',
@@ -863,6 +878,9 @@ const UI = {
         historyPass: 'СДАНО',
         historyFail: 'НЕ СДАНО',
         historyPractice: 'Тренировка',
+        historyFull: 'Полный тест',
+        historyState: 'Земля',
+        practiceSummary: 'Правильных ответов: {n}.',
     },
 };
 
@@ -1196,8 +1214,8 @@ function answerQuestion(shufflePos) {
 
     // Explanation
     const q = item.q;
-    // quiz-data.json carries exp_en / exp_ur / exp_ar only; de/tr/ru fall back to English
-    const explText = LANG === 'ur' ? q.exp_ur : LANG === 'ar' ? (q.exp_ar || q.exp_en) : q.exp_en;
+    // quiz-data.json carries exp_<lang> for every UI language; fall back to English if one is missing
+    const explText = q['exp_' + LANG] || q.exp_en;
     const explEl = document.getElementById('explBox');
     explEl.textContent = explText || '';
     explEl.className = LANG === 'ur' ? 'explanation-box ur-text show' : 'explanation-box show';
@@ -1264,9 +1282,9 @@ function renderHistory() {
     }
     const items = history.map(h => {
         const modeLabel = h.mode === 'full'
-            ? (LANG === 'ur' ? 'اصل امتحان' : LANG === 'de' ? 'Volltest' : 'Full Test')
+            ? u.historyFull
             : h.mode === 'state'
-            ? (LANG === 'ur' ? 'ریاستی' : LANG === 'de' ? 'Bundesland' : 'State')
+            ? u.historyState
             : u.historyPractice;
         const verdict = h.mode === 'full'
             ? `<span class="${h.passed ? 'h-pass' : 'h-fail'}">${h.passed ? u.historyPass : u.historyFail}</span>`
@@ -1313,7 +1331,7 @@ function finishQuiz() {
         : passed ? u.bestanden : u.nichtBestanden;
     document.getElementById('scoreNum').textContent = `${correct} / ${total}`;
     document.getElementById('scoreSub').textContent = isPracticeMode
-        ? (LANG === 'ur' ? `آپ نے ${correct} سوالات درست حل کیے۔` : LANG === 'de' ? `Sie haben ${correct} Fragen richtig beantwortet.` : `You answered ${correct} correctly.`)
+        ? u.practiceSummary.replace('{n}', correct)
         : u.passMark;
 
     // Wrong answers review

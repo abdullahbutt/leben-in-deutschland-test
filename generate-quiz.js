@@ -18,6 +18,36 @@ const SRC_EN     = path.join(ROOT, 'sources', 'english');
 const SRC_UR     = path.join(ROOT, 'sources', 'urdu');
 const SRC_AR     = path.join(ROOT, 'sources', 'arabic');
 
+// ─── Extra-language explanations (de / tr / ru) ──────────────────────────────
+// These live in JSON dictionaries next to build.js rather than in markdown branches.
+function loadJson(name) {
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, name), 'utf8')); }
+    catch (e) { return {}; }
+}
+const EXTRA_EXPL = {
+    de: loadJson('de-explanations.json'),
+    tr: loadJson('tr-explanations.json'),
+    ru: loadJson('ru-explanations.json'),
+};
+const STATE_EXPL = loadJson('state-explanations.json');
+
+// { exp_de, exp_tr, exp_ru } for a general question id (only languages that have text)
+function extraGeneralExp(id) {
+    const out = {};
+    for (const l of ['de', 'tr', 'ru']) {
+        const t = EXTRA_EXPL[l][String(id)];
+        if (t) out['exp_' + l] = t;
+    }
+    return out;
+}
+// Same for a state question: STATE_EXPL[slug][301] = { de, tr, ru }
+function extraStateExp(slug, num) {
+    const e = (STATE_EXPL[slug] || {})[String(num)] || {};
+    const out = {};
+    for (const l of ['de', 'tr', 'ru']) if (e[l]) out['exp_' + l] = e[l];
+    return out;
+}
+
 // ─── Markdown parser ─────────────────────────────────────────────────────────
 
 /**
@@ -234,6 +264,7 @@ function buildGeneral() {
                 exp_en:         enQ.explanation,
                 exp_ur:         urQ ? urQ.explanation : enQ.explanation,
                 exp_ar:         arQ ? arQ.explanation : '',
+                ...extraGeneralExp(enQ.id),
             };
         })
         .sort((a, b) => a.id - b.id);
@@ -449,6 +480,7 @@ function buildStateQuestionsFromMd(slug, meta) {
                 exp_en:  enQ.explanation,
                 exp_ur:  urQ ? urQ.explanation : enQ.explanation,
                 exp_ar:  arQ ? arQ.explanation : '',
+                ...extraStateExp(slug, enQ.id),
             };
         })
         .sort((a, b) => a.id.localeCompare(b.id, undefined, { numeric: true }));

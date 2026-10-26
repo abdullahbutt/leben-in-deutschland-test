@@ -15020,6 +15020,8 @@
       "name_en": "Baden-Württemberg",
       "name_ur": "باڈن ورٹمبرگ",
       "name_ar": "بادن-فورتمبرغ",
+      "name_tr": "Baden-Württemberg",
+      "name_ru": "Баден-Вюртемберг",
       "questions": [
         {
           "id": "baden-wuerttemberg-301",
@@ -15531,6 +15533,8 @@
       "name_en": "Bavaria (Bayern)",
       "name_ur": "باویریا",
       "name_ar": "بافاريا",
+      "name_tr": "Bavyera (Bayern)",
+      "name_ru": "Бавария",
       "questions": [
         {
           "id": "bayern-301",
@@ -16042,6 +16046,8 @@
       "name_en": "Berlin",
       "name_ur": "برلن",
       "name_ar": "برلين",
+      "name_tr": "Berlin",
+      "name_ru": "Берлин",
       "questions": [
         {
           "id": "berlin-301",
@@ -16553,6 +16559,8 @@
       "name_en": "Brandenburg",
       "name_ur": "برانڈنبرگ",
       "name_ar": "براندنبورغ",
+      "name_tr": "Brandenburg",
+      "name_ru": "Бранденбург",
       "questions": [
         {
           "id": "brandenburg-301",
@@ -17064,6 +17072,8 @@
       "name_en": "Bremen",
       "name_ur": "بریمن",
       "name_ar": "بريمن",
+      "name_tr": "Bremen",
+      "name_ru": "Бремен",
       "questions": [
         {
           "id": "bremen-301",
@@ -17575,6 +17585,8 @@
       "name_en": "Hamburg",
       "name_ur": "ہیمبرگ",
       "name_ar": "هامبورغ",
+      "name_tr": "Hamburg",
+      "name_ru": "Гамбург",
       "questions": [
         {
           "id": "hamburg-301",
@@ -18086,6 +18098,8 @@
       "name_en": "Hesse (Hessen)",
       "name_ur": "ہیسن",
       "name_ar": "هيسن",
+      "name_tr": "Hessen",
+      "name_ru": "Гессен",
       "questions": [
         {
           "id": "hessen-301",
@@ -18597,6 +18611,8 @@
       "name_en": "Mecklenburg-Vorpommern",
       "name_ur": "میکلنبرگ-فورپومرن",
       "name_ar": "مكلنبورغ-فوربومرن",
+      "name_tr": "Mecklenburg-Vorpommern",
+      "name_ru": "Мекленбург-Передняя Померания",
       "questions": [
         {
           "id": "mecklenburg-vorpommern-301",
@@ -19108,6 +19124,8 @@
       "name_en": "Lower Saxony",
       "name_ur": "نیڈرزاخسن",
       "name_ar": "سكسونيا السفلى",
+      "name_tr": "Aşağı Saksonya (Niedersachsen)",
+      "name_ru": "Нижняя Саксония",
       "questions": [
         {
           "id": "niedersachsen-301",
@@ -19619,6 +19637,8 @@
       "name_en": "North Rhine-Westphalia",
       "name_ur": "نارڈرائن ویسٹ فالن",
       "name_ar": "شمال الراين-وستفاليا",
+      "name_tr": "Kuzey Ren-Vestfalya",
+      "name_ru": "Северный Рейн-Вестфалия",
       "questions": [
         {
           "id": "nordrhein-westfalen-301",
@@ -20130,6 +20150,8 @@
       "name_en": "Rhineland-Palatinate",
       "name_ur": "رائن لینڈ-فالز",
       "name_ar": "راينلاند-بفالتس",
+      "name_tr": "Rheinland-Pfalz",
+      "name_ru": "Рейнланд-Пфальц",
       "questions": [
         {
           "id": "rheinland-pfalz-301",
@@ -20641,6 +20663,8 @@
       "name_en": "Saarland",
       "name_ur": "زارلینڈ",
       "name_ar": "زارلاند",
+      "name_tr": "Saarland",
+      "name_ru": "Саар",
       "questions": [
         {
           "id": "saarland-301",
@@ -21152,6 +21176,8 @@
       "name_en": "Saxony (Sachsen)",
       "name_ur": "زاخسن",
       "name_ar": "ساكسونيا",
+      "name_tr": "Saksonya (Sachsen)",
+      "name_ru": "Саксония",
       "questions": [
         {
           "id": "sachsen-301",
@@ -21663,6 +21689,8 @@
       "name_en": "Saxony-Anhalt",
       "name_ur": "زاخسن-انہالٹ",
       "name_ar": "ساكسونيا-أنهالت",
+      "name_tr": "Saksonya-Anhalt",
+      "name_ru": "Саксония-Анхальт",
       "questions": [
         {
           "id": "sachsen-anhalt-301",
@@ -22174,6 +22202,8 @@
       "name_en": "Schleswig-Holstein",
       "name_ur": "شلیسوگ-ہولسٹائن",
       "name_ar": "شليسفيغ-هولشتاين",
+      "name_tr": "Schleswig-Holstein",
+      "name_ru": "Шлезвиг-Гольштейн",
       "questions": [
         {
           "id": "schleswig-holstein-301",
@@ -22685,6 +22715,8 @@
       "name_en": "Thuringia (Thüringen)",
       "name_ur": "تھیورنگن",
       "name_ar": "تورينغن",
+      "name_tr": "Türingya (Thüringen)",
+      "name_ru": "Тюрингия",
       "questions": [
         {
           "id": "thueringen-301",

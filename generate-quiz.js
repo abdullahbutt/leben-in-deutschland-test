@@ -442,22 +442,22 @@ function buildStateQuestion(slug, meta) {
 
 function buildStates() {
     const stateMeta = {
-        'baden-wuerttemberg': { name_de: 'Baden-Württemberg',    name_en: 'Baden-Württemberg',    name_ur: 'باڈن ورٹمبرگ',           name_ar: 'بادن-فورتمبرغ'          },
-        'bayern':             { name_de: 'Bayern',               name_en: 'Bavaria (Bayern)',     name_ur: 'باویریا',                  name_ar: 'بافاريا'                 },
-        'berlin':             { name_de: 'Berlin',               name_en: 'Berlin',               name_ur: 'برلن',                     name_ar: 'برلين'                   },
-        'brandenburg':        { name_de: 'Brandenburg',          name_en: 'Brandenburg',          name_ur: 'برانڈنبرگ',               name_ar: 'براندنبورغ'              },
-        'bremen':             { name_de: 'Bremen',               name_en: 'Bremen',               name_ur: 'بریمن',                    name_ar: 'بريمن'                   },
-        'hamburg':            { name_de: 'Hamburg',              name_en: 'Hamburg',              name_ur: 'ہیمبرگ',                   name_ar: 'هامبورغ'                 },
-        'hessen':             { name_de: 'Hessen',               name_en: 'Hesse (Hessen)',       name_ur: 'ہیسن',                     name_ar: 'هيسن'                    },
-        'mecklenburg-vorpommern': { name_de: 'Mecklenburg-Vorpommern', name_en: 'Mecklenburg-Vorpommern', name_ur: 'میکلنبرگ-فورپومرن', name_ar: 'مكلنبورغ-فوربومرن'    },
-        'niedersachsen':      { name_de: 'Niedersachsen',        name_en: 'Lower Saxony',         name_ur: 'نیڈرزاخسن',               name_ar: 'سكسونيا السفلى'          },
-        'nordrhein-westfalen':{ name_de: 'Nordrhein-Westfalen',  name_en: 'North Rhine-Westphalia',name_ur: 'نارڈرائن ویسٹ فالن',    name_ar: 'شمال الراين-وستفاليا'    },
-        'rheinland-pfalz':    { name_de: 'Rheinland-Pfalz',     name_en: 'Rhineland-Palatinate', name_ur: 'رائن لینڈ-فالز',          name_ar: 'راينلاند-بفالتس'         },
-        'saarland':           { name_de: 'Saarland',            name_en: 'Saarland',             name_ur: 'زارلینڈ',                 name_ar: 'زارلاند'                 },
-        'sachsen':            { name_de: 'Sachsen',              name_en: 'Saxony (Sachsen)',     name_ur: 'زاخسن',                   name_ar: 'ساكسونيا'                },
-        'sachsen-anhalt':     { name_de: 'Sachsen-Anhalt',      name_en: 'Saxony-Anhalt',        name_ur: 'زاخسن-انہالٹ',            name_ar: 'ساكسونيا-أنهالت'        },
-        'schleswig-holstein': { name_de: 'Schleswig-Holstein',   name_en: 'Schleswig-Holstein',   name_ur: 'شلیسوگ-ہولسٹائن',        name_ar: 'شليسفيغ-هولشتاين'       },
-        'thueringen':         { name_de: 'Thüringen',           name_en: 'Thuringia (Thüringen)', name_ur: 'تھیورنگن',               name_ar: 'تورينغن'                 },
+        'baden-wuerttemberg': { name_de: 'Baden-Württemberg',    name_en: 'Baden-Württemberg',    name_ur: 'باڈن ورٹمبرگ',           name_ar: 'بادن-فورتمبرغ', name_tr: 'Baden-Württemberg', name_ru: 'Баден-Вюртемберг'          },
+        'bayern':             { name_de: 'Bayern',               name_en: 'Bavaria (Bayern)',     name_ur: 'باویریا',                  name_ar: 'بافاريا', name_tr: 'Bavyera (Bayern)', name_ru: 'Бавария'                 },
+        'berlin':             { name_de: 'Berlin',               name_en: 'Berlin',               name_ur: 'برلن',                     name_ar: 'برلين', name_tr: 'Berlin', name_ru: 'Берлин'                   },
+        'brandenburg':        { name_de: 'Brandenburg',          name_en: 'Brandenburg',          name_ur: 'برانڈنبرگ',               name_ar: 'براندنبورغ', name_tr: 'Brandenburg', name_ru: 'Бранденбург'              },
+        'bremen':             { name_de: 'Bremen',               name_en: 'Bremen',               name_ur: 'بریمن',                    name_ar: 'بريمن', name_tr: 'Bremen', name_ru: 'Бремен'                   },
+        'hamburg':            { name_de: 'Hamburg',              name_en: 'Hamburg',              name_ur: 'ہیمبرگ',                   name_ar: 'هامبورغ', name_tr: 'Hamburg', name_ru: 'Гамбург'                 },
+        'hessen':             { name_de: 'Hessen',               name_en: 'Hesse (Hessen)',       name_ur: 'ہیسن',                     name_ar: 'هيسن', name_tr: 'Hessen', name_ru: 'Гессен'                    },
+        'mecklenburg-vorpommern': { name_de: 'Mecklenburg-Vorpommern', name_en: 'Mecklenburg-Vorpommern', name_ur: 'میکلنبرگ-فورپومرن', name_ar: 'مكلنبورغ-فوربومرن', name_tr: 'Mecklenburg-Vorpommern', name_ru: 'Мекленбург-Передняя Померания'    },
+        'niedersachsen':      { name_de: 'Niedersachsen',        name_en: 'Lower Saxony',         name_ur: 'نیڈرزاخسن',               name_ar: 'سكسونيا السفلى', name_tr: 'Aşağı Saksonya (Niedersachsen)', name_ru: 'Нижняя Саксония'          },
+        'nordrhein-westfalen':{ name_de: 'Nordrhein-Westfalen',  name_en: 'North Rhine-Westphalia',name_ur: 'نارڈرائن ویسٹ فالن',    name_ar: 'شمال الراين-وستفاليا', name_tr: 'Kuzey Ren-Vestfalya', name_ru: 'Северный Рейн-Вестфалия'    },
+        'rheinland-pfalz':    { name_de: 'Rheinland-Pfalz',     name_en: 'Rhineland-Palatinate', name_ur: 'رائن لینڈ-فالز',          name_ar: 'راينلاند-بفالتس', name_tr: 'Rheinland-Pfalz', name_ru: 'Рейнланд-Пфальц'         },
+        'saarland':           { name_de: 'Saarland',            name_en: 'Saarland',             name_ur: 'زارلینڈ',                 name_ar: 'زارلاند', name_tr: 'Saarland', name_ru: 'Саар'                 },
+        'sachsen':            { name_de: 'Sachsen',              name_en: 'Saxony (Sachsen)',     name_ur: 'زاخسن',                   name_ar: 'ساكسونيا', name_tr: 'Saksonya (Sachsen)', name_ru: 'Саксония'                },
+        'sachsen-anhalt':     { name_de: 'Sachsen-Anhalt',      name_en: 'Saxony-Anhalt',        name_ur: 'زاخسن-انہالٹ',            name_ar: 'ساكسونيا-أنهالت', name_tr: 'Saksonya-Anhalt', name_ru: 'Саксония-Анхальт'        },
+        'schleswig-holstein': { name_de: 'Schleswig-Holstein',   name_en: 'Schleswig-Holstein',   name_ur: 'شلیسوگ-ہولسٹائن',        name_ar: 'شليسفيغ-هولشتاين', name_tr: 'Schleswig-Holstein', name_ru: 'Шлезвиг-Гольштейн'       },
+        'thueringen':         { name_de: 'Thüringen',           name_en: 'Thuringia (Thüringen)', name_ur: 'تھیورنگن',               name_ar: 'تورينغن', name_tr: 'Türingya (Thüringen)', name_ru: 'Тюрингия'                 },
     };
 
     const states = {};
@@ -469,6 +469,8 @@ function buildStates() {
             name_en: meta.name_en,
             name_ur: meta.name_ur,
             name_ar: meta.name_ar,
+            name_tr: meta.name_tr,
+            name_ru: meta.name_ru,
             questions: realQuestions || buildStateQuestion(slug, meta),
         };
         const source = realQuestions ? 'from markdown source' : 'synthetic fallback';

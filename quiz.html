@@ -1055,15 +1055,15 @@ function buildStateGrid() {
     const nameKey = LANG === 'de' ? 'name_de'
                   : LANG === 'ur' ? 'name_ur'
                   : LANG === 'ar' ? 'name_ar'
-                  : LANG === 'tr' ? 'name_de'
-                  : LANG === 'ru' ? 'name_de'
+                  : LANG === 'tr' ? 'name_tr'
+                  : LANG === 'ru' ? 'name_ru'
                   : 'name_en';
     Object.values(DATA.states).forEach(state => {
         const btn = document.createElement('button');
         btn.className = 'state-btn';
         if (LANG === 'ur') { btn.style.fontFamily = "'Jameel Noori Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
         if (LANG === 'ar') { btn.style.fontFamily = "'Indopak Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
-        btn.textContent = state[nameKey];
+        btn.textContent = state[nameKey] || state.name_de;
         btn.addEventListener('click', () => launchStateQuiz(state.slug));
         grid.appendChild(btn);
     });

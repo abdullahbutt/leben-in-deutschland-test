@@ -1043,7 +1043,8 @@ function launchStateQuiz(slug) {
         // Real test: 30 random general + 3 state
         const shuffled = shuffle([...DATA.general]);
         const general30 = shuffled.slice(0, 30);
-        const stateQs   = state.questions; // all 3
+        // Each state has 10 questions; the real test draws 3 of them at random.
+        const stateQs   = shuffle([...state.questions]).slice(0, 3);
         startQuiz([...general30, ...stateQs], true);
     } else {
         // State practice: just 3 state questions, no timer
@@ -1195,10 +1196,12 @@ function answerQuestion(shufflePos) {
 
     // Explanation
     const q = item.q;
-    const explText = LANG === 'ur' ? q.exp_ur : q.exp_en;
+    // quiz-data.json carries exp_en / exp_ur / exp_ar only; de/tr/ru fall back to English
+    const explText = LANG === 'ur' ? q.exp_ur : LANG === 'ar' ? (q.exp_ar || q.exp_en) : q.exp_en;
     const explEl = document.getElementById('explBox');
     explEl.textContent = explText || '';
     explEl.className = LANG === 'ur' ? 'explanation-box ur-text show' : 'explanation-box show';
+    explEl.style.direction = (LANG === 'ar' && q.exp_ar) ? 'rtl' : '';
 
     // Next / Finish button
     const btnNext = document.getElementById('btnNext');
@@ -1331,14 +1334,13 @@ function finishQuiz() {
             if (item.yourAnswer >= 0) {
                 const yourOrigIdx = indices[item.yourAnswer];
                 const yourOpt     = q.options[yourOrigIdx];
-                yourOptText = LANG === 'ur' ? yourOpt.ur : yourOpt.de || yourOpt.en;
+                yourOptText = yourOpt.de || yourOpt.en; // same language as the correct answer below
             }
             const correctText = correctOpt.de || correctOpt.en;
             const qText       = q.de; // always German — the test is in German
             const div = document.createElement('div');
             div.className = 'review-item';
-            div.style.direction = LANG === 'ur' ? 'rtl' : 'ltr';
-            if (LANG === 'ur') div.style.fontFamily = "'Jameel Noori Nastaleeq', serif";
+            div.style.direction = 'ltr'; // review content is German
             div.innerHTML = `
                 <div class="review-q">${escHtml(qText || q.de)}</div>
                 <div class="review-your">✗ ${escHtml(u.yourAnswer)} ${escHtml(yourOptText)}</div>

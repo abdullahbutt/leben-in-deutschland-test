@@ -966,12 +966,12 @@ function buildFaqSchema(bodyHtml, lang) {
 // Chrome on Windows deliberately omits country flag emojis (🇩🇪 🇬🇧 🇵🇰).
 // We replace them with spans from the flag-icons library which works in all browsers.
 const A11Y = {
-    en: { theme: 'Toggle theme', jump: 'Quick jump', pager: 'Page navigation', de: 'Germany' },
-    ur: { theme: 'تھیم تبدیل کریں', jump: 'فوری رسائی', pager: 'صفحہ نیویگیشن', de: 'جرمنی' },
-    ar: { theme: 'تبديل المظهر', jump: 'انتقال سريع', pager: 'التنقل بين الصفحات', de: 'ألمانيا' },
-    de: { theme: 'Design wechseln', jump: 'Schnellsprung', pager: 'Seitennavigation', de: 'Deutschland' },
-    tr: { theme: 'Temayı değiştir', jump: 'Hızlı geçiş', pager: 'Sayfa gezinmesi', de: 'Almanya' },
-    ru: { theme: 'Сменить тему', jump: 'Быстрый переход', pager: 'Навигация по страницам', de: 'Германия' },
+    en: { theme: 'Toggle theme', jump: 'Quick jump', pager: 'Page navigation', de: 'Germany', gb: 'United Kingdom', pk: 'Pakistan' },
+    ur: { theme: 'تھیم تبدیل کریں', jump: 'فوری رسائی', pager: 'صفحہ نیویگیشن', de: 'جرمنی', gb: 'برطانیہ', pk: 'پاکستان' },
+    ar: { theme: 'تبديل المظهر', jump: 'انتقال سريع', pager: 'التنقل بين الصفحات', de: 'ألمانيا', gb: 'المملكة المتحدة', pk: 'باكستان' },
+    de: { theme: 'Design wechseln', jump: 'Schnellsprung', pager: 'Seitennavigation', de: 'Deutschland', gb: 'Vereinigtes Königreich', pk: 'Pakistan' },
+    tr: { theme: 'Temayı değiştir', jump: 'Hızlı geçiş', pager: 'Sayfa gezinmesi', de: 'Almanya', gb: 'Birleşik Krallık', pk: 'Pakistan' },
+    ru: { theme: 'Сменить тему', jump: 'Быстрый переход', pager: 'Навигация по страницам', de: 'Германия', gb: 'Великобритания', pk: 'Пакистан' },
 };
 const FLAG_SPANS = {
     '🇩🇪': '<span class="fi fi-de" role="img" aria-label="Germany" title="Germany"></span>',
@@ -980,11 +980,11 @@ const FLAG_SPANS = {
     '🇸🇦': '<span class="fi fi-sa" role="img" aria-label="Arabic" title="Arabic"></span>',
 };
 function applyFlagIcons(html, lang) {
-    const deName = (A11Y[lang] || A11Y.en).de;
+    const a = A11Y[lang] || A11Y.en;
     return html
-        .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'].replace(/"Germany"/g, `"${deName}"`))
-        .replace(/🇬🇧/g, FLAG_SPANS['🇬🇧'])
-        .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰']);
+        .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'].replace(/"Germany"/g, `"${a.de}"`))
+        .replace(/🇬🇧/g, FLAG_SPANS['🇬🇧'].replace(/"United Kingdom"/, `"${a.gb}"`).replace(/"UK"/, `"${a.gb}"`))
+        .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰'].replace(/"Pakistan"/g, `"${a.pk}"`));
 }
 
 // ---------- Bilingual table injection (TR / RU) ----------
@@ -996,7 +996,7 @@ function injectBilingualTable(bodyHtml, QUESTIONS_MAP, lang) {
 
     const langLabel  = lang === 'tr' ? 'Türkçe'  : 'Русский';
     const flagClass  = lang === 'tr' ? 'fi-tr'   : 'fi-ru';
-    const countryName= lang === 'tr' ? 'Türkiye' : 'Russia';
+    const countryName= lang === 'tr' ? 'Türkiye' : 'Россия';
 
     // Match each question block: h3, optional German question paragraph, then the answer table.
     // The lookahead (?![\s\S]*<h3) keeps us from crossing into the next question.
@@ -2889,7 +2889,7 @@ function buildLang(lang) {
         if (['tr', 'ru'].includes(lang) && STATE_QUESTIONS[slug] && slug !== 'index') {
             const langLabel = lang === 'tr' ? 'Türkçe' : 'Русский';
             const flagClass = lang === 'tr' ? 'fi-tr' : 'fi-ru';
-            const countryName = lang === 'tr' ? 'Türkiye' : 'Russia';
+            const countryName = lang === 'tr' ? 'Türkiye' : 'Россия';
             const overrides = STATE_QUESTIONS[slug];
 
             const BLOCK_RE = /(<h3 id="q-(\d+)">[^<]*<\/h3>)((?:(?!<h3 id=)[\s\S])*?)(<div class="table-wrap"><table>[\s\S]*?<\/table><\/div>)/g;

@@ -871,8 +871,13 @@ const STATE_INTROS = {
     },
 };
 
-// tr/ru descriptions are generated from the localized titles instead of 23 hand-written strings each.
+// ar/tr/ru descriptions are generated from the localized titles instead of 23 hand-written strings each.
 const META_DESC_TEMPLATES = {
+    ar: {
+        index: 'دليل مجاني للتحضير لاختبار الجنسية الألمانية (Einbürgerungstest / Leben in Deutschland). جميع الأسئلة الرسمية الـ300 مع الترجمة العربية والشرح، والإجابات الصحيحة معلَّمة، مع أسئلة الولايات الـ16.',
+        range: (a, b) => `أسئلة Einbürgerungstest من ${a} إلى ${b} مع الترجمة العربية والشرح والإجابات الصحيحة المعلَّمة. تحضير مجاني لاختبار Leben in Deutschland.`,
+        state: (t) => `أسئلة Einbürgerungstest الخاصة بولاية ${t} (301–310) مع الترجمة العربية والشرح. تحضير مجاني للاختبار.`,
+    },
     tr: {
         index: 'Almanya vatandaşlık sınavı (Einbürgerungstest / Leben in Deutschland) için ücretsiz çalışma rehberi. 300 resmi sorunun tamamı Türkçe çeviri ve açıklamalarla, doğru cevaplar işaretli; 16 eyalet sorusu dahil.',
         range: (a, b) => `Einbürgerungstest soruları ${a}–${b}: Türkçe çeviri, açıklamalar ve işaretli doğru cevaplar. Ücretsiz Leben in Deutschland sınav hazırlığı.`,
@@ -966,12 +971,12 @@ function buildFaqSchema(bodyHtml, lang) {
 // Chrome on Windows deliberately omits country flag emojis (🇩🇪 🇬🇧 🇵🇰).
 // We replace them with spans from the flag-icons library which works in all browsers.
 const A11Y = {
-    en: { theme: 'Toggle theme', jump: 'Quick jump', pager: 'Page navigation', de: 'Germany', gb: 'United Kingdom', pk: 'Pakistan' },
-    ur: { theme: 'تھیم تبدیل کریں', jump: 'فوری رسائی', pager: 'صفحہ نیویگیشن', de: 'جرمنی', gb: 'برطانیہ', pk: 'پاکستان' },
-    ar: { theme: 'تبديل المظهر', jump: 'انتقال سريع', pager: 'التنقل بين الصفحات', de: 'ألمانيا', gb: 'المملكة المتحدة', pk: 'باكستان' },
-    de: { theme: 'Design wechseln', jump: 'Schnellsprung', pager: 'Seitennavigation', de: 'Deutschland', gb: 'Vereinigtes Königreich', pk: 'Pakistan' },
-    tr: { theme: 'Temayı değiştir', jump: 'Hızlı geçiş', pager: 'Sayfa gezinmesi', de: 'Almanya', gb: 'Birleşik Krallık', pk: 'Pakistan' },
-    ru: { theme: 'Сменить тему', jump: 'Быстрый переход', pager: 'Навигация по страницам', de: 'Германия', gb: 'Великобритания', pk: 'Пакистан' },
+    en: { theme: 'Toggle theme', jump: 'Quick jump', pager: 'Page navigation', de: 'Germany', gb: 'United Kingdom', pk: 'Pakistan', quiz: 'Practice Quiz', question: 'Question' },
+    ur: { theme: 'تھیم تبدیل کریں', jump: 'فوری رسائی', pager: 'صفحہ نیویگیشن', de: 'جرمنی', gb: 'برطانیہ', pk: 'پاکستان', quiz: 'مشق کوئز', question: 'سوال' },
+    ar: { theme: 'تبديل المظهر', jump: 'انتقال سريع', pager: 'التنقل بين الصفحات', de: 'ألمانيا', gb: 'المملكة المتحدة', pk: 'باكستان', quiz: 'اختبار التدريب', question: 'السؤال' },
+    de: { theme: 'Design wechseln', jump: 'Schnellsprung', pager: 'Seitennavigation', de: 'Deutschland', gb: 'Vereinigtes Königreich', pk: 'Pakistan', quiz: 'Übungsquiz', question: 'Frage' },
+    tr: { theme: 'Temayı değiştir', jump: 'Hızlı geçiş', pager: 'Sayfa gezinmesi', de: 'Almanya', gb: 'Birleşik Krallık', pk: 'Pakistan', quiz: 'Pratik Sınavı', question: 'Soru' },
+    ru: { theme: 'Сменить тему', jump: 'Быстрый переход', pager: 'Навигация по страницам', de: 'Германия', gb: 'Великобритания', pk: 'Пакистан', quiz: 'Тренировочный тест', question: 'Вопрос' },
 };
 const FLAG_SPANS = {
     '🇩🇪': '<span class="fi fi-de" role="img" aria-label="Germany" title="Germany"></span>',
@@ -984,7 +989,8 @@ function applyFlagIcons(html, lang) {
     return html
         .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'].replace(/"Germany"/g, `"${a.de}"`))
         .replace(/🇬🇧/g, FLAG_SPANS['🇬🇧'].replace(/"United Kingdom"/, `"${a.gb}"`).replace(/"UK"/, `"${a.gb}"`))
-        .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰'].replace(/"Pakistan"/g, `"${a.pk}"`));
+        .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰'].replace(/"Pakistan"/g, `"${a.pk}"`))
+        .replace(/alt="Question (\d+)"/g, `alt="${a.question} $1"`);
 }
 
 // ---------- Bilingual table injection (TR / RU) ----------
@@ -1937,7 +1943,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <a class="brand" href="./index.html">${escapeHtml(ui.siteTitle)}</a>
             <div class="nav-actions">
-                <a class="btn-quiz" href="../quiz.html?lang=${lang}" title="Practice Quiz">🎯 Quiz</a>
+                <a class="btn-quiz" href="../quiz.html?lang=${lang}" title="${(A11Y[lang] || A11Y.en).quiz}">🎯 Quiz</a>
                 <div class="lang-dropdown" id="langDrop">
                     <button class="lang-dropdown-btn" onclick="document.getElementById('langDrop').classList.toggle('open')" aria-haspopup="true" aria-label="${escapeHtml(ui.pickerHint)}">
                         ${lang === 'en' ? '<span class="fi fi-gb"></span> EN'

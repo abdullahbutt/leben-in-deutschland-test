@@ -641,7 +641,7 @@ function renderNavPager({ lang, slug }) {
     // Index page: jump-only variant + random button
     if (slug === 'index') {
         return `
-        <nav class="nav-pager nav-pager--jump-only" aria-label="Quick jump">
+        <nav class="nav-pager nav-pager--jump-only" aria-label="${(A11Y[lang] || A11Y.en).jump}">
             ${jumpSelect}
             <button class="pager-btn" onclick="goRandom()" style="white-space:nowrap;">${escapeHtml(ui.randomBtn)}</button>
         </nav>`;
@@ -661,7 +661,7 @@ function renderNavPager({ lang, slug }) {
         : `<span class="pager-btn disabled">${escapeHtml(ui.navNext)}</span>`;
 
     return `
-        <nav class="nav-pager" aria-label="Page navigation">
+        <nav class="nav-pager" aria-label="${(A11Y[lang] || A11Y.en).pager}">
             ${prevBtn}
             ${jumpSelect}
             <button class="pager-btn" onclick="goRandom()" style="white-space:nowrap;">${escapeHtml(ui.randomBtn)}</button>
@@ -871,7 +871,28 @@ const STATE_INTROS = {
     },
 };
 
+// tr/ru descriptions are generated from the localized titles instead of 23 hand-written strings each.
+const META_DESC_TEMPLATES = {
+    tr: {
+        index: 'Almanya vatandaşlık sınavı (Einbürgerungstest / Leben in Deutschland) için ücretsiz çalışma rehberi. 300 resmi sorunun tamamı Türkçe çeviri ve açıklamalarla, doğru cevaplar işaretli; 16 eyalet sorusu dahil.',
+        range: (a, b) => `Einbürgerungstest soruları ${a}–${b}: Türkçe çeviri, açıklamalar ve işaretli doğru cevaplar. Ücretsiz Leben in Deutschland sınav hazırlığı.`,
+        state: (t) => `${t} eyaletine özel Einbürgerungstest soruları (301–310), Türkçe çeviri ve açıklamalarla. Ücretsiz sınav hazırlığı.`,
+    },
+    ru: {
+        index: 'Бесплатное пособие для подготовки к тесту на гражданство Германии (Einbürgerungstest / Leben in Deutschland). Все 300 официальных вопросов с переводом и пояснениями на русском, правильные ответы отмечены; вопросы по 16 землям включены.',
+        range: (a, b) => `Вопросы Einbürgerungstest ${a}–${b} с переводом, пояснениями на русском и отмеченными верными ответами. Бесплатная подготовка к тесту Leben in Deutschland.`,
+        state: (t) => `Вопросы Einbürgerungstest для земли «${t}» (301–310) с переводом и пояснениями на русском. Бесплатная подготовка к тесту.`,
+    },
+};
+
 function buildMetaDesc(lang, title, slug) {
+    const tpl = META_DESC_TEMPLATES[lang];
+    if (tpl) {
+        if (slug === 'index') return tpl.index;
+        const range = /^questions-(\d+)-(\d+)$/.exec(slug);
+        if (range) return tpl.range(+range[1], +range[2]);
+        if (META_DESCS.en[slug]) return tpl.state(title);
+    }
     const descs = META_DESCS[lang] || META_DESCS.en;
     if (descs[slug]) return descs[slug];
     // Fallback for state pages not in ur/de/ar map
@@ -944,15 +965,24 @@ function buildFaqSchema(bodyHtml, lang) {
 // ---------- Flag emoji → flag-icons CSS spans ----------
 // Chrome on Windows deliberately omits country flag emojis (🇩🇪 🇬🇧 🇵🇰).
 // We replace them with spans from the flag-icons library which works in all browsers.
+const A11Y = {
+    en: { theme: 'Toggle theme', jump: 'Quick jump', pager: 'Page navigation', de: 'Germany' },
+    ur: { theme: 'تھیم تبدیل کریں', jump: 'فوری رسائی', pager: 'صفحہ نیویگیشن', de: 'جرمنی' },
+    ar: { theme: 'تبديل المظهر', jump: 'انتقال سريع', pager: 'التنقل بين الصفحات', de: 'ألمانيا' },
+    de: { theme: 'Design wechseln', jump: 'Schnellsprung', pager: 'Seitennavigation', de: 'Deutschland' },
+    tr: { theme: 'Temayı değiştir', jump: 'Hızlı geçiş', pager: 'Sayfa gezinmesi', de: 'Almanya' },
+    ru: { theme: 'Сменить тему', jump: 'Быстрый переход', pager: 'Навигация по страницам', de: 'Германия' },
+};
 const FLAG_SPANS = {
     '🇩🇪': '<span class="fi fi-de" role="img" aria-label="Germany" title="Germany"></span>',
     '🇬🇧': '<span class="fi fi-gb" role="img" aria-label="United Kingdom" title="UK"></span>',
     '🇵🇰': '<span class="fi fi-pk" role="img" aria-label="Pakistan" title="Pakistan"></span>',
     '🇸🇦': '<span class="fi fi-sa" role="img" aria-label="Arabic" title="Arabic"></span>',
 };
-function applyFlagIcons(html) {
+function applyFlagIcons(html, lang) {
+    const deName = (A11Y[lang] || A11Y.en).de;
     return html
-        .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'])
+        .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'].replace(/"Germany"/g, `"${deName}"`))
         .replace(/🇬🇧/g, FLAG_SPANS['🇬🇧'])
         .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰']);
 }
@@ -1926,7 +1956,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
                         <a href="../ar/${slug}.html" ${lang === 'ar' ? 'class="active"' : ''} role="menuitem" style="font-family:'Indopak Nastaleeq',serif;font-size:1.05rem;"><span class="fi fi-sa"></span> عربي</a>
                     </div>
                 </div>
-                <button class="btn-theme" id="themeToggle" aria-label="Toggle theme">🌓</button>
+                <button class="btn-theme" id="themeToggle" aria-label="${(A11Y[lang] || A11Y.en).theme}">🌓</button>
             </div>
         </div>
     </nav>
@@ -1980,7 +2010,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
 </body>
 </html>`;
     // Replace flag emoji with flag-icons CSS spans (fixes Chrome on Windows)
-    return applyFlagIcons(html);
+    return applyFlagIcons(html, lang);
 }
 
 // ---------- Per-language index page ----------

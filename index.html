@@ -416,7 +416,7 @@
             <div class="social-proof">
                 <span>📖 300+ questions</span>
                 <span>🗺️ 16 Bundesländer</span>
-                <span>🌐 EN · DE · TR · RU · اردو · عربي</span>
+                <span>🌐 EN · DE · TR · RU · UK · اردو · فارسی · عربي</span>
                 <span>⭐ <a href="https://github.com/abdullahbutt/leben-in-deutschland-test" target="_blank" rel="noopener" style="color:var(--muted);text-decoration:none;" id="starCount">GitHub stars</a></span>
                 <span>📱 Works offline</span>
             </div>
@@ -443,7 +443,7 @@
                 .then(d => {
                     if (d && d.stargazers_count !== undefined) {
                         const el = document.getElementById('starCount');
-                        if (el) el.textContent = '⭐ ' + d.stargazers_count + ' stars';
+                        if (el) el.textContent = d.stargazers_count + ' stars';
                     }
                 })
                 .catch(() => {}); // Fail silently — static fallback text already in place

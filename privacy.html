@@ -21,6 +21,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
     @font-face {
+        font-family: 'Vazirmatn';
+        src: url('fonts/Vazirmatn-Variable.woff2') format('woff2');
+        font-weight: 100 900;
+        font-display: swap;
+    }
+    @font-face {
         font-family: 'Jameel Noori Nastaleeq';
         src: url('fonts/JameelNooriNastaleeq.woff2') format('woff2');
         font-weight: normal;
@@ -116,6 +122,12 @@
             text-align: right;
         }
         .doc[lang="ur"] h1, .doc[lang="ur"] h2 { font-weight: 700; }
+        .doc[lang="fa"] {
+            font-family: 'Vazirmatn', 'Inter', sans-serif;
+            line-height: 1.9;
+            direction: rtl;
+            text-align: right;
+        }
         .doc a { color: var(--primary); }
         .doc a:hover { color: var(--primary-hover); }
         .doc.hidden { display: none; }
@@ -168,6 +180,8 @@
             <button class="active" data-lang="en" role="tab" aria-selected="true">English</button>
             <button data-lang="ur" role="tab" aria-selected="false" lang="ur" dir="rtl" style="font-family:'Jameel Noori Nastaleeq',serif;">اردو</button>
             <button data-lang="de" role="tab" aria-selected="false">Deutsch</button>
+            <button data-lang="uk" role="tab" aria-selected="false" lang="uk">Українська</button>
+            <button data-lang="fa" role="tab" aria-selected="false" lang="fa" dir="rtl" style="font-family:'Vazirmatn',sans-serif;">فارسی</button>
         </div>
 
         <!-- ENGLISH -->
@@ -199,7 +213,7 @@
             <h2>Local browser storage</h2>
             <p>The site uses your browser's <strong>localStorage</strong> only to remember your preferences:</p>
             <ul>
-                <li>Your chosen language (English or Urdu)</li>
+                <li>Your chosen language</li>
                 <li>Your chosen theme (light or dark mode)</li>
                 <li>Whether you've dismissed the "Install as app" hint</li>
             </ul>
@@ -323,7 +337,7 @@
             <h2>Lokaler Browser-Speicher</h2>
             <p>Die Seite nutzt <strong>localStorage</strong> ausschließlich, um Ihre Einstellungen zu merken:</p>
             <ul>
-                <li>Gewählte Sprache (Englisch oder Urdu)</li>
+                <li>Gewählte Sprache</li>
                 <li>Gewähltes Farbschema (hell oder dunkel)</li>
                 <li>Ob der Hinweis „Als App installieren" geschlossen wurde</li>
             </ul>
@@ -355,6 +369,134 @@
 
             <p class="updated">Stand: 2026-04-26</p>
         </section>
+
+        <!-- UKRAINIAN -->
+        <section class="doc hidden" id="doc-uk" lang="uk">
+            <h1>Конфіденційність і вихідні дані (Impressum)</h1>
+            <p>Ця сторінка пояснює, хто керує цим вебсайтом, які дані обробляються і як зв’язатися з автором.</p>
+
+            <h2>Про сайт</h2>
+            <p>Це безкоштовний некомерційний освітній ресурс з відкритим кодом для тих, хто готується до німецького тесту на громадянство (<em>Einbürgerungstest</em> / <em>Leben in Deutschland</em>). Сайт розміщено на GitHub Pages.</p>
+            <p>Сайт нічого не продає, не показує реклами, не вимагає реєстрації і не зберігає жодних персональних даних користувачів.</p>
+
+            <h2>Оператор / Impressum</h2>
+            <p>Сайт веде як особистий хобі-проєкт приватна особа, яка живе в Німеччині.</p>
+            <p>З будь-яких питань, виправлень, вимог щодо видалення контенту чи юридичних повідомлень, будь ласка, створіть issue у репозиторії проєкту на GitHub:<br>
+            <a href="https://github.com/abdullahbutt/leben-in-deutschland-test/issues" target="_blank" rel="noopener">github.com/abdullahbutt/leben-in-deutschland-test/issues</a></p>
+            <p>Issues за замовчуванням видимі всім. Якщо вам потрібен приватний канал, зазначте це в issue, і вам запропонують листування електронною поштою.</p>
+
+            <h2>Які дані ми обробляємо</h2>
+            <p>Ми використовуємо <strong>Cloudflare Web Analytics</strong> — аналітичний сервіс, що поважає приватність:</p>
+            <ul>
+                <li>Він <strong>не</strong> використовує cookies чи інше сховище на стороні клієнта.</li>
+                <li>Він <strong>не</strong> відстежує користувачів між сайтами.</li>
+                <li>Він <strong>не</strong> створює відбитків браузера і не формує профілів користувачів.</li>
+                <li>Він збирає лише узагальнені анонімні показники: URL сторінки, країну, джерело переходу, браузер, тип пристрою та час завантаження.</li>
+                <li>IP-адреси обробляються лише тимчасово і не зберігаються.</li>
+            </ul>
+            <p>Оскільки персональні дані не збираються, згідно з GDPR ЄС (ст. 6) та німецьким TTDSG (§ 25) банер згоди не потрібен. Докладніше про приватність аналітики Cloudflare: <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">cloudflare.com/web-analytics</a>.</p>
+
+            <h2>Локальне сховище браузера</h2>
+            <p>Сайт використовує <strong>localStorage</strong> вашого браузера лише для збереження ваших налаштувань:</p>
+            <ul>
+                <li>Обрана вами мова</li>
+                <li>Обрана тема (світла або темна)</li>
+                <li>Чи закрили ви підказку «Установити як застосунок»</li>
+                <li>Ваш прогрес (які запитання позначено як вивчені) і останні результати тестів</li>
+            </ul>
+            <p>Ці дані залишаються на вашому пристрої і ніколи не надсилаються на жоден сервер. Ви можете видалити їх будь-коли в налаштуваннях браузера.</p>
+
+            <h2>Service Worker (офлайн-режим)</h2>
+            <p>Якщо ваш браузер це підтримує, сайт встановлює service worker, який зберігає сторінки на вашому пристрої, щоб ви могли читати їх без інтернету. Збережені файли залишаються лише на вашому пристрої і нікуди не передаються.</p>
+
+            <h2>Зовнішні посилання та ресурси</h2>
+            <p>Сайт містить посилання на такі ресурси або завантажує їх:</p>
+            <ul>
+                <li><a href="https://www.bamf.de/" target="_blank" rel="noopener">bamf.de</a> — офіційний каталог запитань BAMF і онлайн-центр тестування</li>
+                <li><a href="https://cdn.jsdelivr.net/" target="_blank" rel="noopener">jsDelivr CDN</a> — CSS-фреймворк Bootstrap</li>
+                <li><a href="https://fonts.googleapis.com/" target="_blank" rel="noopener">Google Fonts</a> — шрифт Inter (шрифти для урду та фарсі розміщено локально)</li>
+                <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub Pages</a> — хостинг</li>
+                <li><a href="https://www.cloudflare.com/" target="_blank" rel="noopener">Cloudflare</a> — анонімна аналітика</li>
+            </ul>
+            <p>Під час завантаження цих ресурсів третя сторона може отримувати від вашого браузера стандартну технічну інформацію (наприклад, IP-адресу). Кожна з них діє згідно з власною політикою конфіденційності.</p>
+
+            <h2>Джерело контенту та авторські права</h2>
+            <p>Німецькі тексти запитань узято з офіційного каталогу запитань BAMF для тесту <em>Leben in Deutschland</em> / <em>Einbürgerungstest</em>, який є загальнодоступним матеріалом. Переклади й пояснення є самостійним внеском і надаються безкоштовно для освітніх цілей.</p>
+            <p>Цей сайт не пов’язаний із BAMF, урядом Німеччини чи будь-яким офіційним органом, не підтримується і не схвалюється ними.</p>
+
+            <h2>Ваші права</h2>
+            <p>Оскільки персональні дані не зберігаються, немає особистого запису, до якого можна було б вимагати доступу, виправлення чи видалення. Якщо ви вважаєте, що дані про вас обробляються помилково, створіть issue на GitHub, і це питання буде розглянуто.</p>
+
+            <h2>Зміни до цього повідомлення</h2>
+            <p>У разі суттєвих змін (наприклад, додавання нового інструмента аналітики) цю сторінку буде оновлено, а дата нижче зміниться.</p>
+
+            <p class="updated">Востаннє оновлено: 2026-04-26</p>
+            <p class="updated">Примітка: юридичною основою є німецька й англійська версії; переклад наведено для зручності.</p>
+        </section>
+
+        <!-- FARSI -->
+        <section class="doc hidden" id="doc-fa" lang="fa" dir="rtl">
+            <h1>حریم خصوصی و اطلاعات ناشر (Impressum)</h1>
+            <p>این صفحه شفاف‌سازی می‌کند که چه کسی این وب‌سایت را اداره می‌کند، چه داده‌هایی پردازش می‌شود و چگونه می‌توان تماس گرفت.</p>
+
+            <h2>دربارهٔ این سایت</h2>
+            <p>این یک منبع آموزشی رایگان، غیرتجاری و متن‌باز برای کسانی است که برای آزمون شهروندی آلمان (<em>Einbürgerungstest</em> / <em>Leben in Deutschland</em>) آماده می‌شوند. سایت روی GitHub Pages میزبانی می‌شود.</p>
+            <p>این سایت چیزی نمی‌فروشد، تبلیغات نشان نمی‌دهد، ثبت‌نام نمی‌خواهد و هیچ داده شخصی کاربران را ذخیره نمی‌کند.</p>
+
+            <h2>اداره‌کننده / Impressum</h2>
+            <p>این سایت به‌عنوان یک پروژهٔ سرگرمی شخصی توسط فردی مقیم آلمان اداره می‌شود.</p>
+            <p>برای هرگونه پرسش، اصلاح، درخواست حذف محتوا یا اطلاعیهٔ حقوقی، لطفاً در مخزن GitHub پروژه یک issue باز کنید:<br>
+            <a href="https://github.com/abdullahbutt/leben-in-deutschland-test/issues" target="_blank" rel="noopener">github.com/abdullahbutt/leben-in-deutschland-test/issues</a></p>
+            <p>Issueها به‌طور پیش‌فرض برای همه قابل مشاهده‌اند. اگر به کانال خصوصی نیاز دارید، این را در issue ذکر کنید تا مکاتبهٔ ایمیلی خصوصی انجام شود.</p>
+
+            <h2>داده‌هایی که پردازش می‌کنیم</h2>
+            <p>ما از <strong>Cloudflare Web Analytics</strong> استفاده می‌کنیم، سرویس تحلیلی که به حریم خصوصی احترام می‌گذارد:</p>
+            <ul>
+                <li>از کوکی یا هیچ ذخیره‌سازی دیگری در سمت کاربر استفاده <strong>نمی‌کند</strong>.</li>
+                <li>کاربران را میان سایت‌ها ردیابی <strong>نمی‌کند</strong>.</li>
+                <li>اثر انگشت مرورگر ایجاد <strong>نمی‌کند</strong> و نمایهٔ کاربر نمی‌سازد.</li>
+                <li>فقط معیارهای تجمیعی و ناشناس جمع می‌کند: نشانی صفحه، کشور، منبع ارجاع، مرورگر، نوع دستگاه و زمان بارگذاری.</li>
+                <li>نشانی‌های IP فقط موقتاً پردازش می‌شوند و ذخیره نمی‌شوند.</li>
+            </ul>
+            <p>چون هیچ داده شخصی جمع‌آوری نمی‌شود، طبق GDPR اتحادیهٔ اروپا (ماده 6) و TTDSG آلمان (بند 25) به بنر رضایت نیازی نیست. جزئیات حریم خصوصی تحلیل Cloudflare: <a href="https://www.cloudflare.com/web-analytics/" target="_blank" rel="noopener">cloudflare.com/web-analytics</a>.</p>
+
+            <h2>ذخیره‌سازی محلی مرورگر</h2>
+            <p>این سایت از <strong>localStorage</strong> مرورگر شما فقط برای به‌خاطر سپردن ترجیحاتتان استفاده می‌کند:</p>
+            <ul>
+                <li>زبان انتخابی شما</li>
+                <li>پوستهٔ انتخابی (روشن یا تیره)</li>
+                <li>اینکه نکتهٔ «نصب به‌عنوان برنامه» را بسته‌اید یا نه</li>
+                <li>پیشرفت شما (سؤال‌هایی که یادگرفته‌شده علامت زده‌اید) و نتایج اخیر آزمون‌ها</li>
+            </ul>
+            <p>این داده‌ها روی دستگاه شما می‌مانند و هرگز به هیچ سروری فرستاده نمی‌شوند. هر زمان می‌توانید آن‌ها را از تنظیمات مرورگر پاک کنید.</p>
+
+            <h2>Service Worker (حالت آفلاین)</h2>
+            <p>اگر مرورگر شما پشتیبانی کند، سایت یک service worker نصب می‌کند که صفحه‌ها را روی دستگاه شما ذخیره می‌کند تا بدون اینترنت بتوانید آن‌ها را بخوانید. فایل‌های ذخیره‌شده فقط روی دستگاه شما می‌مانند و به جای دیگری فرستاده نمی‌شوند.</p>
+
+            <h2>پیوندها و منابع خارجی</h2>
+            <p>این سایت به منابع زیر پیوند می‌دهد یا از آن‌ها استفاده می‌کند:</p>
+            <ul>
+                <li><a href="https://www.bamf.de/" target="_blank" rel="noopener">bamf.de</a> — فهرست رسمی سؤال‌های BAMF و مرکز آزمون آنلاین</li>
+                <li><a href="https://cdn.jsdelivr.net/" target="_blank" rel="noopener">jsDelivr CDN</a> — چارچوب CSS بوتسترپ</li>
+                <li><a href="https://fonts.googleapis.com/" target="_blank" rel="noopener">Google Fonts</a> — فونت Inter (فونت‌های اردو و فارسی به‌صورت محلی ارائه می‌شوند)</li>
+                <li><a href="https://github.com/" target="_blank" rel="noopener">GitHub Pages</a> — زیرساخت میزبانی</li>
+                <li><a href="https://www.cloudflare.com/" target="_blank" rel="noopener">Cloudflare</a> — تحلیل ناشناس</li>
+            </ul>
+            <p>هنگام بارگذاری این منابع، اشخاص ثالث ممکن است اطلاعات فنی استاندارد (مانند نشانی IP) را از مرورگر شما دریافت کنند. هر کدام تابع سیاست حریم خصوصی خودشان هستند.</p>
+
+            <h2>منبع محتوا و حق نشر</h2>
+            <p>متن آلمانی سؤال‌ها از فهرست رسمی سؤال‌های BAMF برای آزمون <em>Leben in Deutschland</em> / <em>Einbürgerungstest</em> گرفته شده که مطلبی عمومی و در دسترس است. ترجمه‌ها و توضیحات، مشارکتی مستقل‌اند که رایگان برای استفادهٔ آموزشی ارائه می‌شوند.</p>
+            <p>این سایت با BAMF، دولت آلمان یا هیچ مرجع رسمی دیگری وابستگی، تأیید یا ارتباطی ندارد.</p>
+
+            <h2>حقوق شما</h2>
+            <p>چون هیچ داده قابل‌شناسایی شخصی ذخیره نمی‌شود، سابقهٔ شخصی‌ای برای دسترسی، اصلاح یا حذف وجود ندارد. اگر فکر می‌کنید داده‌ای دربارهٔ شما به اشتباه پردازش می‌شود، لطفاً یک issue در GitHub باز کنید تا رسیدگی شود.</p>
+
+            <h2>تغییرات این اطلاعیه</h2>
+            <p>اگر چیز مهمی تغییر کند (مثلاً ابزار تحلیل جدیدی اضافه شود)، این صفحه به‌روز می‌شود و تاریخ زیر تغییر خواهد کرد.</p>
+
+            <p class="updated">آخرین به‌روزرسانی: 2026-04-26</p>
+            <p class="updated">توجه: مبنای حقوقی نسخهٔ آلمانی و انگلیسی است؛ این ترجمه برای سهولت ارائه شده است.</p>
+        </section>
     </main>
 
     <script>
@@ -372,6 +514,8 @@
             en: document.getElementById('doc-en'),
             ur: document.getElementById('doc-ur'),
             de: document.getElementById('doc-de'),
+            uk: document.getElementById('doc-uk'),
+            fa: document.getElementById('doc-fa'),
         };
         function showLang(code) {
             Object.keys(docs).forEach(k => {
@@ -393,9 +537,9 @@
         let pref = 'en';
         try {
             const stored = localStorage.getItem('preferredLang');
-            if (stored === 'ur') pref = 'ur';
+            if (stored === 'ur' || stored === 'de' || stored === 'uk' || stored === 'fa') pref = stored;
             const privacyPref = localStorage.getItem('privacyLang');
-            if (privacyPref === 'en' || privacyPref === 'ur' || privacyPref === 'de') pref = privacyPref;
+            if (docs[privacyPref]) pref = privacyPref;
         } catch (e) {}
         showLang(pref);
     </script>

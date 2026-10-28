@@ -1,10 +1,13 @@
-// Shared client script for all generated content pages (en/ur/ar/de/tr/ru).
+// Shared client script for all generated content pages (every enabled language).
 // Source file: build.js replaces the ORDERED_ALL placeholder and writes assets/page.js.
 // Edit THIS file (not assets/page.js), then run `npm run build`.
 (function () {
     'use strict';
 
     const ORDERED_ALL = ["questions-001-050","questions-051-100","questions-101-150","questions-151-200","questions-201-250","questions-251-300","baden-wuerttemberg","bayern","berlin","brandenburg","bremen","hamburg","hessen","mecklenburg-vorpommern","niedersachsen","nordrhein-westfalen","rheinland-pfalz","saarland","sachsen","sachsen-anhalt","schleswig-holstein","thueringen"];
+    // Per-language strings, generated from strings.js and the language registry by build.js.
+    const I18N = {"learned":{"en":"✓ Learned","ur":"✓ سیکھ لیا","ar":"✓ تعلّمته","de":"✓ Gelernt","tr":"✓ Öğrenildi","ru":"✓ Изучено"},"mark":{"en":"＋ Mark as learned","ur":"＋ سیکھیں","ar":"＋ علّمه","de":"＋ Als gelernt markieren","tr":"＋ Öğrenildi olarak işaretle","ru":"＋ Отметить как изученное"},"questionWords":["Question","سوال","السؤال","Frage","Soru","Вопрос"]};
+    const QUESTION_WORD_RE = new RegExp('(?:' + I18N.questionWords.join('|') + ')\\s+(\\d+)');
     const PAGE_SLUG = decodeURIComponent(location.pathname.split('/').pop() || '').replace(/\.html$/, '');
 
     // Random question navigation
@@ -18,11 +21,6 @@
     (function () {
         const KEY = 'gct_learned';
         const lang = document.documentElement.lang;
-        const isUrdu = lang === 'ur';
-        const isArabic = lang === 'ar';
-        const isGerman = lang === 'de';
-        const isTurkish = lang === 'tr';
-        const isRussian = lang === 'ru';
 
         // State questions reuse numbers 301-310 in every Bundesland, so they are
         // stored as "<state-slug>-<n>"; general questions stay plain numbers.
@@ -39,14 +37,13 @@
         }
 
         function label(learned) {
-            return learned
-                ? (isUrdu ? '✓ سیکھ لیا' : isArabic ? '✓ تعلّمته' : isGerman ? '✓ Gelernt' : isTurkish ? '✓ Öğrenildi' : isRussian ? '✓ Изучено' : '✓ Learned')
-                : (isUrdu ? '＋ سیکھیں' : isArabic ? '＋ علّمه' : isGerman ? '＋ Als gelernt markieren' : isTurkish ? '＋ Öğrenildi olarak işaretle' : isRussian ? '＋ Отметить как изученное' : '＋ Mark as learned');
+            const table = learned ? I18N.learned : I18N.mark;
+            return table[lang] || table.en;
         }
 
         // Inject a mark button after every question <h3>
         document.querySelectorAll('.content-card h3').forEach(h3 => {
-            const m = h3.textContent.match(/(?:Question|Frage|Soru|Вопрос|سوال|السؤال)\s+(\d+)/);
+            const m = h3.textContent.match(QUESTION_WORD_RE);
             if (!m) return;
             const qNum = parseInt(m[1], 10);
             if (isNaN(qNum)) return;

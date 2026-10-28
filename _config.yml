@@ -6,6 +6,10 @@ exclude:
   - bump-sw.js
   - check-quiz-data.js
   - generate-quiz.js
+  - locales
+  - check-languages.js
+  - strings.js
+  - languages.js
   - page.template.js
   - sw.template.js
   - package.json

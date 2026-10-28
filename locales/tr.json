@@ -1,0 +1,33 @@
+{
+ "code": "tr",
+ "questionWord": "Soru",
+ "explanationLabel": "Açıklama:",
+ "bilingual": {
+  "label": "Türkçe",
+  "flagClass": "fi-tr",
+  "countryName": "Türkiye"
+ },
+ "phrases": [
+  "Genel Sorular — Bölüm 1 (Sorular 1–50)",
+  "Genel Sorular — Bölüm 2 (Sorular 51–100)",
+  "Genel Sorular — Bölüm 3 (Sorular 101–150)",
+  "Genel Sorular — Bölüm 4 (Sorular 151–200)",
+  "Genel Sorular — Bölüm 5 (Sorular 201–250)",
+  "Genel Sorular — Bölüm 6 (Sorular 251–300)",
+  "Siyaset, Demokrasi, Temel Haklar &amp; Devlet Yapısı",
+  "Siyasi Sistem, Partiler, Seçimler &amp; Hükümet Yapısı",
+  "Hukuk Sistemi, Hükümet, AB &amp; Vatandaşlık Hayatı",
+  "Alman Tarihi: Nazi Dönemi, İkinci Dünya Savaşı, Savaş Sonrası",
+  "Tarih: Soğuk Savaş, Yeniden Birleşme, Kültür &amp; Coğrafya",
+  "Toplum, Kültür, Günlük Yaşam, Din &amp; Vatandaşlık Bilgisi",
+  "📝 Açıklama:",
+  "⬅ Ana Sayfaya Dön",
+  "— Eyalet Soruları (301–310)",
+  "Eyalet Soruları (301–310)",
+  "<p>Hazırlığınız için önemli bilgiler:</p>",
+  "<strong>Parlamento:</strong>",
+  "<strong>Komşu Eyaletler/Sınırlar:</strong>",
+  "<strong>Önemli Şehirler:</strong>",
+  "Yurt dışı sınırı yok. Komşu eyaletler:"
+ ]
+}

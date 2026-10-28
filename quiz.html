@@ -511,14 +511,7 @@
                 <span class="fi fi-gb" id="qlFlagIcon"></span>
                 <span id="qlLangLabel">English</span> ▾
             </button>
-            <div class="ql-drop-menu" role="menu">
-                <button onclick="selectQuizLang('en')" id="qlOpt-en" class="active" role="menuitem"><span class="fi fi-gb"></span> English</button>
-                <button onclick="selectQuizLang('de')" id="qlOpt-de" role="menuitem"><span class="fi fi-de"></span> Deutsch</button>
-                <button onclick="selectQuizLang('tr')" id="qlOpt-tr" role="menuitem"><span class="fi fi-tr"></span> Türkçe</button>
-                <button onclick="selectQuizLang('ru')" id="qlOpt-ru" role="menuitem"><span class="fi fi-ru"></span> Русский</button>
-                <button onclick="selectQuizLang('ur')" id="qlOpt-ur" role="menuitem" style="font-family:'Jameel Noori Nastaleeq',serif;font-size:1rem;"><span class="fi fi-pk"></span> اردو</button>
-                <button onclick="selectQuizLang('ar')" id="qlOpt-ar" role="menuitem" style="font-family:'Indopak Nastaleeq',serif;font-size:1rem;"><span class="fi fi-sa"></span> عربي</button>
-            </div>
+            <div class="ql-drop-menu" role="menu" id="qlMenu"></div>
         </div>
         <button class="btn-pill" id="themeBtn" aria-label="Toggle theme">🌓</button>
     </div>
@@ -535,14 +528,38 @@ function selectQuizLang(lang) {
     var fakeEvent = { target: { value: lang } };
     if (window._quizLangHandler) window._quizLangHandler(fakeEvent);
 }
+// Quiz languages: the one place to add a language to the quiz (also add its UI block below).
+// check-quiz-data.js fails the build if this list drifts from languages.js.
+var LANGUAGES = {
+    en: { name: 'English', flag: 'gb' },
+    de: { name: 'Deutsch', flag: 'de' },
+    tr: { name: 'Türkçe', flag: 'tr' },
+    ru: { name: 'Русский', flag: 'ru' },
+    ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1rem', explClass: 'ur-text' },
+    ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1rem' },
+};
+function buildQuizLangMenu() {
+    var menu = document.getElementById('qlMenu');
+    menu.innerHTML = '';
+    Object.keys(LANGUAGES).forEach(function(code) {
+        var L = LANGUAGES[code];
+        var btn = document.createElement('button');
+        btn.id = 'qlOpt-' + code;
+        btn.setAttribute('role', 'menuitem');
+        btn.setAttribute('onclick', "selectQuizLang('" + code + "')");
+        if (L.font) btn.style.cssText = 'font-family:' + L.font + ',serif;font-size:' + L.menuSize + ';';
+        btn.innerHTML = '<span class="fi fi-' + L.flag + '"></span> ' + L.name;
+        menu.appendChild(btn);
+    });
+}
+buildQuizLangMenu();
 function updateQuizLangDropdown(lang) {
-    var flags = { en:'gb', de:'de', ur:'pk', ar:'sa', tr:'tr', ru:'ru' };
-    var labels = { en:'English', de:'Deutsch', ur:'اردو', ar:'عربي', tr:'Türkçe', ru:'Русский' };
+    var L = LANGUAGES[lang] || LANGUAGES.en;
     var icon = document.getElementById('qlFlagIcon');
     var label = document.getElementById('qlLangLabel');
-    if (icon) { icon.className = 'fi fi-' + (flags[lang]||'gb'); }
-    if (label) label.textContent = labels[lang] || 'English';
-    ['en','de','ur','ar'].forEach(function(l) {
+    if (icon) { icon.className = 'fi fi-' + L.flag; }
+    if (label) label.textContent = L.name;
+    Object.keys(LANGUAGES).forEach(function(l) {
         var btn = document.getElementById('qlOpt-' + l);
         if (btn) btn.classList.toggle('active', l === lang);
     });
@@ -929,14 +946,14 @@ async function init() {
     // then site preference, then default to English.
     try {
         const urlLang = new URLSearchParams(window.location.search).get('lang');
-        if (urlLang && ['en','ur','de','ar','tr','ru'].includes(urlLang)) {
+        if (urlLang && LANGUAGES[urlLang]) {
             LANG = urlLang;
             localStorage.setItem('preferredLang', LANG); // persist for next visit
         } else {
             LANG = localStorage.getItem('preferredLang') || 'en';
         }
     } catch(e){ LANG = 'en'; }
-    if (!['en','ur','de','ar','tr','ru'].includes(LANG)) LANG = 'en';
+    if (!LANGUAGES[LANG]) LANG = 'en';
     updateQuizLangDropdown(LANG);
 
     // Load quiz data
@@ -978,16 +995,14 @@ function applyUiLang() {
     set('txt-quizBackHome', u.backHome);
     // Update back-to-home href to match selected language
     const homeLink = document.getElementById('quizBackHome');
-    if (homeLink) homeLink.href = (LANG === 'ur') ? 'ur/index.html' : (LANG === 'ar') ? 'ar/index.html' : (LANG === 'de') ? 'de/index.html' : (LANG === 'tr') ? 'tr/index.html' : (LANG === 'ru') ? 'ru/index.html' : 'en/index.html';
+    if (homeLink) homeLink.href = LANG + '/index.html';
     // Quiz content is always German (LTR), so never apply RTL to the body.
     // Arabic mode changes font and font-size only — not direction.
     document.body.style.direction = 'ltr';
-    if (LANG === 'ur') {
-        document.body.style.fontFamily = "'Jameel Noori Nastaleeq', Inter, serif";
-        document.documentElement.style.fontSize = '130%';
-    } else if (LANG === 'ar') {
-        document.body.style.fontFamily = "'Indopak Nastaleeq', serif";
-        document.documentElement.style.fontSize = '125%';
+    var LF = LANGUAGES[LANG];
+    if (LF && LF.font) {
+        document.body.style.fontFamily = LF.font + ", Inter, serif";
+        document.documentElement.style.fontSize = LF.size;
     } else {
         document.body.style.fontFamily = "Inter, system-ui, sans-serif";
         document.documentElement.style.fontSize = '';
@@ -1020,19 +1035,17 @@ function showScreen(id) {
 
 // ── Mode selection ────────────────────────────────────────────────────────────
 // ── Cancel quiz mid-session ───────────────────────────────────────────────────
+const CANCEL_MSG = {
+    en: 'Cancel the quiz? Your progress will be lost.',
+    ur: 'کوئز منسوخ کی جائے؟ آپ کی پیش رفت ضائع ہو جائے گی۔',
+    ar: 'هل تريد إلغاء الاختبار؟ ستُفقَد جميع إجاباتك.',
+    de: 'Quiz abbrechen? Ihr Fortschritt geht verloren.',
+    tr: 'Sınav iptal edilsin mi? İlerlemeniz kaybolacak.',
+    ru: 'Завершить тест? Ваш прогресс будет потерян.',
+};
 function cancelQuiz() {
     const u = UI[LANG] || UI.en;
-    const msg = LANG === 'ur'
-        ? 'کوئز منسوخ کی جائے؟ آپ کی پیش رفت ضائع ہو جائے گی۔'
-        : LANG === 'ar'
-        ? 'هل تريد إلغاء الاختبار؟ ستُفقَد جميع إجاباتك.'
-        : LANG === 'de'
-        ? 'Quiz abbrechen? Ihr Fortschritt geht verloren.'
-        : LANG === 'tr'
-        ? 'Sınav iptal edilsin mi? İlerlemeniz kaybolacak.'
-        : LANG === 'ru'
-        ? 'Завершить тест? Ваш прогресс будет потерян.'
-        : 'Cancel the quiz? Your progress will be lost.';
+    const msg = CANCEL_MSG[LANG] || CANCEL_MSG.en;
     if (!confirm(msg)) return;
     clearInterval(quiz.timer);
     quiz.timer = null;
@@ -1075,21 +1088,21 @@ function startMode(mode) {
 }
 
 // ── State grid ────────────────────────────────────────────────────────────────
+// Right-to-left languages with their own font: style a button for that language.
+function applyLangFont(el) {
+    var L = LANGUAGES[LANG];
+    if (L && L.rtl && L.font) { el.style.fontFamily = L.font + ', serif'; el.style.direction = 'rtl'; el.style.lineHeight = '2'; }
+}
+
 function buildStateGrid() {
     if (!DATA) return;
     const grid = document.getElementById('stateGrid');
     grid.innerHTML = '';
-    const nameKey = LANG === 'de' ? 'name_de'
-                  : LANG === 'ur' ? 'name_ur'
-                  : LANG === 'ar' ? 'name_ar'
-                  : LANG === 'tr' ? 'name_tr'
-                  : LANG === 'ru' ? 'name_ru'
-                  : 'name_en';
+    const nameKey = 'name_' + LANG;
     Object.values(DATA.states).forEach(state => {
         const btn = document.createElement('button');
         btn.className = 'state-btn';
-        if (LANG === 'ur') { btn.style.fontFamily = "'Jameel Noori Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
-        if (LANG === 'ar') { btn.style.fontFamily = "'Indopak Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
+        applyLangFont(btn);
         btn.textContent = state[nameKey] || state.name_de;
         btn.addEventListener('click', () => launchStateQuiz(state.slug));
         grid.appendChild(btn);
@@ -1127,8 +1140,7 @@ function buildGenGrid() {
     sets.forEach(set => {
         const btn = document.createElement('button');
         btn.className = 'state-btn';
-        if (LANG === 'ur') { btn.style.fontFamily = "'Jameel Noori Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
-        if (LANG === 'ar') { btn.style.fontFamily = "'Indopak Nastaleeq', serif"; btn.style.direction = 'rtl'; btn.style.lineHeight = '2'; }
+        applyLangFont(btn);
         btn.textContent = set.label[LANG] || set.label.en;
         btn.addEventListener('click', () => {
             const qs = DATA.general.filter(q => q.id >= set.range[0] && q.id <= set.range[1]);
@@ -1274,8 +1286,8 @@ function answerQuestion(shufflePos) {
     const explText = q['exp_' + LANG] || q.exp_en;
     const explEl = document.getElementById('explBox');
     explEl.textContent = explText || '';
-    explEl.className = LANG === 'ur' ? 'explanation-box ur-text show' : 'explanation-box show';
-    explEl.style.direction = (LANG === 'ar' && q.exp_ar) ? 'rtl' : '';
+    explEl.className = (LANGUAGES[LANG] && LANGUAGES[LANG].explClass ? 'explanation-box ' + LANGUAGES[LANG].explClass + ' show' : 'explanation-box show');
+    explEl.style.direction = (LANGUAGES[LANG] && LANGUAGES[LANG].rtl && LANG !== 'ur' && q['exp_' + LANG]) ? 'rtl' : '';
 
     // Next / Finish button
     const btnNext = document.getElementById('btnNext');
@@ -1419,7 +1431,7 @@ function finishQuiz() {
             const qTrans   = LANG !== 'de' ? (q[LANG] || '') : '';
             const cTrans   = LANG !== 'de' ? (correctOpt[LANG] || '') : '';
             const explText = q['exp_' + LANG] || q.exp_en || '';
-            const rtl      = (LANG === 'ur' || LANG === 'ar') ? ' dir="rtl" lang="' + LANG + '"' : '';
+            const rtl      = (LANGUAGES[LANG] && LANGUAGES[LANG].rtl) ? ' dir="rtl" lang="' + LANG + '"' : '';
             const transHtml = (qTrans || cTrans || explText) ? `
                 <div class="review-trans"${rtl}>
                     ${qTrans ? `<div>${escHtml(qTrans)}</div>` : ''}

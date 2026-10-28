@@ -1,0 +1,55 @@
+{
+ "code": "de",
+ "questionWord": "Frage",
+ "explanationLabel": "Erklärung:",
+ "markdownNav": [
+  [
+   "⬅ Previous: Questions (\\d+)–(\\d+)",
+   "g",
+   "⬅ Vorherige: Fragen $1–$2"
+  ],
+  [
+   "Previous: Questions (\\d+)–(\\d+)",
+   "g",
+   "Vorherige: Fragen $1–$2"
+  ],
+  [
+   "Next: Questions (\\d+)–(\\d+)",
+   "g",
+   "Nächste: Fragen $1–$2"
+  ],
+  [
+   "Note: Questions (\\d+)–(\\d+) cover[^.]+\\.",
+   "g",
+   "Hinweis: Fragen $1–$2 umfassen spätere Geschichte, Geographie, Kultur, Gesellschaft, Religion und Alltag."
+  ],
+  [
+   "Always refer to the official BAMF catalog[^.]*\\.",
+   "g",
+   "Bitte beachten Sie stets den offiziellen BAMF-Fragenkatalog für den genauen Wortlaut."
+  ]
+ ],
+ "phrases": [
+  "Allgemeine Fragen — Teil 1 (Fragen 1–50)",
+  "Allgemeine Fragen — Teil 2 (Fragen 51–100)",
+  "Allgemeine Fragen — Teil 3 (Fragen 101–150)",
+  "Allgemeine Fragen — Teil 4 (Fragen 151–200)",
+  "Allgemeine Fragen — Teil 5 (Fragen 201–250)",
+  "Allgemeine Fragen — Teil 6 (Fragen 251–300)",
+  "Politik, Demokratie, Grundrechte &amp; Staatsstruktur",
+  "Politisches System, Parteien, Wahlen &amp; Regierungsstruktur",
+  "Rechtssystem, Regierung, EU &amp; Bürgerleben",
+  "Deutsche Geschichte: NS-Zeit, Zweiter Weltkrieg, Nachkriegszeit",
+  "Geschichte: Kalter Krieg, Wiedervereinigung, Kultur &amp; Geographie",
+  "Gesellschaft, Kultur, Alltag, Religion &amp; Bürgerkunde",
+  "📝 Erklärung:",
+  "⬅ Zur Startseite",
+  false,
+  false,
+  "<p>Wichtige Fakten für Ihre Vorbereitung:</p>",
+  "<strong>Parlament:</strong>",
+  "<strong>Nachbarn/Grenzen:</strong>",
+  "<strong>Wichtige Städte:</strong>",
+  "Keine Auslandsgrenze. Grenzt an:"
+ ]
+}

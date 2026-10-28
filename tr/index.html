@@ -893,6 +893,7 @@
             const isDe = lang === 'de';
             const isTr = lang === 'tr';
             const isRu = lang === 'ru';
+            const searchField = null;
             let searchData = null;
 
             // Load search index lazily on first keypress
@@ -933,9 +934,8 @@
                 const lq = q.toLowerCase();
                 const matches = searchData.filter(item =>
                     (item.de && item.de.toLowerCase().includes(lq)) ||
-                    (isUr ? (item.ur && item.ur.toLowerCase().includes(lq))
-                    : isAr ? (item.ar && item.ar.toLowerCase().includes(lq))
-                           : (item.en && item.en.toLowerCase().includes(lq)))
+                    (searchField ? (item[searchField] && item[searchField].toLowerCase().includes(lq))
+                                 : (item.en && item.en.toLowerCase().includes(lq)))
                 ).slice(0, 10);
 
                 if (!matches.length) {
@@ -947,7 +947,7 @@
 
                 results.innerHTML = matches.map(item => {
                     const href = './' + item.slug + '.html#q-' + item.id;
-                    const primary = highlight(isUr ? (item.ur || item.de) : isAr ? (item.ar || item.de) : item.de, q);
+                    const primary = highlight(searchField ? (item[searchField] || item.de) : item.de, q);
                     return '<a class="idx-search-result" href="' + escHtml(href) + '">' +
                         '<div class="idx-search-result-num">' + (isUr ? 'سوال ' : isAr ? 'السؤال ' : isDe ? 'Frage ' : isTr ? 'Soru ' : isRu ? 'Вопрос ' : 'Question ') + item.id + '</div>' +
                         '<div class="idx-search-result-text">' + primary + '</div>' +
@@ -1197,7 +1197,7 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Yukarı Çık" title="Yukarı Çık">↑</button>
 
-    <script defer src="../assets/page.js?v=06e64818b0"></script>
+    <script defer src="../assets/page.js?v=1f7d49f69c"></script>
 
     <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, GDPR-compliant) -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d435b2572b82459cb083e37f7c734b75"}'></script>

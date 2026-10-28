@@ -17,45 +17,33 @@
 
 const fs = require('fs');
 const path = require('path');
+const { LANGS, DROPDOWN_ORDER, enabledLangs, buildLangs, hreflangLangs } = require('./languages');
+const { t, STR } = require('./strings');
+const { checkLanguages } = require('./check-languages');
 const { marked } = require('marked');
 const { generateQuizData } = require('./generate-quiz');
 
 const ROOT = __dirname;
 
-// German explanations — loaded once at startup and injected during 'de' build pass
-let DE_EXPLANATIONS = {};
-try {
-    DE_EXPLANATIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'de-explanations.json'), 'utf8'));
-    console.log(`[de-explanations] loaded ${Object.keys(DE_EXPLANATIONS).length} entries`);
-} catch(e) { /* file optional */ }
-
-// Turkish explanations — injected during 'tr' build pass
-let TR_EXPLANATIONS = {};
-try {
-    TR_EXPLANATIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'tr-explanations.json'), 'utf8'));
-    console.log(`[tr-explanations] loaded ${Object.keys(TR_EXPLANATIONS).length} entries`);
-} catch(e) { /* file optional */ }
-
-// Turkish question + answer translations — for bilingual tables
-let TR_QUESTIONS = {};
-try {
-    TR_QUESTIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'tr-questions.json'), 'utf8'));
-    console.log(`[tr-questions] loaded ${Object.keys(TR_QUESTIONS).length} entries`);
-} catch(e) { /* file optional */ }
-
-// Russian explanations — injected during 'ru' build pass
-let RU_EXPLANATIONS = {};
-try {
-    RU_EXPLANATIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'ru-explanations.json'), 'utf8'));
-    console.log(`[ru-explanations] loaded ${Object.keys(RU_EXPLANATIONS).length} entries`);
-} catch(e) { /* file optional */ }
-
-// Russian question + answer translations — for bilingual tables
-let RU_QUESTIONS = {};
-try {
-    RU_QUESTIONS = JSON.parse(fs.readFileSync(path.join(ROOT, 'ru-questions.json'), 'utf8'));
-    console.log(`[ru-questions] loaded ${Object.keys(RU_QUESTIONS).length} entries`);
-} catch(e) { /* file optional */ }
+// Per-language dictionaries (de, tr, ru, ...): explanations and question translations,
+// plus the locale file (phrase table, labels). All driven by the language registry.
+const DICT = {};
+const LOCALES = {};
+const PHRASE_HITS = {}; // lang -> Set of phrase ids that matched at least one page
+const PHRASES = JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', 'phrases.json'), 'utf8'))
+    .map(p => ({ id: p.id, re: new RegExp(p.re, p.flags) }));
+function readJsonIfExists(file) {
+    try { return JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8')); } catch (e) { return {}; }
+}
+for (const L of Object.values(LANGS)) {
+    if (L.kind !== 'dictionary' || !L.enabled) continue;
+    DICT[L.code] = {
+        explanations: readJsonIfExists(`${L.code}-explanations.json`),
+        questions: readJsonIfExists(`${L.code}-questions.json`),
+    };
+    LOCALES[L.code] = JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', `${L.code}.json`), 'utf8'));
+    console.log(`[${L.code}] ${Object.keys(DICT[L.code].explanations).length} explanations, ${Object.keys(DICT[L.code].questions).length} questions`);
+}
 
 // State-question explanations (DE/TR/RU) — keyed by [state_slug][qid][lang]
 // because the same numeric id (301-310) means different content per state.
@@ -91,22 +79,8 @@ const STATE_SUBHEADING_LABELS = {
     ar: ['شعار الولاية', 'المقاطعة', 'مدة المجلس التشريعي للولاية', 'سن الاقتراع', 'علم الولاية',
          'التربية المدنية', 'عاصمة الولاية', 'الموقع على الخريطة', 'رئيس الحكومة', 'الوزارات'],
 };
-const SOURCES = {
-    en: path.join(ROOT, 'sources', 'english'),
-    ur: path.join(ROOT, 'sources', 'urdu'),
-    ar: path.join(ROOT, 'sources', 'arabic'),
-    de: path.join(ROOT, 'sources', 'english'),
-    tr: path.join(ROOT, 'sources', 'english'),
-    ru: path.join(ROOT, 'sources', 'english'),
-};
-const OUTPUTS = {
-    en: path.join(ROOT, 'en'),
-    ur: path.join(ROOT, 'ur'),
-    ar: path.join(ROOT, 'ar'),
-    de: path.join(ROOT, 'de'),
-    tr: path.join(ROOT, 'tr'),
-    ru: path.join(ROOT, 'ru'),
-};
+const SOURCES = Object.fromEntries(Object.values(LANGS).map(L => [L.code, path.join(ROOT, 'sources', L.source)]));
+const OUTPUTS = Object.fromEntries(Object.values(LANGS).map(L => [L.code, path.join(ROOT, L.code)]));
 
 // Files we never want to convert (branch metadata, not content)
 // Note: README.md IS processed — its content becomes index.html
@@ -609,7 +583,13 @@ const ORDERED_ALL = [...ORDERED_QUESTIONS, ...ORDERED_STATES];
 // Line endings are normalised so the hash is identical on Windows and Linux (CI) checkouts.
 const SHARED_JS = fs.readFileSync(path.join(ROOT, 'page.template.js'), 'utf8')
     .replace(/\r\n/g, '\n')
-    .replace('/*__ORDERED_ALL__*/[]', JSON.stringify(ORDERED_ALL));
+    .replace('/*__ORDERED_ALL__*/[]', JSON.stringify(ORDERED_ALL))
+    .replace('/*__I18N__*/{}', () => JSON.stringify({
+        learned: Object.fromEntries(buildLangs().map(c => [c, t('learnedLabel', c)])),
+        mark: Object.fromEntries(buildLangs().map(c => [c, t('markLabel', c)])),
+        // question heading word of every language ("Question 5", "Frage 5", ...)
+        questionWords: ['Question', ...buildLangs().map(c => t('questionWord', c).trim())].filter((w, i, a) => a.indexOf(w) === i),
+    }));
 const SHARED_JS_HASH = require('crypto').createHash('sha1').update(SHARED_JS).digest('hex').slice(0, 10);
 fs.mkdirSync(path.join(ROOT, 'assets'), { recursive: true });
 fs.writeFileSync(path.join(ROOT, 'assets', 'page.js'), SHARED_JS);
@@ -630,7 +610,7 @@ function renderNavPager({ lang, slug }) {
         `<div class="pager-jump">
             <select onchange="if(this.value)window.location.href=this.value" aria-label="${escapeHtml(ui.navJump)}">
                 <option value="">${escapeHtml(ui.navJump)}</option>
-                <option value="../quiz.html?lang=${lang}">🎯 ${lang === 'ur' ? 'کوئز / مشق' : lang === 'ar' ? 'اختبار التدريب' : lang === 'de' ? 'Quiz / Üben' : 'Practice Quiz'}</option>
+                <option value="../quiz.html?lang=${lang}">🎯 ${t('quizOption', lang)}</option>
                 ${optgroup(ui.navQuestions, ORDERED_QUESTIONS)}
                 ${optgroup(ui.navStates, ORDERED_STATES)}
             </select>
@@ -995,12 +975,28 @@ function applyFlagIcons(html, lang) {
 // Transforms German-only question tables into two-column German|Translation tables.
 // QUESTIONS_MAP: { "1": { q: "...", opts: ["a","b","c","d"] }, ... }
 // lang: "tr" | "ru"
+const escapeRegExp = str => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+// Replace the English explanation blockquote of each question with the language's own
+// explanation. Two source shapes exist: "**📝** text" and "**📝 <Label>** text".
+function injectExplanations(bodyHtml, lang) {
+    const label = LOCALES[lang].explanationLabel;
+    const dict = DICT[lang].explanations;
+    const swap = (html, labelRe) => html.replace(
+        new RegExp(`(<h3 id="q-(\\d+)">(?:(?!<h3)[\\s\\S])*?<\\/h3>(?:(?!<h3)[\\s\\S])*?)<blockquote>\\n<p><strong>📝${labelRe}<\\/strong> [\\s\\S]*?<\\/p>\\n<\\/blockquote>`, 'g'),
+        (match, prefix, qid) => {
+            const text = dict[parseInt(qid, 10)];
+            if (!text) return match;
+            return `${prefix}<blockquote>\n<p><strong>📝 ${label}</strong> ${text}</p>\n</blockquote>`;
+        }
+    );
+    return swap(swap(bodyHtml, ''), ' ' + escapeRegExp(label));
+}
+
 function injectBilingualTable(bodyHtml, QUESTIONS_MAP, lang) {
     if (!QUESTIONS_MAP || Object.keys(QUESTIONS_MAP).length === 0) return bodyHtml;
 
-    const langLabel  = lang === 'tr' ? 'Türkçe'  : 'Русский';
-    const flagClass  = lang === 'tr' ? 'fi-tr'   : 'fi-ru';
-    const countryName= lang === 'tr' ? 'Türkiye' : 'Россия';
+    const { label: langLabel, flagClass, countryName } = LOCALES[lang].bilingual;
 
     // Match each question block: h3, optional German question paragraph, then the answer table.
     // The lookahead (?![\s\S]*<h3) keeps us from crossing into the next question.
@@ -1082,7 +1078,7 @@ function injectBilingualTable(bodyHtml, QUESTIONS_MAP, lang) {
 // Shown only on each language's home page (slug === 'index').
 function renderPwaBar(lang) {
     const ui = UI[lang] || UI.en;
-    const dir = (lang === 'ur' || lang === 'ar') ? 'rtl' : 'ltr';
+    const dir = LANGS[lang].dir;
     return `
     <div id="installBanner" class="install-banner-wrap" style="display:none;" dir="${dir}">
         <div class="container">
@@ -1168,7 +1164,7 @@ function renderPwaBar(lang) {
 // upsell surface since footer links get very little visibility.
 function renderWordfeatherBanner(lang) {
     const ui = UI[lang] || UI.en;
-    const dir = (lang === 'ur' || lang === 'ar') ? 'rtl' : 'ltr';
+    const dir = LANGS[lang].dir;
     return `
     <div class="wf-banner" id="wfBanner" dir="${dir}">
         <div class="wf-banner-inner">
@@ -1244,43 +1240,35 @@ function renderWordfeatherBanner(lang) {
 }
 
 // ---------- HTML template ----------
+function fontStyleBlock(lang) {
+    const f = LANGS[lang].font;
+    if (!f) return '';
+    return `<style>
+    @font-face {
+        font-family: '${f.family}';
+        src: url('../fonts/${f.file}') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+    }
+${f.comment}    html { font-size: ${f.rootSize}; }
+    </style>`;
+}
+
+function bodyFontCss(lang) {
+    const f = LANGS[lang].font;
+    return f
+        ? `font-family: '${f.family}', serif; line-height: ${f.lineHeight};`
+        : `font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.7;`;
+}
+
 function renderPage({ lang, title, bodyHtml, slug }) {
     const ui = UI[lang] || UI.en;
-    const dir = (lang === 'ur' || lang === 'ar') ? 'rtl' : 'ltr';
+    const dir = LANGS[lang].dir;
 
-    // Local self-hosted fonts — served from /fonts/ at site root.
-    // Pages are in /en/, /ur/, or /ar/ subdirectories so path is ../fonts/
-    const urduFont = lang === 'ur'
-        ? `<style>
-    @font-face {
-        font-family: 'Jameel Noori Nastaleeq';
-        src: url('../fonts/JameelNooriNastaleeq.woff2') format('woff2');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-    }
-    /* Optical size correction — Jameel Noori Nastaleeq renders visually smaller
-       than Inter at equal CSS sizes (smaller cap-height relative to em square).
-       Scaling the root font-size up proportionally compensates all rem-based sizes. */
-    html { font-size: 130%; }
-    </style>`
-        : lang === 'ar'
-        ? `<style>
-    @font-face {
-        font-family: 'Indopak Nastaleeq';
-        src: url('../fonts/Indopak-nastaleeq-hanafi-normal-v4.2.2-with-waqf-lazmi.woff2') format('woff2');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
-    }
-    html { font-size: 125%; }
-    </style>`
-        : '';
-    const bodyFont = lang === 'ur'
-        ? `font-family: 'Jameel Noori Nastaleeq', serif; line-height: 2;`
-        : lang === 'ar'
-        ? `font-family: 'Indopak Nastaleeq', serif; line-height: 2;`
-        : `font-family: 'Inter', system-ui, -apple-system, sans-serif; line-height: 1.7;`;
+    // Local self-hosted fonts — served from /fonts/ at site root (pages sit in /<lang>/).
+    const urduFont = fontStyleBlock(lang);
+    const bodyFont = bodyFontCss(lang);
 
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${dir}">
@@ -1293,12 +1281,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
     <link rel="canonical" href="${SITE_BASE_URL}/${lang}/${slug}.html">
 
     <!-- hreflang: tell Google these are the same page in different languages -->
-    <link rel="alternate" hreflang="en" href="${SITE_BASE_URL}/en/${slug}.html">
-    <link rel="alternate" hreflang="de" href="${SITE_BASE_URL}/de/${slug}.html">
-    <link rel="alternate" hreflang="tr" href="${SITE_BASE_URL}/tr/${slug}.html">
-    <link rel="alternate" hreflang="ur" href="${SITE_BASE_URL}/ur/${slug}.html">
-    <link rel="alternate" hreflang="ar" href="${SITE_BASE_URL}/ar/${slug}.html">
-    <link rel="alternate" hreflang="ru" href="${SITE_BASE_URL}/ru/${slug}.html">
+    ${hreflangLangs().map(l => `<link rel="alternate" hreflang="${l}" href="${SITE_BASE_URL}/${l}/${slug}.html">`).join('\n    ')}
     <link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/${slug}.html">
 
     <!-- Open Graph -->
@@ -1309,7 +1292,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
     <meta property="og:image" content="${OG_IMAGE_URL}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="${lang === 'en' ? 'en_US' : lang === 'ar' ? 'ar_SA' : lang === 'de' ? 'de_DE' : lang === 'tr' ? 'tr_TR' : lang === 'ru' ? 'ru_RU' : 'ur_PK'}">
+    <meta property="og:locale" content="${LANGS[lang].ogLocale}">
     <meta property="og:site_name" content="${escapeHtml(ui.siteTitle)}">
 
     <!-- Twitter Card -->
@@ -1377,7 +1360,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
           "url": "${SITE_BASE_URL}/${lang}/${slug}.html",
           "name": "${escapeHtml(title)} · ${escapeHtml(ui.siteTitle)}",
           "description": "${escapeHtml(buildMetaDesc(lang, title, slug))}",
-          "inLanguage": "${lang === 'en' ? 'en-GB' : lang === 'ar' ? 'ar' : lang === 'de' ? 'de' : lang === 'tr' ? 'tr' : lang === 'ru' ? 'ru' : 'ur-PK'}",
+          "inLanguage": "${LANGS[lang].inLanguage}",
           "isPartOf": { "@id": "${SITE_BASE_URL}/" },
           "publisher": {
             "@type": "Person",
@@ -1629,7 +1612,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
            not a Bootstrap-overridden fallback */
         [dir="rtl"] table td,
         [dir="rtl"] table th {
-            font-family: ${lang === 'ur' ? "'Jameel Noori Nastaleeq'" : lang === 'ar' ? "'Indopak Nastaleeq'" : 'inherit'}, serif;
+            font-family: ${LANGS[lang].font ? `'${LANGS[lang].font.family}'` : 'inherit'}, serif;
         }
         [dir="rtl"] table td:nth-child(2),
         [dir="rtl"] table th:nth-child(2) {
@@ -1970,20 +1953,10 @@ function renderPage({ lang, title, bodyHtml, slug }) {
                 <a class="btn-quiz" href="../quiz.html?lang=${lang}" title="${(A11Y[lang] || A11Y.en).quiz}">🎯 Quiz</a>
                 <div class="lang-dropdown" id="langDrop">
                     <button class="lang-dropdown-btn" onclick="document.getElementById('langDrop').classList.toggle('open')" aria-haspopup="true" aria-label="${escapeHtml(ui.pickerHint)}">
-                        ${lang === 'en' ? '<span class="fi fi-gb"></span> EN'
-                        : lang === 'ur' ? '<span class="fi fi-pk"></span> UR'
-                        : lang === 'ar' ? '<span class="fi fi-sa"></span> AR'
-                        : lang === 'tr' ? '<span class="fi fi-tr"></span> TR'
-                        : lang === 'ru' ? '<span class="fi fi-ru"></span> RU'
-                        : '<span class="fi fi-de"></span> DE'} ▾
+                        <span class="fi fi-${LANGS[lang].flag}"></span> ${LANGS[lang].short} ▾
                     </button>
                     <div class="lang-dropdown-menu" role="menu">
-                        <a href="../en/${slug}.html" ${lang === 'en' ? 'class="active"' : ''} role="menuitem"><span class="fi fi-gb"></span> English</a>
-                        <a href="../de/${slug}.html" ${lang === 'de' ? 'class="active"' : ''} role="menuitem"><span class="fi fi-de"></span> Deutsch</a>
-                        <a href="../tr/${slug}.html" ${lang === 'tr' ? 'class="active"' : ''} role="menuitem"><span class="fi fi-tr"></span> Türkçe</a>
-                        <a href="../ru/${slug}.html" ${lang === 'ru' ? 'class="active"' : ''} role="menuitem"><span class="fi fi-ru"></span> Русский</a>
-                        <a href="../ur/${slug}.html" ${lang === 'ur' ? 'class="active"' : ''} role="menuitem" style="font-family:'Jameel Noori Nastaleeq',serif;font-size:1.05rem;"><span class="fi fi-pk"></span> اردو</a>
-                        <a href="../ar/${slug}.html" ${lang === 'ar' ? 'class="active"' : ''} role="menuitem" style="font-family:'Indopak Nastaleeq',serif;font-size:1.05rem;"><span class="fi fi-sa"></span> عربي</a>
+                        ${enabledLangs().map(c => { const L = LANGS[c]; const st = L.font ? ` style="font-family:'${L.font.family}',serif;font-size:${L.font.menuSize};"` : ''; return `<a href="../${c}/${slug}.html" ${lang === c ? 'class="active"' : ''} role="menuitem"${st}><span class="fi fi-${L.flag}"></span> ${L.name}</a>`; }).join('\n                        ')}
                     </div>
                 </div>
                 <button class="btn-theme" id="themeToggle" aria-label="${(A11Y[lang] || A11Y.en).theme}">🌓</button>
@@ -2044,10 +2017,41 @@ function renderPage({ lang, title, bodyHtml, slug }) {
 }
 
 // ---------- Per-language index page ----------
+// Index page copy per language (hoisted so check-languages.js can see it).
+const INDEX_INTRO = {
+    en: 'The <strong>Einbürgerungstest</strong> (Leben in Deutschland test) is required for German Permanent Residence and Citizenship. The test is in German — use this free guide to study every official question with English translation and clear explanation.',
+    ur: 'جرمن مستقل اقامت (Niederlassungserlaubnis) اور شہریت کے لیے <strong>Einbürgerungstest</strong> پاس کرنا ضروری ہے۔ یہ امتحان جرمن زبان میں ہوتا ہے — اس مفت گائیڈ میں ہر سرکاری سوال کا اردو ترجمہ اور آسان وضاحت موجود ہے۔',
+    ar: 'يُعدّ اختبار <strong>Einbürgerungstest</strong> (Leben in Deutschland) شرطاً للحصول على الإقامة الدائمة والجنسية الألمانية. الاختبار باللغة الألمانية — استخدم هذا الدليل المجاني لدراسة جميع الأسئلة الرسمية مع الترجمة العربية والشرح الوافي.',
+    de: 'Der <strong>Einbürgerungstest</strong> (Leben in Deutschland) ist Voraussetzung für die Niederlassungserlaubnis und die deutsche Staatsbürgerschaft. Dieser kostenlose Leitfaden enthält alle offiziellen Fragen mit markierten Antworten und Erklärungen auf Deutsch.',
+    tr: '<strong>Einbürgerungstest</strong> (Leben in Deutschland sınavı), Almanya Oturma İzni ve Vatandaşlığı için zorunludur. Sınav Almanca yapılır — bu ücretsiz rehberde tüm resmi sorular işaretli cevaplar ve Türkçe açıklamalarla yer almaktadır.',
+    ru: 'Для получения вида на жительство (Niederlassungserlaubnis) и гражданства Германии необходимо сдать <strong>Einbürgerungstest</strong> (Leben in Deutschland). Тест проходит на немецком языке. В этом бесплатном пособии — все официальные вопросы с выделенными ответами и пояснениями на русском языке.',
+};
+
+const INDEX_HEADINGS = {
+    en: { qs: '📖 General Questions', states: '🗺️ State Questions', howLabel: '❓ How it works', howText: 'The test has <strong>33 questions</strong> — 30 from the general pool and 3 from your state. You need <strong>17 correct</strong> to pass. <a href="../quiz.html?lang=en">Take the practice quiz →</a>', statsLabel: '' },
+    ur: { qs: '📖 عمومی سوالات', states: '🗺️ ریاستی سوالات', howLabel: '❓ امتحان کیسے ہوتا ہے؟', howText: 'امتحان میں <strong>33 سوالات</strong> ہوتے ہیں — 30 عمومی اور 3 آپ کی ریاست کے۔ پاس کرنے کے لیے <strong>17 درست</strong> جوابات ضروری ہیں۔ <a href="../quiz.html?lang=ur">مشق کوئز دیں ←</a>' },
+    ar: { qs: '📖 الأسئلة العامة', states: '🗺️ أسئلة الولايات', howLabel: '❓ كيف يعمل الاختبار؟', howText: 'يحتوي الاختبار على <strong>33 سؤالاً</strong> — 30 من الأسئلة العامة و3 من ولايتك. تحتاج إلى <strong>17 إجابة صحيحة</strong> للنجاح. <a href="../quiz.html?lang=ar">ابدأ اختبار التدريب ←</a>' },
+    de: { qs: '📖 Allgemeine Fragen', states: '🗺️ Länderfragen', howLabel: '❓ Wie funktioniert der Test?', howText: 'Der Test hat <strong>33 Fragen</strong> — 30 aus dem allgemeinen Pool und 3 aus Ihrem Bundesland. Sie benötigen <strong>17 richtige</strong> Antworten zum Bestehen. <a href="../quiz.html?lang=de">Zum Übungsquiz →</a>' },
+    tr: { qs: '📖 Genel Sorular', states: '🗺️ Eyalet Soruları', howLabel: '❓ Sınav nasıl işler?', howText: 'Sınav <strong>33 sorudan</strong> oluşur — 30 genel havuzdan, 3 eyaletinizden. Geçmek için <strong>17 doğru</strong> yanıt gerekir. <a href="../quiz.html?lang=tr">Pratik sınavı başlat →</a>' },
+    ru: { qs: '📖 Общие вопросы', states: '🗺️ Вопросы по землям', howLabel: '❓ Как устроен тест?', howText: 'Тест состоит из <strong>33 вопросов</strong> — 30 из общего пула и 3 из вашей земли. Чтобы сдать, нужно <strong>17 правильных</strong> ответов. <a href="../quiz.html?lang=ru">Перейти к тренировке →</a>' },
+};
+
+// Client-side helpers: the index page script keeps one `isXx` flag per language and picks
+// strings with a ternary chain. Both are generated from the language registry.
+const cap = c => c.charAt(0).toUpperCase() + c.slice(1);
+const jsq = str => "'" + str.replace(/'/g, '\\' + "'") + "'";
+const nonEn = () => buildLangs().filter(c => c !== 'en');
+function clientLangConsts() {
+    return nonEn().map(c => `const is${cap(c)} = lang === '${c}';`).join('\n            ');
+}
+function clientChain(key) {
+    return nonEn().map(c => `is${cap(c)} ? ${jsq(t(key, c))} : `).join('') + jsq(t(key, 'en'));
+}
+
 function renderIndex({ lang, slugs }) {
     const ui = UI[lang];
     const titles = TITLES[lang];
-    const dir = (lang === 'ur' || lang === 'ar') ? 'rtl' : 'ltr';
+    const dir = LANGS[lang].dir;
     const isUr = lang === 'ur';
     const isAr = lang === 'ar';
     const isDe = lang === 'de';
@@ -2068,42 +2072,16 @@ function renderIndex({ lang, slugs }) {
     const stateSlugs = ORDERED_STATES;
 
     // Intro text per language
-    const intro = {
-        en: 'The <strong>Einbürgerungstest</strong> (Leben in Deutschland test) is required for German Permanent Residence and Citizenship. The test is in German — use this free guide to study every official question with English translation and clear explanation.',
-        ur: 'جرمن مستقل اقامت (Niederlassungserlaubnis) اور شہریت کے لیے <strong>Einbürgerungstest</strong> پاس کرنا ضروری ہے۔ یہ امتحان جرمن زبان میں ہوتا ہے — اس مفت گائیڈ میں ہر سرکاری سوال کا اردو ترجمہ اور آسان وضاحت موجود ہے۔',
-        ar: 'يُعدّ اختبار <strong>Einbürgerungstest</strong> (Leben in Deutschland) شرطاً للحصول على الإقامة الدائمة والجنسية الألمانية. الاختبار باللغة الألمانية — استخدم هذا الدليل المجاني لدراسة جميع الأسئلة الرسمية مع الترجمة العربية والشرح الوافي.',
-        de: 'Der <strong>Einbürgerungstest</strong> (Leben in Deutschland) ist Voraussetzung für die Niederlassungserlaubnis und die deutsche Staatsbürgerschaft. Dieser kostenlose Leitfaden enthält alle offiziellen Fragen mit markierten Antworten und Erklärungen auf Deutsch.',
-        tr: '<strong>Einbürgerungstest</strong> (Leben in Deutschland sınavı), Almanya Oturma İzni ve Vatandaşlığı için zorunludur. Sınav Almanca yapılır — bu ücretsiz rehberde tüm resmi sorular işaretli cevaplar ve Türkçe açıklamalarla yer almaktadır.',
-        ru: 'Для получения вида на жительство (Niederlassungserlaubnis) и гражданства Германии необходимо сдать <strong>Einbürgerungstest</strong> (Leben in Deutschland). Тест проходит на немецком языке. В этом бесплатном пособии — все официальные вопросы с выделенными ответами и пояснениями на русском языке.',
-    };
 
-    const headings = {
-        en: { qs: '📖 General Questions', states: '🗺️ State Questions', howLabel: '❓ How it works', howText: 'The test has <strong>33 questions</strong> — 30 from the general pool and 3 from your state. You need <strong>17 correct</strong> to pass. <a href="../quiz.html?lang=en">Take the practice quiz →</a>', statsLabel: '' },
-        ur: { qs: '📖 عمومی سوالات', states: '🗺️ ریاستی سوالات', howLabel: '❓ امتحان کیسے ہوتا ہے؟', howText: 'امتحان میں <strong>33 سوالات</strong> ہوتے ہیں — 30 عمومی اور 3 آپ کی ریاست کے۔ پاس کرنے کے لیے <strong>17 درست</strong> جوابات ضروری ہیں۔ <a href="../quiz.html?lang=ur">مشق کوئز دیں ←</a>' },
-        ar: { qs: '📖 الأسئلة العامة', states: '🗺️ أسئلة الولايات', howLabel: '❓ كيف يعمل الاختبار؟', howText: 'يحتوي الاختبار على <strong>33 سؤالاً</strong> — 30 من الأسئلة العامة و3 من ولايتك. تحتاج إلى <strong>17 إجابة صحيحة</strong> للنجاح. <a href="../quiz.html?lang=ar">ابدأ اختبار التدريب ←</a>' },
-        de: { qs: '📖 Allgemeine Fragen', states: '🗺️ Länderfragen', howLabel: '❓ Wie funktioniert der Test?', howText: 'Der Test hat <strong>33 Fragen</strong> — 30 aus dem allgemeinen Pool und 3 aus Ihrem Bundesland. Sie benötigen <strong>17 richtige</strong> Antworten zum Bestehen. <a href="../quiz.html?lang=de">Zum Übungsquiz →</a>' },
-        tr: { qs: '📖 Genel Sorular', states: '🗺️ Eyalet Soruları', howLabel: '❓ Sınav nasıl işler?', howText: 'Sınav <strong>33 sorudan</strong> oluşur — 30 genel havuzdan, 3 eyaletinizden. Geçmek için <strong>17 doğru</strong> yanıt gerekir. <a href="../quiz.html?lang=tr">Pratik sınavı başlat →</a>' },
-        ru: { qs: '📖 Общие вопросы', states: '🗺️ Вопросы по землям', howLabel: '❓ Как устроен тест?', howText: 'Тест состоит из <strong>33 вопросов</strong> — 30 из общего пула и 3 из вашей земли. Чтобы сдать, нужно <strong>17 правильных</strong> ответов. <a href="../quiz.html?lang=ru">Перейти к тренировке →</a>' },
-    };
 
-    const h = headings[lang] || headings.en;
+    const h = INDEX_HEADINGS[lang] || INDEX_HEADINGS.en;
 
     // Stats bar
-    const stats = lang === 'ur'
-        ? `<div class="idx-stats"><span>📋 300+ سوالات</span><span>🗺️ 16 ریاستیں</span><span>✅ درست جوابات</span><span>💡 ہر سوال کی وضاحت</span></div>`
-        : lang === 'ar'
-        ? `<div class="idx-stats"><span>📋 300+ سؤال</span><span>🗺️ 16 ولاية</span><span>✅ الإجابات مُميَّزة</span><span>💡 شرح لكل سؤال</span></div>`
-        : lang === 'de'
-        ? `<div class="idx-stats"><span>📋 300+ Fragen</span><span>🗺️ 16 Bundesländer</span><span>✅ Antworten markiert</span><span>💡 Erklärung je Frage</span></div>`
-        : lang === 'tr'
-        ? `<div class="idx-stats"><span>📋 300+ Soru</span><span>🗺️ 16 Eyalet</span><span>✅ Cevaplar işaretli</span><span>💡 Her soru için açıklama</span></div>`
-        : isRu
-        ? `<div class="idx-stats"><span>📋 300+ вопросов</span><span>🗺️ 16 земель</span><span>✅ Ответы выделены</span><span>💡 Пояснение к каждому вопросу</span></div>`
-        : `<div class="idx-stats"><span>📋 300+ questions</span><span>🗺️ 16 Bundesländer</span><span>✅ Answers highlighted</span><span>💡 Explanation per question</span></div>`;
+    const stats = t('idxStats', lang);
 
     // Question set cards
     const qCards = qSets.map(({ slug, range }) => {
-        const label = isUr ? `سوالات ${range}` : isAr ? `الأسئلة ${range}` : isDe ? `Fragen ${range}` : isTr ? `Sorular ${range}` : isRu ? `Вопросы ${range}` : `Questions ${range}`;
+        const label = `${t('idxRange', lang)} ${range}`;
         return `<a class="idx-card" href="./${slug}.html">
             <span class="idx-card-icon">📝</span>
             <span class="idx-card-label">${label}</span>
@@ -2120,17 +2098,7 @@ function renderIndex({ lang, slugs }) {
     }).join('');
 
     // Quiz CTA
-    const quizCta = lang === 'ur'
-        ? `<a class="idx-quiz-cta" href="../quiz.html?lang=ur">🎯 مشق کوئز شروع کریں — اصل Einbürgerungstest کی طرح</a>`
-        : lang === 'ar'
-        ? `<a class="idx-quiz-cta" href="../quiz.html?lang=ar">🎯 ابدأ اختبار التدريب — محاكاة لاختبار Einbürgerungstest الفعلي</a>`
-        : lang === 'de'
-        ? `<a class="idx-quiz-cta" href="../quiz.html?lang=de">🎯 Übungsquiz starten — wie der echte Einbürgerungstest</a>`
-        : lang === 'tr'
-        ? `<a class="idx-quiz-cta" href="../quiz.html?lang=tr">🎯 Pratik Sınavı Başlat — gerçek Einbürgerungstest gibi</a>`
-        : isRu
-        ? `<a class="idx-quiz-cta" href="../quiz.html?lang=ru">🎯 Начать тренировочный тест — как настоящий Einbürgerungstest</a>`
-        : `<a class="idx-quiz-cta" href="../quiz.html?lang=en">🎯 Start Practice Quiz — simulates the real Einbürgerungstest</a>`;
+    const quizCta = `<a class="idx-quiz-cta" href="../quiz.html?lang=${lang}">${t('idxQuizCta', lang)}</a>`;
 
     const body = `
         <style>
@@ -2211,18 +2179,15 @@ function renderIndex({ lang, slugs }) {
         <div class="idx-search-wrap">
             <span class="idx-search-icon">🔍</span>
             <input class="idx-search-input" id="searchInput" type="search"
-                placeholder="${isUr ? 'سوالات تلاش کریں…' : isAr ? 'ابحث في الأسئلة…' : isDe ? 'Fragen suchen…' : isTr ? 'Sorularda ara…' : isRu ? 'Поиск вопросов…' : 'Search questions…'}"
-                autocomplete="off" aria-label="${isUr ? 'سوالات تلاش کریں' : isAr ? 'ابحث في الأسئلة' : isDe ? 'Fragen suchen' : isTr ? 'Sorularda ara' : isRu ? 'Поиск вопросов' : 'Search questions'}">
+                placeholder="${t('searchPlaceholder', lang)}"
+                autocomplete="off" aria-label="${t('searchAria', lang)}">
             <div class="idx-search-results" id="searchResults" role="listbox"></div>
         </div>
         <script>
         (function(){
             const lang = '${lang}';
-            const isUr = lang === 'ur';
-            const isAr = lang === 'ar';
-            const isDe = lang === 'de';
-            const isTr = lang === 'tr';
-            const isRu = lang === 'ru';
+            ${clientLangConsts()}
+            const searchField = ${JSON.stringify(LANGS[lang].searchField || null)};
             let searchData = null;
 
             // Load search index lazily on first keypress
@@ -2263,23 +2228,22 @@ function renderIndex({ lang, slugs }) {
                 const lq = q.toLowerCase();
                 const matches = searchData.filter(item =>
                     (item.de && item.de.toLowerCase().includes(lq)) ||
-                    (isUr ? (item.ur && item.ur.toLowerCase().includes(lq))
-                    : isAr ? (item.ar && item.ar.toLowerCase().includes(lq))
-                           : (item.en && item.en.toLowerCase().includes(lq)))
+                    (searchField ? (item[searchField] && item[searchField].toLowerCase().includes(lq))
+                                 : (item.en && item.en.toLowerCase().includes(lq)))
                 ).slice(0, 10);
 
                 if (!matches.length) {
                     results.innerHTML = '<div class="idx-search-empty">' +
-                        (isUr ? 'کوئی نتیجہ نہیں ملا۔' : isAr ? 'لا توجد نتائج.' : isDe ? 'Keine Ergebnisse gefunden.' : isTr ? 'Sonuç bulunamadı.' : isRu ? 'Ничего не найдено.' : 'No results found.') + '</div>';
+                        (${clientChain('noResults')}) + '</div>';
                     results.classList.add('visible');
                     return;
                 }
 
                 results.innerHTML = matches.map(item => {
                     const href = './' + item.slug + '.html#q-' + item.id;
-                    const primary = highlight(isUr ? (item.ur || item.de) : isAr ? (item.ar || item.de) : item.de, q);
+                    const primary = highlight(searchField ? (item[searchField] || item.de) : item.de, q);
                     return '<a class="idx-search-result" href="' + escHtml(href) + '">' +
-                        '<div class="idx-search-result-num">' + (isUr ? 'سوال ' : isAr ? 'السؤال ' : isDe ? 'Frage ' : isTr ? 'Soru ' : isRu ? 'Вопрос ' : 'Question ') + item.id + '</div>' +
+                        '<div class="idx-search-result-num">' + (${clientChain('questionWord')}) + item.id + '</div>' +
                         '<div class="idx-search-result-text">' + primary + '</div>' +
                         '</a>';
                 }).join('');
@@ -2385,7 +2349,7 @@ function renderIndex({ lang, slugs }) {
         }
         </style>
 
-        <div class="idx-intro">${intro[lang] || intro.en}</div>
+        <div class="idx-intro">${INDEX_INTRO[lang] || INDEX_INTRO.en}</div>
 
         ${stats}
 
@@ -2395,16 +2359,16 @@ function renderIndex({ lang, slugs }) {
 
         <div class="progress-tracker" id="progressTracker">
             <div class="pt-header">
-                <span>${isUr ? '📚 پیش رفت:' : isAr ? '📚 التقدم:' : isDe ? '📚 Fortschritt:' : isTr ? '📚 İlerleme:' : isRu ? '📚 Прогресс:' : '📚 Progress:'} <strong id="ptCount">0</strong> / 300 ${isUr ? 'سوالات سیکھ لیے' : isAr ? 'سؤال تعلّمته' : isDe ? 'Fragen gelernt' : isTr ? 'soru öğrenildi' : isRu ? 'вопросов изучено' : 'questions learned'}</span>
+                <span>${t('progressLabel', lang)} <strong id="ptCount">0</strong> / 300 ${t('progressSuffix', lang)}</span>
                 <span class="pt-pct" id="ptPct">0%</span>
             </div>
             <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptFill" style="width:0%"></div></div>
             <div class="pt-header" style="margin-top:.85rem">
-                <span>${isUr ? '🗺️ ریاستی سوالات:' : isAr ? '🗺️ أسئلة الولايات:' : isDe ? '🗺️ Länderfragen:' : isTr ? '🗺️ Eyalet soruları:' : isRu ? '🗺️ Вопросы по землям:' : '🗺️ State questions:'} <strong id="ptStateCount">0</strong> / 160 ${isUr ? 'سیکھ لیے' : isAr ? 'تعلّمتها' : isDe ? 'gelernt' : isTr ? 'öğrenildi' : isRu ? 'изучено' : 'learned'}</span>
+                <span>${t('stateProgressLabel', lang)} <strong id="ptStateCount">0</strong> / 160 ${t('stateProgressSuffix', lang)}</span>
                 <span class="pt-pct" id="ptStatePct">0%</span>
             </div>
             <div class="pt-bar-bg"><div class="pt-bar-fill" id="ptStateFill" style="width:0%"></div></div>
-            <button class="pt-reset" onclick="if(confirm('${isUr ? 'تمام پیش رفت مٹا دی جائے؟' : isAr ? 'هل تريد إعادة تعيين كل التقدم؟' : isDe ? 'Gesamten Fortschritt zurücksetzen?' : isTr ? 'Tüm ilerleme sıfırlansın mı?' : isRu ? 'Сбросить весь прогресс?' : 'Reset all progress?'}')){localStorage.removeItem('gct_learned');location.reload();}">${isUr ? 'پیش رفت ری سیٹ کریں' : isAr ? 'إعادة تعيين التقدم' : isDe ? 'Fortschritt zurücksetzen' : isTr ? 'İlerlemeyi sıfırla' : isRu ? 'Сбросить прогресс' : 'Reset progress'}</button>
+            <button class="pt-reset" onclick="if(confirm('${t('resetConfirm', lang)}')){localStorage.removeItem('gct_learned');location.reload();}">${t('resetButton', lang)}</button>
         </div>
         <script>
         (function(){
@@ -2451,10 +2415,11 @@ function slugFromFile(filename) {
 function buildLang(lang) {
     const srcDir = SOURCES[lang];
     const outDir = OUTPUTS[lang];
+    const LOC = LOCALES[lang]; // undefined for markdown-source languages (en, ur, ar)
 
     if (!fs.existsSync(srcDir)) {
         console.error(`✗ Source missing for ${lang}: ${srcDir}`);
-        console.error(`  Clone the ${lang === 'ur' ? 'urdu' : lang === 'ar' ? 'arabic' : 'english'} branch there first.`);
+        console.error(`  Expected the markdown sources in sources/${LANGS[lang].source}/.`);
         process.exit(1);
     }
 
@@ -2475,7 +2440,7 @@ function buildLang(lang) {
         let preprocessed = md.replace(/([^\n])\n---\s*$/gm, '$1\n\n---');
 
         // For German/Turkish/Russian pages: strip the English translation column.
-        if (lang === 'de' || lang === 'tr' || lang === 'ru') {
+        if (LOC) {
             preprocessed = preprocessed.split('\n').map(line => {
                 const t = line.trim();
                 // Remove English translation label line.
@@ -2489,15 +2454,10 @@ function buildLang(lang) {
                     parts.splice(parts.length - 2, 1);
                     return parts.join('|');
                 }
-                // Translate nav links that come from the markdown source
-                return line
-                    .replace(/⬅ Previous: Questions (\d+)–(\d+)/g, '⬅ Vorherige: Fragen $1–$2')
-                    .replace(/Previous: Questions (\d+)–(\d+)/g, 'Vorherige: Fragen $1–$2')
-                    .replace(/Next: Questions (\d+)–(\d+)/g, 'Nächste: Fragen $1–$2')
-                    .replace(/Note: Questions (\d+)–(\d+) cover[^.]+\./g,
-                        'Hinweis: Fragen $1–$2 umfassen spätere Geschichte, Geographie, Kultur, Gesellschaft, Religion und Alltag.')
-                    .replace(/Always refer to the official BAMF catalog[^.]*\./g,
-                        'Bitte beachten Sie stets den offiziellen BAMF-Fragenkatalog für den genauen Wortlaut.');
+                // Language-specific rewrites of lines that come from the markdown source
+                let out = line;
+                for (const [re, flags, repl] of (LOC.markdownNav || [])) out = out.replace(new RegExp(re, flags), repl);
+                return out;
             }).join('\n');
         }
 
@@ -2519,344 +2479,30 @@ function buildLang(lang) {
             }
         );
 
-        // For German pages: translate all English-sourced content into German.
-        if (lang === 'de') {
-            // H1 headings
-            bodyHtml = bodyHtml
-                .replace(/General Questions — Part 1 \(Questions 1–50\)/g, 'Allgemeine Fragen — Teil 1 (Fragen 1–50)')
-                .replace(/General Questions — Part 2 \(Questions 51–100\)/g, 'Allgemeine Fragen — Teil 2 (Fragen 51–100)')
-                .replace(/General Questions — Part 3 \(Questions 101–150\)/g, 'Allgemeine Fragen — Teil 3 (Fragen 101–150)')
-                .replace(/General Questions — Part 4 \(Questions 151–200\)/g, 'Allgemeine Fragen — Teil 4 (Fragen 151–200)')
-                .replace(/General Questions — Part 5 \(Questions 201–250\)/g, 'Allgemeine Fragen — Teil 5 (Fragen 201–250)')
-                .replace(/General Questions — Part 6 \(Questions 251–300\)/g, 'Allgemeine Fragen — Teil 6 (Fragen 251–300)');
-            // H2 topic headings
-            bodyHtml = bodyHtml
-                .replace(/Politics, Democracy, Basic Rights &amp; State Structure/g, 'Politik, Demokratie, Grundrechte &amp; Staatsstruktur')
-                .replace(/Political System, Parties, Elections &amp; Government Structure/g, 'Politisches System, Parteien, Wahlen &amp; Regierungsstruktur')
-                .replace(/Legal System, Government, EU &amp; Civic Life/g, 'Rechtssystem, Regierung, EU &amp; Bürgerleben')
-                .replace(/German History: Nazi Era, WWII, Post-War Period/g, 'Deutsche Geschichte: NS-Zeit, Zweiter Weltkrieg, Nachkriegszeit')
-                .replace(/History: Cold War, Reunification, Culture &amp; Geography/g, 'Geschichte: Kalter Krieg, Wiedervereinigung, Kultur &amp; Geographie')
-                .replace(/Society, Culture, Daily Life, Religion &amp; Civic Knowledge/g, 'Gesellschaft, Kultur, Alltag, Religion &amp; Bürgerkunde');
-            // Question headings: "Question N" → "Frage N" (also matches state
+        // Dictionary languages (de, tr, ru, ...): localise the English markdown with the
+        // per-language phrase table (locales/<lang>.json, aligned with locales/phrases.json)
+        // and the explanation / question dictionaries.
+        if (LOC) {
+            PHRASES.forEach((p, i) => {
+                const repl = LOC.phrases[i];
+                p.re.lastIndex = 0;
+                if (p.re.test(bodyHtml)) (PHRASE_HITS[lang] = PHRASE_HITS[lang] || new Set()).add(i);
+                p.re.lastIndex = 0;
+                if (repl != null && repl !== false) bodyHtml = bodyHtml.replace(p.re, repl); // false = deliberately skipped
+            });
+            // Question headings: "Question N" -> "<questionWord> N" (also matches state
             // headings with trailing text, e.g. "Question 301 — Coat of Arms")
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-\d+">)Question (\d+)/g, '$1Frage $2'
-            );
-            // Explanation label
-            bodyHtml = bodyHtml.replace(/📝 Explanation:/g, '📝 Erklärung:');
-            // Navigation links from markdown source
-            bodyHtml = bodyHtml
-                .replace(/⬅ Back to Main README/g, '⬅ Zur Startseite')
-                .replace(/⬅ Vorherige: Questions (\d+)–(\d+)/g, '⬅ Vorherige: Fragen $1–$2')
-                .replace(/⬅ Previous:/g, '⬅ Vorherige:')
-                .replace(/Next:/g, 'Nächste:')
-                .replace(/← Back to index/g, '← Zurück')
-                .replace(/Back to Main README/g, 'Zur Startseite');
-
-            // Inject German explanations — single combined regex captures both
-            // the question ID from <h3> and the blockquote in one match,
-            // avoiding the stateful tracking problem.
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const deText = DE_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!deText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Erklärung:</strong> ${deText}</p>\n</blockquote>`;
-                }
-            );
-            // Also replace format with existing "Erklärung:" label (Q1-100 where label was applied first)
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝 Erklärung:<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const deText = DE_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!deText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Erklärung:</strong> ${deText}</p>\n</blockquote>`;
-                }
-            );
-            // State pages Q306-310 section: translate heading and labels
-            bodyHtml = bodyHtml
-                .replace(/Questions 306–310 — Additional State Facts/g, 'Fragen 306–310 — Weitere Fakten zum Bundesland')
-                .replace(/<p>Key facts for your preparation:<\/p>/g, '<p>Wichtige Fakten für Ihre Vorbereitung:</p>')
-                .replace(/<strong>Parliament:<\/strong>/g, '<strong>Parlament:</strong>')
-                .replace(/<strong>Neighbors\/Borders:<\/strong>/g, '<strong>Nachbarn/Grenzen:</strong>')
-                .replace(/<strong>Major cities:<\/strong>/g, '<strong>Wichtige Städte:</strong>')
-                // English border descriptions → German
-                .replace(/Surrounded by Schleswig-Holstein and Niedersachsen/g, 'Wird von Schleswig-Holstein und Niedersachsen umgeben')
-                .replace(/Surrounded entirely by Brandenburg/g, 'Vollständig von Brandenburg umgeben')
-                .replace(/Surrounded by Niedersachsen \(Lower Saxony\)/g, 'Wird von Niedersachsen umgeben')
-                .replace(/No international borders\. Borders:/g, 'Keine Auslandsgrenze. Grenzt an:')
-                .replace(/No international borders; borders/g, 'Keine Auslandsgrenze; grenzt an:')
-                .replace(/Poland, Baltic Sea; borders/g, 'Polen, Ostsee; grenzt an:')
-                .replace(/Poland, Czech Republic; borders/g, 'Polen, Tschechien; grenzt an:')
-                .replace(/Denmark, North Sea, Baltic Sea; borders/g, 'Dänemark, Nordsee, Ostsee; grenzt an:')
-                .replace(/France, Luxembourg, Belgium; borders/g, 'Frankreich, Luxemburg, Belgien; grenzt an:')
-                .replace(/France, Luxembourg; borders/g, 'Frankreich, Luxemburg; grenzt an:')
-                .replace(/Austria, Czech Republic, Switzerland \(via Lake Constance\)/g, 'Österreich, Tschechien, Schweiz (über den Bodensee)')
-                .replace(/Netherlands, North Sea; borders/g, 'Niederlande, Nordsee; grenzt an:')
-                .replace(/Abgeordnetenhaus \(House of Representatives\)/g, 'Abgeordnetenhaus')
-                .replace(/\bHamburg is a single city-state\b/g, 'Hamburg ist ein Stadtstaat')
-                .replace(/\bBerlin is a single city-state with 12 districts \(Bezirke\)\b/g, 'Berlin ist ein Stadtstaat mit 12 Bezirken')
-                .replace(/Bremen and Bremerhaven \(the state consists of two cities\)/g, 'Bremen und Bremerhaven (das Land besteht aus zwei Städten)')
-                .replace(/\(via Lake Constance\)/g, '(über den Bodensee)')
-                .replace(/Poland, and the states of/g, 'Polen sowie die Bundesländer');
-        }
-
-        if (lang === 'tr') {
-            // H1 headings → Turkish
-            bodyHtml = bodyHtml
-                .replace(/General Questions — Part 1 \(Questions 1–50\)/g,   'Genel Sorular — Bölüm 1 (Sorular 1–50)')
-                .replace(/General Questions — Part 2 \(Questions 51–100\)/g,  'Genel Sorular — Bölüm 2 (Sorular 51–100)')
-                .replace(/General Questions — Part 3 \(Questions 101–150\)/g, 'Genel Sorular — Bölüm 3 (Sorular 101–150)')
-                .replace(/General Questions — Part 4 \(Questions 151–200\)/g, 'Genel Sorular — Bölüm 4 (Sorular 151–200)')
-                .replace(/General Questions — Part 5 \(Questions 201–250\)/g, 'Genel Sorular — Bölüm 5 (Sorular 201–250)')
-                .replace(/General Questions — Part 6 \(Questions 251–300\)/g, 'Genel Sorular — Bölüm 6 (Sorular 251–300)');
-            // H2 topic headings → Turkish
-            bodyHtml = bodyHtml
-                .replace(/Politics, Democracy, Basic Rights &amp; State Structure/g,       'Siyaset, Demokrasi, Temel Haklar &amp; Devlet Yapısı')
-                .replace(/Political System, Parties, Elections &amp; Government Structure/g,'Siyasi Sistem, Partiler, Seçimler &amp; Hükümet Yapısı')
-                .replace(/Legal System, Government, EU &amp; Civic Life/g,                 'Hukuk Sistemi, Hükümet, AB &amp; Vatandaşlık Hayatı')
-                .replace(/German History: Nazi Era, WWII, Post-War Period/g,               'Alman Tarihi: Nazi Dönemi, İkinci Dünya Savaşı, Savaş Sonrası')
-                .replace(/History: Cold War, Reunification, Culture &amp; Geography/g,     'Tarih: Soğuk Savaş, Yeniden Birleşme, Kültür &amp; Coğrafya')
-                .replace(/Society, Culture, Daily Life, Religion &amp; Civic Knowledge/g,  'Toplum, Kültür, Günlük Yaşam, Din &amp; Vatandaşlık Bilgisi');
-            // Question headings: "Question N" → "Soru N" (also matches state
-            // headings with trailing text, e.g. "Question 301 — Coat of Arms")
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-\d+">)Question (\d+)/g, '$1Soru $2'
-            );
-            // Explanation label
-            bodyHtml = bodyHtml.replace(/📝 Explanation:/g, '📝 Açıklama:');
-            // Navigation links
-            bodyHtml = bodyHtml
-                .replace(/⬅ Back to Main README/g, '⬅ Ana Sayfaya Dön')
-                .replace(/⬅ Previous: Questions (\d+)–(\d+)/g, '⬅ Önceki: Sorular $1–$2')
-                .replace(/⬅ Previous:/g, '⬅ Önceki:')
-                .replace(/Next:/g, 'Sonraki:')
-                .replace(/Back to Main README/g, 'Ana Sayfaya Dön')
-                .replace(/← Back to index/g, '← Geri')
-                // State page H1 title
-                .replace(/— State Questions \(301–310\)/g, '— Eyalet Soruları (301–310)')
-                .replace(/State Questions \(301–310\)/g, 'Eyalet Soruları (301–310)')
-                // State page navigation links from source
-                .replace(/⬅ Previous: State Questions/g, '⬅ Önceki Eyalet Soruları');
-            // Inject Turkish explanations
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const trText = TR_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!trText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Açıklama:</strong> ${trText}</p>\n</blockquote>`;
-                }
-            );
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝 Açıklama:<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const trText = TR_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!trText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Açıklama:</strong> ${trText}</p>\n</blockquote>`;
-                }
-            );
-            // Inject bilingual question + answer table (Turkish column alongside German)
-            bodyHtml = injectBilingualTable(bodyHtml, TR_QUESTIONS, 'tr');
-
-            // ── State page italic answer hints → Turkish ──────────────────
-            // Generic map / warning hints (same for all states)
-            bodyHtml = bodyHtml
-                .replace(/🖼️ Identify this state on a map of Germany\./g, '🖼️ Bu eyaleti Almanya haritasında bulun.')
-                .replace(/🖼️ Identify on numbered map\./g, '🖼️ Numaralı haritada bulun.')
-                .replace(/⚠️ Check current officeholder before your test\./g, '⚠️ Sınavdan önce güncel ismi kontrol edin.')
-                .replace(/⚠️ Check current officeholder\. As of 2025:/g, '⚠️ Güncel ismi kontrol edin. 2025 itibarıyla:')
-                .replace(/⚠️ Note: This answer changes with elections\. Always check the current Minister-President before your test\./g, '⚠️ Not: Bu cevap seçimlerle değişebilir. Sınavdan önce güncel Eyalet Başbakanı\'nı kontrol edin.')
-                .replace(/⚠️ Note: Answer options and the correct answer depend on the current catalog version\./g, '⚠️ Not: Cevap seçenekleri ve doğru cevap güncel katalog sürümüne göre değişebilir.')
-                .replace(/\(largest state in western Germany\)/g, '(Batı Almanya\'nın en büyük eyaleti)')
-                .replace(/\(other options vary\)/g, '(diğer seçenekler değişir)')
-                .replace(/\(other number\)/g, '(diğer numara)')
-                .replace(/\(Karte\)/g, '(Harita)')
-                .replace(/\(varies\)/g, '(değişir)')
-                .replace(/\(Current Minister-President at time of test\)/g, '(Sınav tarihindeki güncel Eyalet Başbakanı)')
-                .replace(/The number pointing to the large western state/g, 'Büyük batı eyaletini gösteren numara')
-                .replace(/other options vary/g, 'diğer seçenekler değişir');
-            // State-specific coat of arms descriptions
-            bodyHtml = bodyHtml
-                .replace(/🖼️ Select the image showing three black lions on a golden shield with deer and griffin supporters\./g, '🖼️ Geyik ve grifonla desteklenen altın kalkan üzerinde üç siyah aslanı gösteren resmi seçin.')
-                .replace(/🖼️ White and blue diamond pattern \(Bavarian rhombi\/lozenges\)/g, '🖼️ Beyaz ve mavi baklava deseni (Bavyera elmasları)')
-                .replace(/🖼️ Bear on white background/g, '🖼️ Beyaz zemin üzerinde ayı')
-                .replace(/🖼️ Red eagle on white background/g, '🖼️ Beyaz zemin üzerinde kırmızı kartal')
-                .replace(/🖼️ Key and coat of arms with the Bremen key/g, '🖼️ Bremen anahtarı ile anahtar ve arma')
-                .replace(/🖼️ White castle gate on red background/g, '🖼️ Kırmızı zemin üzerinde beyaz kale kapısı')
-                .replace(/🖼️ Red and white striped lion on blue background/g, '🖼️ Mavi zemin üzerinde kırmızı-beyaz çizgili aslan')
-                .replace(/🖼️ Bull head \(Mecklenburg\) and griffin \(Pomerania\)/g, '🖼️ Boğa başı (Mecklenburg) ve grifon (Pomeranya)')
-                .replace(/🖼️ White horse \(Sachsenross\) on red background/g, '🖼️ Kırmızı zemin üzerinde beyaz at (Sachsenross)')
-                .replace(/🖼️ This question shows 4 images of different coats of arms\. The correct answer shows the NRW coat of arms with the Rhine River \(wavy line\), the Westphalian horse, and the Lippe rose\./g, '🖼️ Bu soruda dört farklı arma resmi gösterilir. Doğru cevap; Ren Nehri (dalgalı çizgi), Vestfalya atı ve Lippe gülü içeren NRW armasını gösterir.')
-                .replace(/🖼️ This question shows a map of Germany with federal states\. You need to identify NRW\./g, '🖼️ Bu soruda federal eyaletlerle Almanya haritası gösterilir. NRW\'yi belirlemeniz gerekir.')
-                .replace(/🖼️ This question shows a map of Germany with numbered federal states\. You need to identify which number corresponds to NRW\./g, '🖼️ Bu soruda numaralı federal eyaletlerle Almanya haritası gösterilir. Hangi numaranın NRW\'ye karşılık geldiğini belirlemeniz gerekir.')
-                .replace(/🖼️ Cross, wheel, and lion representing the three historical regions/g, '🖼️ Üç tarihi bölgeyi temsil eden haç, tekerlek ve aslan')
-                .replace(/🖼️ Shield with lion, cross, and eagle representing historical territories/g, '🖼️ Tarihi bölgeleri temsil eden aslan, haç ve kartal içeren kalkan')
-                .replace(/🖼️ Green and white diagonal stripes with a crown of rue/g, '🖼️ Ruta tacıyla yeşil ve beyaz çapraz çizgiler')
-                .replace(/🖼️ Black and gold eagle/g, '🖼️ Siyah ve altın kartal')
-                .replace(/🖼️ Two lions on blue and red background/g, '🖼️ Mavi ve kırmızı zemin üzerinde iki aslan')
-                .replace(/🖼️ Red and white striped lion with blue claws on blue background/g, '🖼️ Mavi zemin üzerinde mavi pençeli kırmızı-beyaz çizgili aslan')
-                .replace(/🖼️ The large southwestern state\./g, '🖼️ Güneybatıdaki büyük eyalet.')
-                .replace(/Berlin \(is both capital and state\)/g, 'Berlin (hem başkent hem eyalet)')
-                .replace(/Hamburg \(is both city and state\)/g, 'Hamburg (hem şehir hem eyalet)')
-                .replace(/Hannover \(Hanover\)/g, 'Hannover')
-                .replace(/🖼️ Similar to Question 301 — shows images of coats of arms\. Select the one with the Rhine wave, Westphalian horse, and Lippe rose\./g, '🖼️ 301. Soru\'ya benzer — arma resimleri gösterilir. Ren dalgası, Vestfalya atı ve Lippe gülü içereni seçin.')
-                .replace(/🖼️ Identify Baden-Württemberg in southwestern Germany, bordering France and Switzerland\./g, '🖼️ Fransa ve İsviçre ile sınır komşusu olan güneybatı Almanya\'da Baden-Württemberg\'i haritada bulun.')
-                .replace(/München \(Munich\)/g, 'München')
-                .replace(/Remaining questions cover:[^<]*/g, 'Kalan sorular: ');
-            // Q306-310 section heading and labels → Turkish
-            bodyHtml = bodyHtml
-                .replace(/Questions 306–310 — Additional State Facts/g, 'Sorular 306–310 — Eyalete İlişkin Ek Bilgiler')
-                .replace(/<p>Key facts for your preparation:<\/p>/g, '<p>Hazırlığınız için önemli bilgiler:</p>')
-                .replace(/<strong>Parliament:<\/strong>/g, '<strong>Parlamento:</strong>')
-                .replace(/<strong>Neighbors\/Borders:<\/strong>/g, '<strong>Komşu Eyaletler/Sınırlar:</strong>')
-                .replace(/<strong>Major cities:<\/strong>/g, '<strong>Önemli Şehirler:</strong>')
-                .replace(/Surrounded by Schleswig-Holstein and Niedersachsen/g, 'Wird von Schleswig-Holstein und Niedersachsen umgeben')
-                .replace(/Surrounded entirely by Brandenburg/g, 'Vollständig von Brandenburg umgeben')
-                .replace(/Surrounded by Niedersachsen \(Lower Saxony\)/g, 'Wird von Niedersachsen umgeben')
-                .replace(/No international borders\. Borders:/g, 'Keine Auslandsgrenze. Grenzt an:')
-                .replace(/No international borders; borders/g, 'Keine Auslandsgrenze; grenzt an:')
-                .replace(/Poland, Baltic Sea; borders/g, 'Polen, Ostsee; grenzt an:')
-                .replace(/Poland, Czech Republic; borders/g, 'Polen, Tschechien; grenzt an:')
-                .replace(/Denmark, North Sea, Baltic Sea; borders/g, 'Dänemark, Nordsee, Ostsee; grenzt an:')
-                .replace(/France, Luxembourg, Belgium; borders/g, 'Frankreich, Luxemburg, Belgien; grenzt an:')
-                .replace(/France, Luxembourg; borders/g, 'Frankreich, Luxemburg; grenzt an:')
-                .replace(/Austria, Czech Republic, Switzerland \(via Lake Constance\)/g, 'Österreich, Tschechien, Schweiz (über den Bodensee)')
-                .replace(/Netherlands, North Sea; borders/g, 'Niederlande, Nordsee; grenzt an:')
-                .replace(/Abgeordnetenhaus \(House of Representatives\)/g, 'Abgeordnetenhaus')
-                .replace(/\bHamburg is a single city-state\b/g, 'Hamburg ist ein Stadtstaat')
-                .replace(/\bBerlin is a single city-state with 12 districts \(Bezirke\)\b/g, 'Berlin ist ein Stadtstaat mit 12 Bezirken')
-                .replace(/Bremen and Bremerhaven \(the state consists of two cities\)/g, 'Bremen und Bremerhaven (das Land besteht aus zwei Städten)')
-                .replace(/Poland, and the states of/g, 'Polen sowie die Bundesländer');
-        }
-
-        if (lang === 'ru') {
-            // H1 headings → Russian
-            bodyHtml = bodyHtml
-                .replace(/General Questions — Part 1 \(Questions 1–50\)/g,   'Общие вопросы — Часть 1 (Вопросы 1–50)')
-                .replace(/General Questions — Part 2 \(Questions 51–100\)/g,  'Общие вопросы — Часть 2 (Вопросы 51–100)')
-                .replace(/General Questions — Part 3 \(Questions 101–150\)/g, 'Общие вопросы — Часть 3 (Вопросы 101–150)')
-                .replace(/General Questions — Part 4 \(Questions 151–200\)/g, 'Общие вопросы — Часть 4 (Вопросы 151–200)')
-                .replace(/General Questions — Part 5 \(Questions 201–250\)/g, 'Общие вопросы — Часть 5 (Вопросы 201–250)')
-                .replace(/General Questions — Part 6 \(Questions 251–300\)/g, 'Общие вопросы — Часть 6 (Вопросы 251–300)');
-            // H2 topic headings → Russian
-            bodyHtml = bodyHtml
-                .replace(/Politics, Democracy, Basic Rights &amp; State Structure/g,       'Политика, демократия, основные права и государственный строй')
-                .replace(/Political System, Parties, Elections &amp; Government Structure/g,'Политическая система, партии, выборы и структура правительства')
-                .replace(/Legal System, Government, EU &amp; Civic Life/g,                 'Правовая система, правительство, ЕС и гражданская жизнь')
-                .replace(/German History: Nazi Era, WWII, Post-War Period/g,               'История Германии: нацизм, Вторая мировая война, послевоенный период')
-                .replace(/History: Cold War, Reunification, Culture &amp; Geography/g,     'История: холодная война, объединение, культура и география')
-                .replace(/Society, Culture, Daily Life, Religion &amp; Civic Knowledge/g,  'Общество, культура, повседневная жизнь, религия и гражданские знания');
-            // Question headings: "Question N" → "Вопрос N" (also matches state
-            // headings with trailing text, e.g. "Question 301 — Coat of Arms")
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-\d+">)Question (\d+)/g, '$1Вопрос $2'
-            );
-            // Explanation label and nav links
-            bodyHtml = bodyHtml
-                .replace(/📝 Explanation:/g, '📝 Пояснение:')
-                .replace(/⬅ Back to Main README/g, '⬅ На главную')
-                .replace(/⬅ Previous: Questions (\d+)–(\d+)/g, '⬅ Предыдущие: Вопросы $1–$2')
-                .replace(/⬅ Previous:/g, '⬅ Предыдущие:')
-                .replace(/Next:/g, 'Следующие:')
-                .replace(/Back to Main README/g, 'На главную')
-                .replace(/← Back to index/g, '← Назад')
-                .replace(/— State Questions \(301–310\)/g, '— Вопросы по земле (301–310)')
-                .replace(/State Questions \(301–310\)/g, 'Вопросы по земле (301–310)');
-            // Inject Russian explanations
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const ruText = RU_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!ruText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Пояснение:</strong> ${ruText}</p>\n</blockquote>`;
-                }
-            );
-            bodyHtml = bodyHtml.replace(
-                /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝 Пояснение:<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
-                (match, prefix, qid) => {
-                    const ruText = RU_EXPLANATIONS[parseInt(qid, 10)];
-                    if (!ruText) return match;
-                    return `${prefix}<blockquote>\n<p><strong>📝 Пояснение:</strong> ${ruText}</p>\n</blockquote>`;
-                }
-            );
-            // Inject bilingual question + answer table (Russian column alongside German)
-            bodyHtml = injectBilingualTable(bodyHtml, RU_QUESTIONS, 'ru');
-
-            // ── State page italic answer hints → Russian ───────────────────
-            bodyHtml = bodyHtml
-                .replace(/🖼️ Identify this state on a map of Germany\./g, '🖼️ Определите эту землю на карте Германии.')
-                .replace(/🖼️ Identify on numbered map\./g, '🖼️ Определите на пронумерованной карте.')
-                .replace(/⚠️ Check current officeholder before your test\./g, '⚠️ Проверьте актуального главу перед экзаменом.')
-                .replace(/⚠️ Check current officeholder\. As of 2025:/g, '⚠️ Проверьте актуального главу. По состоянию на 2025 год:')
-                .replace(/⚠️ Note: This answer changes with elections\. Always check the current Minister-President before your test\./g, '⚠️ Примечание: ответ меняется после выборов. Всегда проверяйте действующего премьер-министра земли перед экзаменом.')
-                .replace(/⚠️ Note: Answer options and the correct answer depend on the current catalog version\./g, '⚠️ Примечание: варианты ответов и правильный ответ зависят от актуальной версии каталога.')
-                .replace(/\(largest state in western Germany\)/g, '(крупнейшая земля западной Германии)')
-                .replace(/\(other options vary\)/g, '(другие варианты различаются)')
-                .replace(/\(other number\)/g, '(другой номер)')
-                .replace(/\(Karte\)/g, '(Карта)')
-                .replace(/\(varies\)/g, '(варьируется)')
-                .replace(/\(Current Minister-President at time of test\)/g, '(действующий премьер-министр земли на момент экзамена)')
-                .replace(/The number pointing to the large western state/g, 'Номер, указывающий на крупную западную землю')
-                .replace(/other options vary/g, 'другие варианты различаются');
-            // State-specific coat of arms
-            bodyHtml = bodyHtml
-                .replace(/🖼️ Select the image showing three black lions on a golden shield with deer and griffin supporters\./g, '🖼️ Выберите изображение с тремя чёрными львами на золотом щите, поддерживаемом оленем и грифоном.')
-                .replace(/🖼️ White and blue diamond pattern \(Bavarian rhombi\/lozenges\)/g, '🖼️ Бело-голубой ромбовидный узор (баварские ромбы)')
-                .replace(/🖼️ Bear on white background/g, '🖼️ Медведь на белом фоне')
-                .replace(/🖼️ Red eagle on white background/g, '🖼️ Красный орёл на белом фоне')
-                .replace(/🖼️ Key and coat of arms with the Bremen key/g, '🖼️ Ключ и герб с бременским ключом')
-                .replace(/🖼️ White castle gate on red background/g, '🖼️ Белые крепостные ворота на красном фоне')
-                .replace(/🖼️ Red and white striped lion on blue background/g, '🖼️ Красно-белый полосатый лев на синем фоне')
-                .replace(/🖼️ Bull head \(Mecklenburg\) and griffin \(Pomerania\)/g, '🖼️ Бычья голова (Мекленбург) и грифон (Померания)')
-                .replace(/🖼️ White horse \(Sachsenross\) on red background/g, '🖼️ Белый конь (Sachsenross) на красном фоне')
-                .replace(/🖼️ This question shows 4 images of different coats of arms\. The correct answer shows the NRW coat of arms with the Rhine River \(wavy line\), the Westphalian horse, and the Lippe rose\./g, '🖼️ В этом вопросе показаны 4 изображения разных гербов. Правильный ответ показывает герб NRW с рекой Рейн (волнистая линия), вестфальским конём и липпской розой.')
-                .replace(/🖼️ This question shows a map of Germany with federal states\. You need to identify NRW\./g, '🖼️ В этом вопросе показана карта Германии с федеральными землями. Вам нужно определить NRW.')
-                .replace(/🖼️ This question shows a map of Germany with numbered federal states\. You need to identify which number corresponds to NRW\./g, '🖼️ В этом вопросе показана карта Германии с пронумерованными землями. Вам нужно определить, какой номер соответствует NRW.')
-                .replace(/🖼️ Cross, wheel, and lion representing the three historical regions/g, '🖼️ Крест, колесо и лев, представляющие три исторических региона')
-                .replace(/🖼️ Shield with lion, cross, and eagle representing historical territories/g, '🖼️ Щит со львом, крестом и орлом, представляющими исторические территории')
-                .replace(/🖼️ Green and white diagonal stripes with a crown of rue/g, '🖼️ Зелёные и белые диагональные полосы с рутовым венцом')
-                .replace(/🖼️ Black and gold eagle/g, '🖼️ Чёрно-золотой орёл')
-                .replace(/🖼️ Two lions on blue and red background/g, '🖼️ Два льва на синем и красном фоне')
-                .replace(/🖼️ Red and white striped lion with blue claws on blue background/g, '🖼️ Красно-белый полосатый лев с синими когтями на синем фоне')
-                .replace(/🖼️ The large southwestern state\./g, '🖼️ Крупная юго-западная земля.')
-                .replace(/Berlin \(is both capital and state\)/g, 'Берлин (и столица, и земля)')
-                .replace(/Hamburg \(is both city and state\)/g, 'Гамбург (и город, и земля)')
-                .replace(/Hannover \(Hanover\)/g, 'Hannover')
-                .replace(/🖼️ Similar to Question 301 — shows images of coats of arms\. Select the one with the Rhine wave, Westphalian horse, and Lippe rose\./g, '🖼️ Аналогично вопросу 301 — показаны изображения гербов. Выберите тот, что содержит рейнскую волну, вестфальского коня и липпскую розу.')
-                .replace(/🖼️ Identify Baden-Württemberg in southwestern Germany, bordering France and Switzerland\./g, '🖼️ Определите Баден-Вюртемберг на карте юго-западной Германии, граничащей с Францией и Швейцарией.')
-                .replace(/München \(Munich\)/g, 'München')
-                .replace(/Remaining questions cover:[^<]*/g, 'Оставшиеся вопросы: ');
-            // Q306-310 section heading and labels → Russian
-            bodyHtml = bodyHtml
-                .replace(/Questions 306–310 — Additional State Facts/g, 'Вопросы 306–310 — Дополнительные факты о земле')
-                .replace(/<p>Key facts for your preparation:<\/p>/g, '<p>Важные факты для подготовки:</p>')
-                .replace(/<strong>Parliament:<\/strong>/g, '<strong>Парламент:</strong>')
-                .replace(/<strong>Neighbors\/Borders:<\/strong>/g, '<strong>Соседи/Границы:</strong>')
-                .replace(/<strong>Major cities:<\/strong>/g, '<strong>Крупные города:</strong>')
-                .replace(/Surrounded by Schleswig-Holstein and Niedersachsen/g, 'Wird von Schleswig-Holstein und Niedersachsen umgeben')
-                .replace(/Surrounded entirely by Brandenburg/g, 'Vollständig von Brandenburg umgeben')
-                .replace(/Surrounded by Niedersachsen \(Lower Saxony\)/g, 'Wird von Niedersachsen umgeben')
-                .replace(/No international borders\. Borders:/g, 'Keine Auslandsgrenze. Grenzt an:')
-                .replace(/No international borders; borders/g, 'Keine Auslandsgrenze; grenzt an:')
-                .replace(/Poland, Baltic Sea; borders/g, 'Polen, Ostsee; grenzt an:')
-                .replace(/Poland, Czech Republic; borders/g, 'Polen, Tschechien; grenzt an:')
-                .replace(/Denmark, North Sea, Baltic Sea; borders/g, 'Dänemark, Nordsee, Ostsee; grenzt an:')
-                .replace(/France, Luxembourg, Belgium; borders/g, 'Frankreich, Luxemburg, Belgien; grenzt an:')
-                .replace(/France, Luxembourg; borders/g, 'Frankreich, Luxemburg; grenzt an:')
-                .replace(/Austria, Czech Republic, Switzerland \(via Lake Constance\)/g, 'Österreich, Tschechien, Schweiz (über den Bodensee)')
-                .replace(/Netherlands, North Sea; borders/g, 'Niederlande, Nordsee; grenzt an:')
-                .replace(/Abgeordnetenhaus \(House of Representatives\)/g, 'Abgeordnetenhaus')
-                .replace(/\bHamburg is a single city-state\b/g, 'Hamburg ist ein Stadtstaat')
-                .replace(/\bBerlin is a single city-state with 12 districts \(Bezirke\)\b/g, 'Berlin ist ein Stadtstaat mit 12 Bezirken')
-                .replace(/Bremen and Bremerhaven \(the state consists of two cities\)/g, 'Bremen und Bremerhaven (das Land besteht aus zwei Städten)')
-                .replace(/Poland, and the states of/g, 'Polen sowie die Bundesländer');
+            bodyHtml = bodyHtml.replace(/(<h3 id="q-\d+">)Question (\d+)/g, `$1${LOC.questionWord} $2`);
+            bodyHtml = injectExplanations(bodyHtml, lang);
+            // Bilingual question + answer table (German column plus the language's own column)
+            if (LOC.bilingual) bodyHtml = injectBilingualTable(bodyHtml, DICT[lang].questions, lang);
         }
 
         // State-question explanations (DE/TR/RU): the flat dicts above can't
         // disambiguate id 301 across 16 different states, so apply a second,
         // state-keyed override pass here. Only runs for state pages.
-        if (['de', 'tr', 'ru'].includes(lang) && STATE_EXPLANATIONS[slug]) {
-            const stateLabel = lang === 'de' ? '📝 Erklärung:' : lang === 'tr' ? '📝 Açıklama:' : '📝 Пояснение:';
+        if (LOC && STATE_EXPLANATIONS[slug]) {
+            const stateLabel = '📝 ' + LOC.explanationLabel;
             const overrides = STATE_EXPLANATIONS[slug];
             bodyHtml = bodyHtml.replace(
                 /(<h3 id="q-(\d+)">(?:(?!<h3)[\s\S])*?<\/h3>(?:(?!<h3)[\s\S])*?)<blockquote>\n<p><strong>📝[^<]*<\/strong> [\s\S]*?<\/p>\n<\/blockquote>/g,
@@ -2875,7 +2521,7 @@ function buildLang(lang) {
         // by each question's position (301=index 0 .. 310=index 9) rather
         // than by the English text itself, so this doesn't depend on exactly
         // matching old wording.
-        if (['de', 'tr', 'ru', 'ur', 'ar'].includes(lang) && STATE_SUBHEADING_LABELS[lang] && slug !== 'index') {
+        if (STATE_SUBHEADING_LABELS[lang] && slug !== 'index') {
             const labels = STATE_SUBHEADING_LABELS[lang];
             bodyHtml = bodyHtml.replace(
                 /(<h3 id="q-(\d+)">[^—<]*—\s*)([^<]*)(<\/h3>)/g,
@@ -2917,10 +2563,8 @@ function buildLang(lang) {
         // needed there). Mirrors the STATE_EXPLANATIONS override above:
         // disambiguates id 301-310 by state slug, since injectBilingualTable's
         // flat QUESTIONS_MAP intentionally skips ids > 300 (see its own guard).
-        if (['tr', 'ru'].includes(lang) && STATE_QUESTIONS[slug] && slug !== 'index') {
-            const langLabel = lang === 'tr' ? 'Türkçe' : 'Русский';
-            const flagClass = lang === 'tr' ? 'fi-tr' : 'fi-ru';
-            const countryName = lang === 'tr' ? 'Türkiye' : 'Россия';
+        if (LOC && LOC.bilingual && STATE_QUESTIONS[slug] && slug !== 'index') {
+            const { label: langLabel, flagClass, countryName } = LOC.bilingual;
             const overrides = STATE_QUESTIONS[slug];
 
             const BLOCK_RE = /(<h3 id="q-(\d+)">[^<]*<\/h3>)((?:(?!<h3 id=)[\s\S])*?)(<div class="table-wrap"><table>[\s\S]*?<\/table><\/div>)/g;
@@ -2992,10 +2636,8 @@ function buildLang(lang) {
         const isStatePage = ORDERED_STATES.includes(slug);
         if (isStatePage && STATE_INTROS[slug]) {
             const intro = STATE_INTROS[slug][lang] || STATE_INTROS[slug].en;
-            const dir = (lang === 'ur' || lang === 'ar') ? 'rtl' : 'ltr';
-            const fontStyle = lang === 'ur' ? "font-family:'Jameel Noori Nastaleeq',serif;line-height:2.1;"
-                            : lang === 'ar' ? "font-family:'Indopak Nastaleeq',serif;line-height:2.1;"
-                            : '';
+            const dir = LANGS[lang].dir;
+            const fontStyle = LANGS[lang].font ? `font-family:'${LANGS[lang].font.family}',serif;line-height:2.1;` : '';
             const introHtml = `<div class="state-intro" dir="${dir}" style="background:color-mix(in srgb,var(--primary) 7%,var(--card-bg));border:1px solid color-mix(in srgb,var(--primary) 20%,var(--border));border-radius:.75rem;padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:.96rem;line-height:1.75;${fontStyle}">${intro}</div>`;
             bodyHtml = introHtml + bodyHtml;
         }
@@ -3049,7 +2691,7 @@ function stampServiceWorker() {
         ? fs.readFileSync(srcPath, 'utf8')
         : fs.readFileSync(outPath, 'utf8');
     // Precache every page of every language (~0.3 MB gzipped per language).
-    const pageUrls = ['en', 'ur', 'ar', 'de', 'tr', 'ru']
+    const pageUrls = buildLangs()
         .flatMap(l => [`./${l}/index.html`, ...ORDERED_ALL.map(slug => `./${l}/${slug}.html`)])
         .map(u => `  '${u}',`).join('\n');
     const stamped = source
@@ -3108,12 +2750,7 @@ function buildSitemap() {
     urls += `
   <url>
     <loc>${SITE_BASE_URL}/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="${SITE_BASE_URL}/en/index.html"/>
-    <xhtml:link rel="alternate" hreflang="de" href="${SITE_BASE_URL}/de/index.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="${SITE_BASE_URL}/tr/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="${SITE_BASE_URL}/ru/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ur" href="${SITE_BASE_URL}/ur/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="${SITE_BASE_URL}/ar/index.html"/>
+    ${enabledLangs().map(l => `<xhtml:link rel="alternate" hreflang="${l}" href="${SITE_BASE_URL}/${l}/index.html"/>`).join('\n    ')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/index.html"/>
     <lastmod>${rootIndexDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -3130,17 +2767,12 @@ function buildSitemap() {
   </url>`;
 
     // Per-language index pages
-    for (const lang of ['en', 'ur', 'ar', 'de', 'tr', 'ru']) {
+    for (const lang of buildLangs()) {
         const indexDate = PAGE_LASTMOD.get(`${lang}/index.html`) || today;
         urls += `
   <url>
     <loc>${SITE_BASE_URL}/${lang}/index.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="${SITE_BASE_URL}/en/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ur" href="${SITE_BASE_URL}/ur/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ar" href="${SITE_BASE_URL}/ar/index.html"/>
-    <xhtml:link rel="alternate" hreflang="de" href="${SITE_BASE_URL}/de/index.html"/>
-    <xhtml:link rel="alternate" hreflang="tr" href="${SITE_BASE_URL}/tr/index.html"/>
-    <xhtml:link rel="alternate" hreflang="ru" href="${SITE_BASE_URL}/ru/index.html"/>
+    ${buildLangs().map(l => `<xhtml:link rel="alternate" hreflang="${l}" href="${SITE_BASE_URL}/${l}/index.html"/>`).join('\n    ')}
     <xhtml:link rel="alternate" hreflang="x-default" href="${SITE_BASE_URL}/en/index.html"/>
     <lastmod>${indexDate}</lastmod>
     <changefreq>monthly</changefreq>
@@ -3151,7 +2783,7 @@ function buildSitemap() {
     // Content pages — one <url> entry per language per slug, each carrying
     // the full set of hreflang alternates so search engines know every
     // language version of every page exists.
-    const ALL_LANGS = ['en', 'de', 'tr', 'ru', 'ur', 'ar'];
+    const ALL_LANGS = enabledLangs();
     for (const slug of allSlugs) {
         const p = priority(slug);
         const cf = changefreq(slug);
@@ -3201,9 +2833,53 @@ Sitemap: ${SITE_BASE_URL}/sitemap.xml
     console.log('✓ robots.txt written');
 }
 
+// After building: a phrase that matched a page but has no translation for that language
+// would leave English on the page (error); phrases no page uses any more are only reported.
+function reportPhraseCoverage() {
+    let bad = 0;
+    const used = new Set();
+    for (const [lang, hits] of Object.entries(PHRASE_HITS)) {
+        for (const i of hits) {
+            used.add(i);
+            if (LOCALES[lang].phrases[i] == null) {
+                bad++;
+                console.error(`✗ [${lang}] phrase ${i} is used on pages but untranslated: ${JSON.stringify(JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', 'phrases.json'), 'utf8'))[i].en)}`);
+            }
+        }
+    }
+    const unused = PHRASES.length - used.size;
+    console.log(`✓ phrase table: ${used.size} of ${PHRASES.length} phrases used by pages${unused ? ` (${unused} no longer match any page)` : ''}`);
+    if (process.argv.includes('--phrase-stats')) {
+        console.log('  used ids: ' + [...used].sort((a, b) => a - b).join(' '));
+    }
+    if (bad) process.exit(1);
+}
+
+function runLanguageChecks() {
+    const ctx = { LANGS, UI, TITLES, STATE_INTROS, META_DESCS, META_DESC_TEMPLATES, A11Y,
+        STATE_SUBHEADING_LABELS, INDEX_INTRO, INDEX_HEADINGS, STR, PHRASES, LOCALES, DICT,
+        ORDERED_ALL, STATE_EXPLANATIONS, STATE_QUESTIONS };
+    const report = process.argv.includes('--report');
+    const result = checkLanguages(ctx, { all: report });
+    let bad = 0;
+    for (const [code, problems] of Object.entries(result)) {
+        if (report) {
+            console.log(`\n[${code}] ${LANGS[code].enabled ? 'enabled' : 'DISABLED'} — ${problems.length ? problems.length + ' gaps' : 'complete'}`);
+            problems.forEach(p => console.log('  ✗ ' + p));
+        } else if (problems.length) {
+            bad += problems.length;
+            console.error(`\n✗ Language "${code}" is enabled but incomplete:`);
+            problems.forEach(p => console.error('  - ' + p));
+        }
+    }
+    if (report) process.exit(0);
+    if (bad) { console.error('\nFix the gaps above or set enabled:false for that language in languages.js.'); process.exit(1); }
+}
+
 function main() {
+    runLanguageChecks();
     console.log('Building bilingual site...\n');
-    for (const lang of ['en', 'ur', 'ar', 'de', 'tr', 'ru']) {
+    for (const lang of buildLangs()) {
         console.log(`[${lang}]`);
         buildLang(lang);
     }
@@ -3221,6 +2897,7 @@ function main() {
         console.log('✓ favicon.ico copied to site root');
     }
 
+    reportPhraseCoverage();
     buildSitemap();
     generateQuizData();
     generateSearchIndex();

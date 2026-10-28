@@ -13,7 +13,11 @@
 const fs   = require('fs');
 const path = require('path');
 
+const { LANGS } = require('./languages');
+
 const ROOT       = __dirname;
+// Languages whose texts come from <code>-*.json dictionaries (de, tr, ru, ...).
+const DICT_LANGS = Object.values(LANGS).filter(L => L.kind === 'dictionary' && L.enabled).map(L => L.code);
 const SRC_EN     = path.join(ROOT, 'sources', 'english');
 const SRC_UR     = path.join(ROOT, 'sources', 'urdu');
 const SRC_AR     = path.join(ROOT, 'sources', 'arabic');
@@ -24,21 +28,17 @@ function loadJson(name) {
     try { return JSON.parse(fs.readFileSync(path.join(ROOT, name), 'utf8')); }
     catch (e) { return {}; }
 }
-const EXTRA_EXPL = {
-    de: loadJson('de-explanations.json'),
-    tr: loadJson('tr-explanations.json'),
-    ru: loadJson('ru-explanations.json'),
-};
+const EXTRA_EXPL = Object.fromEntries(DICT_LANGS.map(l => [l, loadJson(`${l}-explanations.json`)]));
 const STATE_EXPL = loadJson('state-explanations.json');
 
 // Turkish / Russian question + option text (index-aligned with the English options)
-const EXTRA_Q = { tr: loadJson('tr-questions.json'), ru: loadJson('ru-questions.json') };
+const EXTRA_Q = Object.fromEntries(DICT_LANGS.map(l => [l, loadJson(`${l}-questions.json`)]));
 const STATE_Q = loadJson('state-questions.json');   // STATE_Q[slug][301] = { tr: {q, opts}, ru: {q, opts} }
 
 // { tr, ru } question text for a general question, or {} if missing
 function extraQuestionText(id) {
     const out = {};
-    for (const l of ['tr', 'ru']) {
+    for (const l of DICT_LANGS) {
         const e = EXTRA_Q[l][String(id)];
         if (e && e.q) out[l] = e.q;
     }
@@ -47,7 +47,7 @@ function extraQuestionText(id) {
 // { tr, ru } option text for option index i of a general question
 function extraOptionText(id, i) {
     const out = {};
-    for (const l of ['tr', 'ru']) {
+    for (const l of DICT_LANGS) {
         const e = EXTRA_Q[l][String(id)];
         if (e && e.opts && e.opts[i]) out[l] = e.opts[i];
     }
@@ -56,20 +56,20 @@ function extraOptionText(id, i) {
 function extraStateQuestionText(slug, num) {
     const e = (STATE_Q[slug] || {})[String(num)] || {};
     const out = {};
-    for (const l of ['tr', 'ru']) if (e[l] && e[l].q) out[l] = e[l].q;
+    for (const l of DICT_LANGS) if (e[l] && e[l].q) out[l] = e[l].q;
     return out;
 }
 function extraStateOptionText(slug, num, i) {
     const e = (STATE_Q[slug] || {})[String(num)] || {};
     const out = {};
-    for (const l of ['tr', 'ru']) if (e[l] && e[l].opts && e[l].opts[i]) out[l] = e[l].opts[i];
+    for (const l of DICT_LANGS) if (e[l] && e[l].opts && e[l].opts[i]) out[l] = e[l].opts[i];
     return out;
 }
 
 // { exp_de, exp_tr, exp_ru } for a general question id (only languages that have text)
 function extraGeneralExp(id) {
     const out = {};
-    for (const l of ['de', 'tr', 'ru']) {
+    for (const l of DICT_LANGS) {
         const t = EXTRA_EXPL[l][String(id)];
         if (t) out['exp_' + l] = t;
     }
@@ -79,7 +79,7 @@ function extraGeneralExp(id) {
 function extraStateExp(slug, num) {
     const e = (STATE_EXPL[slug] || {})[String(num)] || {};
     const out = {};
-    for (const l of ['de', 'tr', 'ru']) if (e[l]) out['exp_' + l] = e[l];
+    for (const l of DICT_LANGS) if (e[l]) out['exp_' + l] = e[l];
     return out;
 }
 
@@ -465,12 +465,8 @@ function buildStates() {
         const realQuestions = buildStateQuestionsFromMd(slug, meta);
         states[slug] = {
             slug,
-            name_de: meta.name_de,
-            name_en: meta.name_en,
-            name_ur: meta.name_ur,
-            name_ar: meta.name_ar,
-            name_tr: meta.name_tr,
-            name_ru: meta.name_ru,
+            // every name_<lang> the metadata carries (de, en, ur, ar, tr, ru, ...)
+            ...Object.fromEntries(Object.entries(meta).filter(([k]) => k.startsWith('name_'))),
             questions: realQuestions || buildStateQuestion(slug, meta),
         };
         const source = realQuestions ? 'from markdown source' : 'synthetic fallback';

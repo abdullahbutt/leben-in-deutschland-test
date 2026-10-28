@@ -60,7 +60,7 @@ const LANGS = {
             file: 'JameelNooriNastaleeq.woff2',
             rootSize: '130%',
             lineHeight: 2,
-            menuSize: '1.2rem',
+            menuSize: '1.4rem',
             comment: `    /* Optical size correction — Jameel Noori Nastaleeq renders visually smaller
        than Inter at equal CSS sizes (smaller cap-height relative to em square).
        Scaling the root font-size up proportionally compensates all rem-based sizes. */

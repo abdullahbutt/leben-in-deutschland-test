@@ -1475,6 +1475,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             border: 1.5px solid var(--border);
             border-radius: 999px;
             padding: 0.28rem 0.75rem;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             font-size: 0.82rem;
             font-weight: 600;
             color: var(--text);
@@ -1507,6 +1508,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             padding: 0 14.4px;
             height: 41.6px;
             box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             font-size: 13.6px;
             font-weight: 500;
             color: var(--text);
@@ -1543,6 +1545,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             border: 1px solid var(--primary-solid);
             border-radius: 999px;
             padding: 0.35rem 0.9rem;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
             font-size: 0.875rem;
             font-weight: 700;
             text-decoration: none;

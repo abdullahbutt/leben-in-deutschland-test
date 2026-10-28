@@ -1493,21 +1493,26 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             min-width: 160px;
             box-shadow: 0 4px 16px rgba(0,0,0,0.12);
             z-index: 999;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            max-height: 70vh;
         }
+        /* RTL pages: the dropdown sits at the left edge, so open the menu rightwards (else it overflows the screen) */
+        :root[dir="rtl"] .lang-dropdown-menu { right: auto; left: 0; }
         .lang-dropdown-menu a {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.55rem 0.9rem;
-            min-height: 2.6rem;
-            font-size: 0.85rem;
+            gap: 8px;
+            padding: 0 14.4px;
+            height: 41.6px;
+            box-sizing: border-box;
+            font-size: 13.6px;
             font-weight: 500;
             color: var(--text);
             text-decoration: none;
             transition: background 0.1s;
         }
-        .lang-dropdown-menu a .fi { font-size: 0.85rem; flex-shrink: 0; }
+        .lang-dropdown-menu a .fi { font-size: 13.6px; flex-shrink: 0; }
         .lang-dropdown-menu a:hover { background: color-mix(in srgb,var(--primary) 8%,var(--card-bg)); }
         .lang-dropdown-menu a.active {
             background: color-mix(in srgb,var(--primary) 12%,var(--card-bg));
@@ -1974,7 +1979,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
                         <span class="fi fi-${LANGS[lang].flag}"></span> ${LANGS[lang].short} ▾
                     </button>
                     <div class="lang-dropdown-menu" role="menu">
-                        ${enabledLangs().map(c => { const L = LANGS[c]; const st = L.font ? ` style="font-family:'${L.font.family}',serif;font-size:${L.font.menuSize};line-height:1.2;"` : ''; return `<a href="../${c}/${slug}.html" ${lang === c ? 'class="active"' : ''} role="menuitem"${st}><span class="fi fi-${L.flag}"></span> ${L.name}</a>`; }).join('\n                        ')}
+                        ${enabledLangs().map(c => { const L = LANGS[c]; const st = L.font ? ` style="font-family:'${L.font.family}',serif;font-size:${Math.round(parseFloat(L.font.menuSize) * 16 * 10) / 10}px;line-height:1.2;"` : ''; return `<a href="../${c}/${slug}.html" ${lang === c ? 'class="active"' : ''} role="menuitem"${st}><span class="fi fi-${L.flag}"></span> ${L.name}</a>`; }).join('\n                        ')}
                     </div>
                 </div>
                 <button class="btn-theme" id="themeToggle" aria-label="${(A11Y[lang] || A11Y.en).theme}">🌓</button>

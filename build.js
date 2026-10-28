@@ -3021,7 +3021,14 @@ function stampServiceWorker() {
     const source = fs.existsSync(srcPath)
         ? fs.readFileSync(srcPath, 'utf8')
         : fs.readFileSync(outPath, 'utf8');
-    const stamped = source.replace(/__BUILD_ID__/g, BUILD_ID).replace(/__SHARED_JS_HASH__/g, SHARED_JS_HASH);
+    // Precache every page of every language (~0.3 MB gzipped per language).
+    const pageUrls = ['en', 'ur', 'ar', 'de', 'tr', 'ru']
+        .flatMap(l => [`./${l}/index.html`, ...ORDERED_ALL.map(slug => `./${l}/${slug}.html`)])
+        .map(u => `  '${u}',`).join('\n');
+    const stamped = source
+        .replace(/^[ \t]*\/\/ __PAGE_URLS__.*$/m, () => pageUrls)
+        .replace(/__BUILD_ID__/g, BUILD_ID)
+        .replace(/__SHARED_JS_HASH__/g, SHARED_JS_HASH);
     fs.writeFileSync(outPath, stamped);
     console.log(`✓ sw.js stamped with build ID: ${BUILD_ID}`);
 }

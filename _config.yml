@@ -8,7 +8,6 @@ exclude:
   - generate-quiz.js
   - page.template.js
   - sw.template.js
-  - sw_template.js
   - package.json
   - package-lock.json
   - de-explanations.json

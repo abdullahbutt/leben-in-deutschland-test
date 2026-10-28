@@ -23,23 +23,22 @@ const ROOT = __dirname;
 const BUILD_ID = new Date().toISOString().replace(/[:.]/g, '-');
 
 function bumpServiceWorker() {
-    const srcPath = path.join(ROOT, 'sw.template.js');
     const outPath = path.join(ROOT, 'sw.js');
-
-    if (!fs.existsSync(srcPath)) {
-        console.error(`✗ sw.template.js not found at ${srcPath} — cannot safely re-stamp.`);
-        console.error(`  (Re-stamping sw.js directly, without the template, risks double-stamping`);
-        console.error(`  if it was already stamped and the __BUILD_ID__ placeholder is gone.)`);
+    if (!fs.existsSync(outPath)) {
+        console.error(`✗ sw.js not found at ${outPath} — run \`npm run build\` first.`);
         process.exit(1);
     }
 
-    const source = fs.readFileSync(srcPath, 'utf8');
-    if (!source.includes('__BUILD_ID__')) {
-        console.error(`✗ sw.template.js doesn't contain the __BUILD_ID__ placeholder — aborting.`);
+    // Replace only the cache version in the already-built sw.js, so the page list
+    // and the shared-script hash that build.js stamped stay untouched.
+    const source = fs.readFileSync(outPath, 'utf8');
+    const versionRe = /const CACHE_VERSION = '[^']*';/;
+    if (!versionRe.test(source)) {
+        console.error(`✗ sw.js has no CACHE_VERSION line — aborting.`);
         process.exit(1);
     }
 
-    const stamped = source.replace(/__BUILD_ID__/g, BUILD_ID);
+    const stamped = source.replace(versionRe, `const CACHE_VERSION = '${BUILD_ID}';`);
     fs.writeFileSync(outPath, stamped);
     console.log(`✓ sw.js re-stamped with build ID: ${BUILD_ID}`);
     console.log(`  (only sw.js was touched — no other files were regenerated)`);

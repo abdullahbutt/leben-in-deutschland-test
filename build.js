@@ -891,6 +891,7 @@ function buildMetaDesc(lang, title, slug) {
         const range = /^questions-(\d+)-(\d+)$/.exec(slug);
         if (range) return tpl.range(+range[1], +range[2]);
         if (META_DESCS.en[slug]) return tpl.state(title);
+        if (tpl.other) return tpl.other(title);
     }
     const descs = META_DESCS[lang] || META_DESCS.en;
     if (descs[slug]) return descs[slug];
@@ -984,7 +985,7 @@ function applyFlagIcons(html, lang) {
         .replace(/🇩🇪/g, FLAG_SPANS['🇩🇪'].replace(/"Germany"/g, `"${a.de}"`))
         .replace(/🇬🇧/g, FLAG_SPANS['🇬🇧'].replace(/"United Kingdom"/, `"${a.gb}"`).replace(/"UK"/, `"${a.gb}"`))
         .replace(/🇵🇰/g, FLAG_SPANS['🇵🇰'].replace(/"Pakistan"/g, `"${a.pk}"`))
-        .replace(/alt="Question (\d+)"/g, `alt="${a.question} $1"`);
+        .replace(/alt="Question (\d+)(?: —[^"]*)?"/g, `alt="${a.question} $1"`);
 }
 
 // ---------- Bilingual table injection (TR / RU) ----------
@@ -2877,6 +2878,7 @@ function mergeLocaleTables() {
                 index: loc.metaDesc.index,
                 range: (a, b) => fill(loc.metaDesc.range, { a, b }),
                 state: (t) => fill(loc.metaDesc.state, { t }),
+                other: loc.metaDesc.other ? (t) => fill(loc.metaDesc.other, { t }) : null,
             };
         }
     }

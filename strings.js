@@ -9,7 +9,7 @@
 const STR = {
     // Option label for the quiz in the nav pager's jump list.
     quizOption: {
-        en: 'Practice Quiz', ur: 'کوئز / مشق', ar: 'اختبار التدريب', de: 'Quiz / Üben', tr: 'Practice Quiz', ru: 'Practice Quiz',
+        en: 'Practice Quiz', ur: 'کوئز / مشق', ar: 'اختبار التدريب', de: 'Quiz / Üben', tr: 'Pratik Sınavı', ru: 'Тренировочный тест',
     },
 
     // Index page: the row of four highlights under the title.

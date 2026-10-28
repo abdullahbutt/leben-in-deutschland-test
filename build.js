@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * build.js — converts markdown sources from English & Urdu branches into
- * a bilingual static site structured as:
+ * build.js — converts the markdown sources in ./sources/{english,urdu,arabic}/
+ * (tracked on this branch) into the multilingual static site structured as:
  *
  *   /
  *   ├── index.html        (language picker — untouched by this script)
@@ -10,11 +10,10 @@
  *   └── .nojekyll
  *
  * Usage:
- *   1. Clone the english branch into ./sources/english/
- *   2. Clone the urdu branch into ./sources/urdu/
- *   3. `npm install` then `node build.js`
+ *   1. `npm install` then `npm run build` (or `node build.js`)
  *
- * Re-run anytime the source .md files change.
+ * Edit the .md files under ./sources/ (or the de/tr/ru JSON dictionaries)
+ * and re-run anytime; everything is committed on this one branch.
  */
 
 const fs = require('fs');

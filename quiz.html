@@ -39,7 +39,9 @@
             --border: #e2e8f0;
             --primary: #1d4ed8;
             --primary-h: #1e40af;
-            --success: #059669;
+            --primary-solid: #1d4ed8;
+            --primary-solid-h: #1e40af;
+            --success: #047857;
             --error: #dc2626;
             --shadow: 0 1rem 3rem rgba(15,23,42,.09);
         }
@@ -51,6 +53,11 @@
             --border: #1f2937;
             --primary: #3b82f6;
             --primary-h: #2563eb;
+            /* filled buttons carry white text: darker blue than the link colour (>= 4.5:1) */
+            --primary-solid: #2563eb;
+            --primary-solid-h: #1d4ed8;
+            --success: #059669;
+            --error: #ef4444;
             --shadow: 0 1rem 3rem rgba(0,0,0,.45);
         }
         * { box-sizing: border-box; }
@@ -134,7 +141,7 @@
             cursor: pointer;
             text-decoration: none;
         }
-        .btn-pill:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .btn-pill:hover { background: var(--primary-solid); color: #fff; border-color: var(--primary-solid); }
         /* Screens */
         .screen { display: none; flex: 1; }
         .screen.active { display: flex; flex-direction: column; }
@@ -179,7 +186,7 @@
             font-size: .85rem;
             cursor: pointer;
         }
-        .lang-toggle button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .lang-toggle button.active { background: var(--primary-solid); color: #fff; border-color: var(--primary-solid); }
         /* State selector */
         .state-grid {
             display: grid;
@@ -330,7 +337,7 @@
         .opt-btn.wrong   { border-color: var(--error);   background: color-mix(in srgb, var(--error)   12%, var(--card)); }
         .opt-btn.wrong   .opt-label { background: var(--error);   color: #fff; }
         .opt-btn.selected { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--card)); }
-        .opt-btn.selected .opt-label { background: var(--primary); color: #fff; }
+        .opt-btn.selected .opt-label { background: var(--primary-solid); color: #fff; }
         .opt-btn.ur-text { font-family: 'Jameel Noori Nastaleeq', serif; direction: rtl; font-size: 1rem; }
         /* Explanation */
         .explanation-box {
@@ -358,7 +365,7 @@
             margin-top: 1rem;
             padding: .85rem;
             border-radius: .65rem;
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
             border: 0;
             font-size: 1rem;
@@ -366,7 +373,7 @@
             cursor: pointer;
             transition: background .15s;
         }
-        .btn-next:hover { background: var(--primary-h); }
+        .btn-next:hover { background: var(--primary-solid-h); }
         .btn-next { display: none; }
         .btn-next.show { display: block; }
         /* Results */
@@ -418,7 +425,7 @@
             width: 100%;
             padding: .85rem;
             border-radius: .65rem;
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
             border: 0;
             font-size: 1rem;
@@ -426,7 +433,7 @@
             cursor: pointer;
             margin-top: 1.5rem;
         }
-        .btn-restart:hover { background: var(--primary-h); }
+        .btn-restart:hover { background: var(--primary-solid-h); }
         /* Secondary action button (outline style) */
         .btn-secondary {
             width: 100%;
@@ -440,7 +447,7 @@
             cursor: pointer;
             margin-top: .75rem;
         }
-        .btn-secondary:hover { background: var(--primary); color: #fff; }
+        .btn-secondary:hover { background: var(--primary-solid); color: #fff; }
         .btn-secondary:disabled { opacity: .4; cursor: not-allowed; }
         /* Score history */
         .history-section {
@@ -484,6 +491,12 @@
             padding: .65rem .9rem;
             border: 1px solid var(--border);
             border-radius: .5rem;
+        }
+        /* Print: light palette, no controls */
+        @media print {
+            :root, [data-bs-theme="dark"] { --bg: #fff; --text: #000; --muted: #475569; --card: #fff; --card-bg: #fff; --border: #e2e8f0; --shadow: none; }
+            body { background: #fff; color: #000; }
+            .btn-next, .btn-restart, .btn-secondary, .btn-pill, .timer, .ql-drop, .lang-toggle, .back-link, #btnNext { display: none !important; }
         }
     </style>
 </head>

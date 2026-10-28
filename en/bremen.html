@@ -130,6 +130,8 @@
             --card-shadow: 0 0.5rem 1.5rem rgba(15, 23, 42, 0.08);
             --primary: #1d4ed8;
             --primary-hover: #1e40af;
+            --primary-solid: #1d4ed8;
+            --primary-solid-hover: #1e40af;
             --border: #e5e7eb;
             --table-stripe: #f8fafc;
             --table-hover: #eaf3ff;
@@ -142,6 +144,9 @@
             --card-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.45);
             --primary: #3b82f6;
             --primary-hover: #2563eb;
+            /* filled controls carry white text: needs a darker blue than the link colour (>= 4.5:1) */
+            --primary-solid: #2563eb;
+            --primary-solid-hover: #1d4ed8;
             --border: #1f2937;
             --table-stripe: #172033;
             --table-hover: #1f2a44;
@@ -236,15 +241,15 @@
             cursor: pointer;
         }
         .nav-actions .btn-lang:hover, .nav-actions .btn-theme:hover {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
-            border-color: var(--primary);
+            border-color: var(--primary-solid);
         }
         /* Quiz button — solid accent so it stands out from the other nav items */
         .nav-actions .btn-quiz {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
-            border: 1px solid var(--primary);
+            border: 1px solid var(--primary-solid);
             border-radius: 999px;
             padding: 0.35rem 0.9rem;
             font-size: 0.875rem;
@@ -254,8 +259,8 @@
             white-space: nowrap;
         }
         .nav-actions .btn-quiz:hover {
-            background: var(--primary-hover);
-            border-color: var(--primary-hover);
+            background: var(--primary-solid-hover);
+            border-color: var(--primary-solid-hover);
             color: #fff;
         }
         main {
@@ -314,7 +319,7 @@
             min-width: 0;
         }
         table th {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
             text-align: left;
             white-space: nowrap;
@@ -414,9 +419,9 @@
             background: transparent;
         }
         footer .btn-foot:hover {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
-            border-color: var(--primary);
+            border-color: var(--primary-solid);
         }
         footer .btn-foot.foot-highlight {
             background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
@@ -481,9 +486,9 @@
             transition: background 0.15s ease, border-color 0.15s ease;
         }
         .nav-pager .pager-btn:hover:not(.disabled) {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
-            border-color: var(--primary);
+            border-color: var(--primary-solid);
         }
         .nav-pager .pager-btn.disabled {
             opacity: 0.4;
@@ -599,7 +604,7 @@
             width: 3.25rem;
             height: 3.25rem;
             border-radius: 50%;
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
             border: 2px solid var(--card-bg);
             font-size: 1.5rem;
@@ -644,8 +649,17 @@
 
         /* Feature 8 — Print / Save as PDF styles */
         @media print {
+            /* always print with the light palette, even if the reader is in dark mode */
+            :root, html[data-bs-theme="dark"] {
+                --page-bg: #fff; --page-text: #000; --muted-text: #475569;
+                --card-bg: #fff; --card-shadow: none; --border: #e5e7eb;
+                --table-stripe: #f8fafc; --table-hover: #fff;
+                --primary: #1d4ed8; --primary-hover: #1e40af;
+                --primary-solid: #1d4ed8; --primary-solid-hover: #1e40af;
+            }
             .site-nav, .nav-pager, .back-to-top, footer,
             .report-btn, .mark-learned-btn, .progress-tracker,
+            .wf-banner, #installBanner, .install-banner-wrap,
             #updateBanner, #installHint, #pwaBar { display: none !important; }
             body { background: #fff; color: #000; font-size: 11pt; }
             .content-card {

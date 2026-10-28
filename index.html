@@ -103,6 +103,8 @@
             --card-shadow: 0 1rem 3rem rgba(15, 23, 42, 0.08);
             --primary: #1d4ed8;
             --primary-hover: #1e40af;
+            --primary-solid: #1d4ed8;
+            --primary-solid-hover: #1e40af;
             --accent: #047857;
             --accent-hover: #065f46;
             --border: #e2e8f0;
@@ -115,8 +117,10 @@
             --card-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.45);
             --primary: #3b82f6;
             --primary-hover: #2563eb;
-            --accent: #10b981;
-            --accent-hover: #059669;
+            --primary-solid: #2563eb;
+            --primary-solid-hover: #1d4ed8;
+            --accent: #047857;
+            --accent-hover: #065f46;
             --border: #1f2937;
         }
         body {
@@ -171,8 +175,8 @@
             transform: translateY(-2px);
             color: #fff;
         }
-        .lang-btn.en { background: var(--primary); }
-        .lang-btn.en:hover { background: var(--primary-hover); }
+        .lang-btn.en { background: var(--primary-solid); }
+        .lang-btn.en:hover { background: var(--primary-solid-hover); }
         .lang-btn.ur {
             background: var(--accent);
             font-family: 'Jameel Noori Nastaleeq', 'Inter', serif;
@@ -185,7 +189,7 @@
             font-family: 'Indopak Nastaleeq', serif;
             font-size: 1.35rem;
         }
-        .lang-btn.ar:hover { background: #0284c7; }
+        .lang-btn.ar:hover { background: #075985; }
         .lang-btn.de { background: #374151; }
         .lang-btn.de:hover { background: #1f2937; }
         .lang-btn.tr { background: #b91c1c; }
@@ -234,9 +238,9 @@
             font-size: 0.82rem;
         }
         .foot-inner a:hover {
-            background: var(--primary);
+            background: var(--primary-solid);
             color: #fff;
-            border-color: var(--primary);
+            border-color: var(--primary-solid);
         }
         .foot-inner a.foot-highlight {
             background: linear-gradient(135deg, #f59e0b 0%, #ea580c 100%);
@@ -317,6 +321,12 @@
             align-items: center;
             gap: 0.3rem;
             white-space: nowrap;
+        }
+        /* Print: light palette, no controls */
+        @media print {
+            :root, [data-bs-theme="dark"] { --bg: #fff; --text: #000; --muted: #475569; --card-bg: #fff; --card-shadow: none; --border: #e2e8f0; --primary: #1d4ed8; --primary-hover: #1e40af; --primary-solid: #1d4ed8; --primary-solid-hover: #1e40af; }
+            body { background: #fff; color: #000; }
+            .theme-toggle, footer, #installBanner, .install-banner-wrap { display: none !important; }
         }
     </style>
 </head>

@@ -12,8 +12,8 @@
 
 # 🇩🇪 German Citizenship Test — with English Translations
 
-> 🇵🇰 اردو ترجمہ کے لیے — [Urdu Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/urdu/README.md)
-> 🇸🇦 للنسخة العربية — [Arabic Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/arabic/README.md)
+> 🇵🇰 اردو ترجمہ کے لیے — [Urdu version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/urdu/README.md)
+> 🇸🇦 للنسخة العربية — [Arabic version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/arabic/README.md)
 
 > All **300 general + 160 state-specific** questions from the official **BAMF Einbürgerungstest / Leben in Deutschland** test catalog, with correct answers highlighted in ✅ and explanations.
 >

@@ -12,8 +12,8 @@
 
 > ⭐ اگر اس نے آپ کے امتحان میں مدد کی تو [اس ریپو کو اسٹار کریں](https://github.com/abdullahbutt/leben-in-deutschland-test) — اس سے دوسروں کو تلاش میں مدد ملتی ہے!
 
-> 🇬🇧 For English version — [English Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/english/README.md)
-> 🇸🇦 عربی نسخے کے لیے — [Arabic Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/arabic/README.md)
+> 🇬🇧 For English version — [English version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/english/README.md)
+> 🇸🇦 عربی نسخے کے لیے — [Arabic version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/arabic/README.md)
 
 > **Leben in Deutschland / Einbürgerungstest** کے تمام **300 عمومی + 160 ریاستی سوالات** سرکاری **BAMF** کے سوالات کے مجموعے سے، ✅ درست جوابات اور تفصیلی وضاحت کے ساتھ۔
 >

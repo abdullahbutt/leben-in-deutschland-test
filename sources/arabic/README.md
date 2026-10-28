@@ -12,8 +12,8 @@
 
 > ⭐ إذا ساعدك هذا في اجتياز الاختبار، [قم بوضع نجمة على المستودع](https://github.com/abdullahbutt/leben-in-deutschland-test) — هذا يساعد الآخرين على إيجاده!
 
-> 🇬🇧 للنسخة الإنجليزية — [English Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/english/README.md)
-> 🇵🇰 اردو ترجمے کے لیے — [Urdu Branch](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/urdu/README.md)
+> 🇬🇧 للنسخة الإنجليزية — [English version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/english/README.md)
+> 🇵🇰 اردو ترجمے کے لیے — [Urdu version](https://github.com/abdullahbutt/leben-in-deutschland-test/blob/html/sources/urdu/README.md)
 
 > جميع الأسئلة الرسمية **300 سؤال عام + 160 سؤال خاص بالولايات** من كتالوج أسئلة **BAMF** الرسمي لاختبار **Leben in Deutschland / Einbürgerungstest**، مع الإجابات الصحيحة مميزة بعلامة ✅ وشرح لكل سؤال.
 >

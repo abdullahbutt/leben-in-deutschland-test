@@ -13,7 +13,7 @@ Thank you for helping improve these citizenship test materials! Contributions of
 ## How to contribute
 
 1. **Fork** this repository
-2. **Select the correct branch** — `english` for English content, `urdu` for Urdu content
+2. **Edit the right folder** on the `html` branch — `sources/english` for English content, `sources/urdu` for Urdu, `sources/arabic` for Arabic
 3. **Make your changes** in your forked copy
 4. **Submit a Pull Request** with a clear description of what you changed and why
 
@@ -22,7 +22,7 @@ For small fixes (typos, broken links), a Pull Request is enough. For larger chan
 ## Guidelines
 
 - Always reference the official BAMF question number (e.g. Q14, Q96) when reporting or fixing an answer
-- Keep the bilingual format consistent — each question should have both German and the branch language (English or Urdu)
+- Keep the bilingual format consistent — each question should have both German and the folder's language (English, Urdu or Arabic)
 - For outdated officeholder answers, link to an official source confirming the change
 - Maintain the existing file naming convention (`questions-001-050.md`, state files like `bayern.md` etc.)
 

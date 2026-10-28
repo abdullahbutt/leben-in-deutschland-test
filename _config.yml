@@ -1,0 +1,3 @@
+# GitHub Pages runs Jekyll only to apply this exclude list; pages are pre-built by build.js.
+exclude:
+  - sources

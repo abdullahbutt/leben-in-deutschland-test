@@ -6,8 +6,7 @@
  *   /
  *   ├── index.html        (language picker — untouched by this script)
  *   ├── en/*.html
- *   ├── ur/*.html
- *   └── .nojekyll
+ *   └── ur/*.html
  *
  * Usage:
  *   1. `npm install` then `npm run build` (or `node build.js`)
@@ -3174,9 +3173,9 @@ function main() {
         console.log(`[${lang}]`);
         buildLang(lang);
     }
-    // Make sure GitHub Pages doesn’t treat this as Jekyll
-    fs.writeFileSync(path.join(ROOT, '.nojekyll'), '');
-    console.log('\n✓ .nojekyll written');
+    // Pages runs Jekyll on purpose (no .nojekyll): _config.yml `exclude` keeps sources/ off the site.
+    // None of the generated files has front matter, so Jekyll copies them through untouched.
+    if (fs.existsSync(path.join(ROOT, '.nojekyll'))) fs.unlinkSync(path.join(ROOT, '.nojekyll'));
     // Also copy favicon.ico to the site root — browsers automatically
     // request /favicon.ico at the domain root as a legacy fallback,
     // regardless of the <link rel="icon"> tags in <head>. Having it there

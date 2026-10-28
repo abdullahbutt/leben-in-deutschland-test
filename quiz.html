@@ -29,6 +29,11 @@
         src: url('fonts/Indopak-nastaleeq-hanafi-normal-v4.2.2-with-waqf-lazmi.woff2') format('woff2');
         font-weight: normal; font-style: normal; font-display: swap;
     }
+    @font-face {
+        font-family: 'Vazirmatn';
+        src: url('fonts/Vazirmatn-Variable.woff2') format('woff2');
+        font-weight: 100 900; font-style: normal; font-display: swap;
+    }
 </style>
     <style>
         :root {
@@ -537,6 +542,7 @@ var LANGUAGES = {
     ru: { name: 'Русский', flag: 'ru' },
     uk: { name: 'Українська', flag: 'ua' },
     ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1rem', explClass: 'ur-text' },
+    fa: { name: 'فارسی', flag: 'ir', rtl: true, font: "'Vazirmatn'", size: '100%', menuSize: '1rem' },
     ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1rem' },
 };
 function buildQuizLangMenu() {
@@ -983,6 +989,50 @@ const UI = {
         docTitle: 'Тренувальний тест — Тест на громадянство Німеччини',
         practiceScore: '{c}/{t} правильно',
     },
+    fa: {
+        quizTitle: '🎯 آزمون تمرینی',
+        quizSub: 'یک حالت را انتخاب کنید. همهٔ سؤال‌ها از کاتالوگ رسمی BAMF هستند.',
+        mode1title: 'شبیه‌سازی آزمون واقعی',
+        mode1sub: '33 سؤال · زمان‌سنج 60 دقیقه · قبولی = 17/33 — درست مثل Einbürgerungstest واقعی',
+        mode2title: 'سؤال‌های ایالتی',
+        mode2sub: 'ایالت خود را انتخاب کنید. به 3 سؤال منطقه‌ای پاسخ دهید.',
+        mode3title: 'تمرین سؤال‌های عمومی',
+        mode3sub: 'هر بار 50 سؤال از 300 سؤال عمومی — بدون زمان‌سنج، تمرین خالص.',
+        back: 'بازگشت',
+        stateTitle: 'ایالت فدرال خود را انتخاب کنید',
+        stateSub: 'ایالت شما تعیین می‌کند کدام 3 سؤال منطقه‌ای در آزمون بیایند.',
+        genTitle: 'گروه سؤال‌ها را انتخاب کنید',
+        genSub: 'در هر گروه 50 سؤال. بدون زمان‌سنج — با سرعت خودتان یاد بگیرید.',
+        question: 'سؤال',
+        of: 'از',
+        next: 'بعدی ←',
+        finish: 'نمایش نتایج ←',
+        bestanden: 'قبول شدید ✅',
+        nichtBestanden: 'قبول نشدید ❌',
+        passedSub: 'تبریک! به 17 سؤال یا بیشتر درست پاسخ دادید.',
+        failedSub: (score, total) => `قبول نشدید. برای قبولی به 17/${total} نیاز دارید — شما ${score}/${total} گرفتید.`,
+        passMark: 'حد نصاب قبولی: 17 / 33',
+        reviewTitle: '📋 سؤال‌هایی که اشتباه پاسخ دادید:',
+        yourAnswer: 'پاسخ شما:',
+        correctAnswer: 'پاسخ درست:',
+        tryAgain: '🔄 دوباره تلاش کنید',
+        cancelQuiz: 'لغو',
+        newQuiz: '→ انتخاب آزمون دیگر',
+        backHome: '→ بازگشت به راهنما',
+        correctLabel: '✓ درست!',
+        wrongLabel: '✗ نادرست',
+        practiceWeak: '📌 تمرین اشتباه‌ها',
+        historyTitle: '📊 نتایج اخیر شما',
+        historyEmpty: 'هنوز سابقه‌ای نیست — یک آزمون را کامل کنید تا نتایج اینجا نمایش داده شود.',
+        historyPass: 'قبول',
+        historyFail: 'مردود',
+        historyPractice: 'تمرین',
+        historyFull: 'آزمون کامل',
+        historyState: 'ایالت',
+        practiceSummary: 'تعداد پاسخ‌های درست: {n}.',
+        docTitle: 'آزمون تمرینی — آزمون شهروندی آلمان',
+        practiceScore: '{c}/{t} درست',
+    },
 };
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -1088,6 +1138,7 @@ const CANCEL_MSG = {
     tr: 'Sınav iptal edilsin mi? İlerlemeniz kaybolacak.',
     ru: 'Завершить тест? Ваш прогресс будет потерян.',
     uk: 'Завершити тест? Ваш прогрес буде втрачено.',
+    fa: 'آزمون لغو شود؟ پیشرفت شما از بین می‌رود.',
 };
 function cancelQuiz() {
     const u = UI[LANG] || UI.en;
@@ -1126,6 +1177,8 @@ function startMode(mode) {
                  'Ваша земля определяет, какие 3 региональных вопроса войдут в тест.'],
             uk: ['Оберіть федеральну землю',
                  'Ваша земля визначає, які 3 регіональні запитання увійдуть до тесту.'],
+            fa: ['ایالت فدرال خود را انتخاب کنید',
+                 'ایالت شما تعیین می‌کند کدام 3 سؤال منطقه‌ای در آزمون بیایند.'],
         };
         const t = titles[LANG] || titles.en;
         document.getElementById('txt-stateTitle').textContent = t[0];
@@ -1178,12 +1231,12 @@ function buildGenGrid() {
     const grid = document.getElementById('genGrid');
     grid.innerHTML = '';
     const sets = [
-        {label:{en:'Questions 1–50',   ur:'سوالات 1–50',   de:'Fragen 1–50',   ar:'الأسئلة 1–50',   tr:'Sorular 1–50', ru:'Вопросы 1–50', uk:'Запитання 1–50'},   range:[1,50]},
-        {label:{en:'Questions 51–100', ur:'سوالات 51–100', de:'Fragen 51–100', ar:'الأسئلة 51–100', tr:'Sorular 51–100', ru:'Вопросы 51–100', uk:'Запитання 51–100'}, range:[51,100]},
-        {label:{en:'Questions 101–150',ur:'سوالات 101–150',de:'Fragen 101–150',ar:'الأسئلة 101–150',tr:'Sorular 101–150', ru:'Вопросы 101–150', uk:'Запитання 101–150'},range:[101,150]},
-        {label:{en:'Questions 151–200',ur:'سوالات 151–200',de:'Fragen 151–200',ar:'الأسئلة 151–200',tr:'Sorular 151–200', ru:'Вопросы 151–200', uk:'Запитання 151–200'},range:[151,200]},
-        {label:{en:'Questions 201–250',ur:'سوالات 201–250',de:'Fragen 201–250',ar:'الأسئلة 201–250',tr:'Sorular 201–250', ru:'Вопросы 201–250', uk:'Запитання 201–250'},range:[201,250]},
-        {label:{en:'Questions 251–300',ur:'سوالات 251–300',de:'Fragen 251–300',ar:'الأسئلة 251–300',tr:'Sorular 251–300', ru:'Вопросы 251–300', uk:'Запитання 251–300'},range:[251,300]},
+        {label:{en:'Questions 1–50',   ur:'سوالات 1–50',   de:'Fragen 1–50',   ar:'الأسئلة 1–50',   tr:'Sorular 1–50', ru:'Вопросы 1–50', uk:'Запитання 1–50', fa:'سؤال‌های 1–50'},   range:[1,50]},
+        {label:{en:'Questions 51–100', ur:'سوالات 51–100', de:'Fragen 51–100', ar:'الأسئلة 51–100', tr:'Sorular 51–100', ru:'Вопросы 51–100', uk:'Запитання 51–100', fa:'سؤال‌های 51–100'}, range:[51,100]},
+        {label:{en:'Questions 101–150',ur:'سوالات 101–150',de:'Fragen 101–150',ar:'الأسئلة 101–150',tr:'Sorular 101–150', ru:'Вопросы 101–150', uk:'Запитання 101–150', fa:'سؤال‌های 101–150'},range:[101,150]},
+        {label:{en:'Questions 151–200',ur:'سوالات 151–200',de:'Fragen 151–200',ar:'الأسئلة 151–200',tr:'Sorular 151–200', ru:'Вопросы 151–200', uk:'Запитання 151–200', fa:'سؤال‌های 151–200'},range:[151,200]},
+        {label:{en:'Questions 201–250',ur:'سوالات 201–250',de:'Fragen 201–250',ar:'الأسئلة 201–250',tr:'Sorular 201–250', ru:'Вопросы 201–250', uk:'Запитання 201–250', fa:'سؤال‌های 201–250'},range:[201,250]},
+        {label:{en:'Questions 251–300',ur:'سوالات 251–300',de:'Fragen 251–300',ar:'الأسئلة 251–300',tr:'Sorular 251–300', ru:'Вопросы 251–300', uk:'Запитання 251–300', fa:'سؤال‌های 251–300'},range:[251,300]},
     ];
     sets.forEach(set => {
         const btn = document.createElement('button');

@@ -23,3 +23,9 @@ The path is referenced in `docs/index.html` as:
 ```
 
 If the file is missing, Quranic text falls back to Google's "Amiri Quran" font — readable, but not faithful to Pakistani mushaf style.
+
+## Vazirmatn (Farsi)
+
+`Vazirmatn-Variable.woff2` is the Farsi UI/content font (variable weight 100-900), used by the `fa` pages, the quiz and the language picker.
+Source: https://github.com/rastikerdar/vazirmatn (npm `vazirmatn@33.0.3`, `fonts/webfonts/Vazirmatn[wght].woff2`).
+License: SIL Open Font License 1.1 (free to use, embed and redistribute with the license kept).

@@ -1263,7 +1263,7 @@ function fontStyleBlock(lang) {
     @font-face {
         font-family: '${f.family}';
         src: url('../fonts/${f.file}') format('woff2');
-        font-weight: normal;
+        font-weight: ${f.weight || 'normal'};
         font-style: normal;
         font-display: swap;
     }

@@ -6,7 +6,7 @@
 
     const ORDERED_ALL = ["questions-001-050","questions-051-100","questions-101-150","questions-151-200","questions-201-250","questions-251-300","baden-wuerttemberg","bayern","berlin","brandenburg","bremen","hamburg","hessen","mecklenburg-vorpommern","niedersachsen","nordrhein-westfalen","rheinland-pfalz","saarland","sachsen","sachsen-anhalt","schleswig-holstein","thueringen"];
     // Per-language strings, generated from strings.js and the language registry by build.js.
-    const I18N = {"learned":{"en":"✓ Learned","ur":"✓ سیکھ لیا","ar":"✓ تعلّمته","de":"✓ Gelernt","tr":"✓ Öğrenildi","ru":"✓ Изучено","uk":"✓ Вивчено"},"mark":{"en":"＋ Mark as learned","ur":"＋ سیکھیں","ar":"＋ علّمه","de":"＋ Als gelernt markieren","tr":"＋ Öğrenildi olarak işaretle","ru":"＋ Отметить как изученное","uk":"＋ Позначити як вивчене"},"questionWords":["Question","سوال","السؤال","Frage","Soru","Вопрос","Запитання"]};
+    const I18N = {"learned":{"en":"✓ Learned","ur":"✓ سیکھ لیا","ar":"✓ تعلّمته","de":"✓ Gelernt","tr":"✓ Öğrenildi","ru":"✓ Изучено","uk":"✓ Вивчено","fa":"✓ یاد گرفته شد"},"mark":{"en":"＋ Mark as learned","ur":"＋ سیکھیں","ar":"＋ علّمه","de":"＋ Als gelernt markieren","tr":"＋ Öğrenildi olarak işaretle","ru":"＋ Отметить как изученное","uk":"＋ Позначити як вивчене","fa":"＋ علامت‌گذاری به‌عنوان یادگرفته"},"questionWords":["Question","سوال","السؤال","Frage","Soru","Вопрос","Запитання","سؤال"]};
     const QUESTION_WORD_RE = new RegExp('(?:' + I18N.questionWords.join('|') + ')\\s+(\\d+)');
     const PAGE_SLUG = decodeURIComponent(location.pathname.split('/').pop() || '').replace(/\.html$/, '');
 

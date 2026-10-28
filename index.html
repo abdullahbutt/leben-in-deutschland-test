@@ -93,6 +93,11 @@
         src: url('fonts/Indopak-nastaleeq-hanafi-normal-v4.2.2-with-waqf-lazmi.woff2') format('woff2');
         font-weight: normal; font-style: normal; font-display: swap;
     }
+    @font-face {
+        font-family: 'Vazirmatn';
+        src: url('fonts/Vazirmatn-Variable.woff2') format('woff2');
+        font-weight: 100 900; font-style: normal; font-display: swap;
+    }
     </style>
     <style>
         :root {
@@ -198,6 +203,8 @@
         .lang-btn.ru:hover { background: #1d3a8a; }
         .lang-btn.uk { background: #0057b7; }
         .lang-btn.uk:hover { background: #004494; }
+        .lang-btn.fa { background: #0f766e; font-family: 'Vazirmatn', 'Inter', sans-serif; }
+        .lang-btn.fa:hover { background: #115e59; }
         .flag { font-size: 1.5rem; }
         .theme-toggle {
             position: fixed;
@@ -394,6 +401,10 @@
                 <a href="uk/index.html" class="lang-btn uk" data-lang="uk">
                     <span class="fi fi-ua" role="img" aria-label="Ukraine" title="Ukraine" style="width:1.5rem;height:1.125rem;vertical-align:middle;border-radius:2px;"></span>
                     <span>Вчити українською</span>
+                </a>
+                <a href="fa/index.html" class="lang-btn fa" data-lang="fa" dir="rtl">
+                    <span class="fi fi-ir" role="img" aria-label="Iran" title="Iran" style="width:1.5rem;height:1.125rem;vertical-align:middle;border-radius:2px;"></span>
+                    <span>ادامه به فارسی</span>
                 </a>
             </div>
 

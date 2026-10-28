@@ -22,5 +22,13 @@ exclude:
   - ru-questions.json
   - state-explanations.json
   - state-questions.json
+  - uk-explanations.json
+  - uk-questions.json
+  - uk-state-explanations.json
+  - uk-state-questions.json
+  - fa-explanations.json
+  - fa-questions.json
+  - fa-state-explanations.json
+  - fa-state-questions.json
   - README.md
   - CONTRIBUTING.md

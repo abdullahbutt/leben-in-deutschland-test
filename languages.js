@@ -37,6 +37,20 @@ const LANGS = {
         ogLocale: 'uk_UA', inLanguage: 'uk', kind: 'dictionary', source: 'english', searchField: 'uk',
         enabled: true,
     },
+    fa: {
+        code: 'fa', name: 'فارسی', short: 'FA', dir: 'rtl', flag: 'ir',
+        ogLocale: 'fa_IR', inLanguage: 'fa', kind: 'dictionary', source: 'english', searchField: 'fa',
+        enabled: true,
+        font: {
+            family: 'Vazirmatn',
+            file: 'Vazirmatn-Variable.woff2',
+            weight: '100 900',   // variable font: one file covers every weight
+            rootSize: '100%',
+            lineHeight: 1.9,
+            menuSize: '1rem',
+            comment: '',
+        },
+    },
     ur: {
         code: 'ur', name: 'اردو', short: 'UR', dir: 'rtl', flag: 'pk',
         ogLocale: 'ur_PK', inLanguage: 'ur-PK', kind: 'markdown', source: 'urdu', searchField: 'ur',
@@ -69,13 +83,13 @@ const LANGS = {
 };
 
 // Order of the entries in every page's language dropdown (and the sitemap).
-const DROPDOWN_ORDER = ['en', 'de', 'tr', 'ru', 'uk', 'ur', 'ar'];
+const DROPDOWN_ORDER = ['en', 'de', 'tr', 'ru', 'uk', 'ur', 'fa', 'ar'];
 
 // Order in which languages are built (and precached by the service worker).
-const BUILD_ORDER = ['en', 'ur', 'ar', 'de', 'tr', 'ru', 'uk'];
+const BUILD_ORDER = ['en', 'ur', 'ar', 'de', 'tr', 'ru', 'uk', 'fa'];
 
 // Order of the <link rel="alternate" hreflang> tags in every page head.
-const HREFLANG_ORDER = ['en', 'de', 'tr', 'ur', 'ar', 'ru', 'uk'];
+const HREFLANG_ORDER = ['en', 'de', 'tr', 'ur', 'ar', 'ru', 'uk', 'fa'];
 
 const isEnabled = c => LANGS[c] && LANGS[c].enabled;
 

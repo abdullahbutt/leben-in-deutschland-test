@@ -1447,8 +1447,17 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             font-weight: 800;
             color: var(--page-text);
             text-decoration: none;
+            min-width: 0;
+            hyphens: auto;
+            overflow-wrap: anywhere;
         }
-        .nav-actions { display: flex; gap: 0.5rem; align-items: center; }
+        .nav-actions { display: flex; gap: 0.5rem; align-items: center; flex-shrink: 0; }
+        @media (max-width: 400px) {
+            .site-nav { padding: 0.6rem 0.6rem; }
+            .site-nav .brand { font-size: 0.95rem; }
+            .nav-actions { gap: 0.35rem; }
+            .nav-actions .btn-quiz, .nav-actions .btn-theme { padding: 0.3rem 0.6rem; }
+        }
         .lang-dropdown {
             position: relative;
             display: inline-block;
@@ -1500,6 +1509,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             font-weight: 700;
         }
         .lang-dropdown.open .lang-dropdown-menu { display: block; }
+        .nav-actions .btn-lang, .nav-actions .btn-theme {
             background: transparent;
             border: 1px solid var(--border);
             color: var(--page-text);
@@ -1525,6 +1535,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             font-weight: 700;
             text-decoration: none;
             cursor: pointer;
+            white-space: nowrap;
         }
         .nav-actions .btn-quiz:hover {
             background: var(--primary-hover);
@@ -1535,6 +1546,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             max-width: 960px;
             margin: 2rem auto;
             padding: 0 1rem;
+            overflow-wrap: break-word; /* long German terms like Ministerpräsident/in must not widen the page */
         }
         .content-card {
             background: var(--card-bg);
@@ -2303,14 +2315,15 @@ function renderIndex({ lang, slugs }) {
         }
         .idx-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(145px, 100%), 1fr));
             gap: .55rem;
             margin-bottom: .5rem;
         }
         .idx-grid--states {
-            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(170px, 100%), 1fr));
         }
         .idx-card {
+            min-width: 0;
             display: flex;
             flex-direction: column;
             align-items: center;

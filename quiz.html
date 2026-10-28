@@ -124,6 +124,7 @@
             gap: .45rem;
             width: 100%;
             padding: .5rem .85rem;
+            min-height: 2.6rem;
             font-size: .85rem;
             font-weight: 500;
             background: none;
@@ -133,6 +134,7 @@
             cursor: pointer;
             transition: background .1s;
         }
+        .ql-drop-menu button .fi { font-size: .85rem; flex-shrink: 0; }
         .ql-drop-menu button:hover { background: color-mix(in srgb,var(--primary) 8%,var(--card-bg)); }
         .ql-drop-menu button.active { background: color-mix(in srgb,var(--primary) 12%,var(--card-bg)); color: var(--primary); font-weight: 700; }
         .ql-drop.open .ql-drop-menu { display: block; }
@@ -541,9 +543,9 @@ var LANGUAGES = {
     tr: { name: 'Türkçe', flag: 'tr' },
     ru: { name: 'Русский', flag: 'ru' },
     uk: { name: 'Українська', flag: 'ua' },
-    ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1rem', explClass: 'ur-text' },
-    fa: { name: 'فارسی', flag: 'ir', rtl: true, font: "'Vazirmatn'", size: '100%', menuSize: '1rem' },
-    ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1rem' },
+    ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1.2rem', explClass: 'ur-text' },
+    fa: { name: 'فارسی', flag: 'ir', rtl: true, font: "'Vazirmatn'", size: '100%', menuSize: '1.2rem' },
+    ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1.2rem' },
 };
 function buildQuizLangMenu() {
     var menu = document.getElementById('qlMenu');
@@ -554,7 +556,7 @@ function buildQuizLangMenu() {
         btn.id = 'qlOpt-' + code;
         btn.setAttribute('role', 'menuitem');
         btn.setAttribute('onclick', "selectQuizLang('" + code + "')");
-        if (L.font) btn.style.cssText = 'font-family:' + L.font + ',serif;font-size:' + L.menuSize + ';';
+        if (L.font) btn.style.cssText = 'font-family:' + L.font + ',serif;font-size:' + L.menuSize + ';line-height:1.2;';
         btn.innerHTML = '<span class="fi fi-' + L.flag + '"></span> ' + L.name;
         menu.appendChild(btn);
     });

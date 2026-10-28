@@ -47,7 +47,7 @@ const LANGS = {
             weight: '100 900',   // variable font: one file covers every weight
             rootSize: '100%',
             lineHeight: 1.9,
-            menuSize: '1rem',
+            menuSize: '1.2rem',
             comment: '',
         },
     },
@@ -60,7 +60,7 @@ const LANGS = {
             file: 'JameelNooriNastaleeq.woff2',
             rootSize: '130%',
             lineHeight: 2,
-            menuSize: '1.05rem',
+            menuSize: '1.2rem',
             comment: `    /* Optical size correction — Jameel Noori Nastaleeq renders visually smaller
        than Inter at equal CSS sizes (smaller cap-height relative to em square).
        Scaling the root font-size up proportionally compensates all rem-based sizes. */
@@ -76,7 +76,7 @@ const LANGS = {
             file: 'Indopak-nastaleeq-hanafi-normal-v4.2.2-with-waqf-lazmi.woff2',
             rootSize: '125%',
             lineHeight: 2,
-            menuSize: '1.05rem',
+            menuSize: '1.2rem',
             comment: '',
         },
     },

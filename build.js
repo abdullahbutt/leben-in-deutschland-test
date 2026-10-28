@@ -1500,12 +1500,14 @@ function renderPage({ lang, title, bodyHtml, slug }) {
             align-items: center;
             gap: 0.5rem;
             padding: 0.55rem 0.9rem;
+            min-height: 2.6rem;
             font-size: 0.85rem;
             font-weight: 500;
             color: var(--text);
             text-decoration: none;
             transition: background 0.1s;
         }
+        .lang-dropdown-menu a .fi { font-size: 0.85rem; flex-shrink: 0; }
         .lang-dropdown-menu a:hover { background: color-mix(in srgb,var(--primary) 8%,var(--card-bg)); }
         .lang-dropdown-menu a.active {
             background: color-mix(in srgb,var(--primary) 12%,var(--card-bg));
@@ -1972,7 +1974,7 @@ function renderPage({ lang, title, bodyHtml, slug }) {
                         <span class="fi fi-${LANGS[lang].flag}"></span> ${LANGS[lang].short} ▾
                     </button>
                     <div class="lang-dropdown-menu" role="menu">
-                        ${enabledLangs().map(c => { const L = LANGS[c]; const st = L.font ? ` style="font-family:'${L.font.family}',serif;font-size:${L.font.menuSize};"` : ''; return `<a href="../${c}/${slug}.html" ${lang === c ? 'class="active"' : ''} role="menuitem"${st}><span class="fi fi-${L.flag}"></span> ${L.name}</a>`; }).join('\n                        ')}
+                        ${enabledLangs().map(c => { const L = LANGS[c]; const st = L.font ? ` style="font-family:'${L.font.family}',serif;font-size:${L.font.menuSize};line-height:1.2;"` : ''; return `<a href="../${c}/${slug}.html" ${lang === c ? 'class="active"' : ''} role="menuitem"${st}><span class="fi fi-${L.flag}"></span> ${L.name}</a>`; }).join('\n                        ')}
                     </div>
                 </div>
                 <button class="btn-theme" id="themeToggle" aria-label="${(A11Y[lang] || A11Y.en).theme}">🌓</button>

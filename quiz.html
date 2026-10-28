@@ -87,6 +87,8 @@
             z-index: 100;
         }
         .q-nav a { color: var(--text); text-decoration: none; font-weight: 700; font-size: .95rem; }
+        .q-nav a { min-width: 0; }
+        #txt-brand { overflow-wrap: anywhere; hyphens: auto; }
         .q-nav-actions { display: flex; gap: .5rem; align-items: center; }
         /* Language dropdown — same style as content pages */
         .ql-drop { position: relative; display: inline-block; }
@@ -513,7 +515,7 @@
 
 <!-- Nav -->
 <nav class="q-nav">
-    <a href="index.html?stay"><span class="fi fi-de" role="img" aria-label="Germany" title="Germany" style="width:1.2rem;height:0.9rem;vertical-align:middle;border-radius:2px;margin-right:0.3rem;"></span> German Citizenship Test</a>
+    <a href="index.html?stay"><span class="fi fi-de" role="img" aria-label="Germany" title="Germany" style="width:1.2rem;height:0.9rem;vertical-align:middle;border-radius:2px;margin-right:0.3rem;"></span> <span id="txt-brand">German Citizenship Test</span></a>
     <div class="q-nav-actions">
         <div class="ql-drop" id="qlDrop">
             <button class="ql-drop-btn" id="qlDropBtn" onclick="document.getElementById('qlDrop').classList.toggle('open')" aria-haspopup="true" aria-label="Language">
@@ -540,14 +542,14 @@ function selectQuizLang(lang) {
 // Quiz languages: the one place to add a language to the quiz (also add its UI block below).
 // check-quiz-data.js fails the build if this list drifts from languages.js.
 var LANGUAGES = {
-    en: { name: 'English', flag: 'gb' },
-    de: { name: 'Deutsch', flag: 'de' },
-    tr: { name: 'Türkçe', flag: 'tr' },
-    ru: { name: 'Русский', flag: 'ru' },
-    uk: { name: 'Українська', flag: 'ua' },
-    ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1.4rem', explClass: 'ur-text' },
-    fa: { name: 'فارسی', flag: 'ir', rtl: true, font: "'Vazirmatn'", size: '100%', menuSize: '1.2rem' },
-    ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1.2rem' },
+    en: { name: 'English', flag: 'gb', brand: 'German Citizenship Test' },
+    de: { name: 'Deutsch', flag: 'de', brand: 'Einbürgerungstest Deutschland' },
+    tr: { name: 'Türkçe', flag: 'tr', brand: 'Almanya Vatandaşlık Sınavı' },
+    ru: { name: 'Русский', flag: 'ru', brand: 'Тест на гражданство Германии' },
+    uk: { name: 'Українська', flag: 'ua', brand: 'Тест на громадянство Німеччини' },
+    ur: { name: 'اردو', flag: 'pk', brand: 'جرمن شہریت کا امتحان', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1.4rem', explClass: 'ur-text' },
+    fa: { name: 'فارسی', flag: 'ir', brand: 'آزمون شهروندی آلمان', rtl: true, font: "'Vazirmatn'", size: '100%', menuSize: '1.2rem' },
+    ar: { name: 'عربي', flag: 'sa', brand: 'اختبار الجنسية الألمانية', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1.2rem' },
 };
 function buildQuizLangMenu() {
     var menu = document.getElementById('qlMenu');
@@ -1075,6 +1077,7 @@ function applyUiLang() {
     const u = UI[LANG] || UI.en;
     const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
     document.title = u.docTitle;
+    set('txt-brand', (LANGUAGES[LANG] || LANGUAGES.en).brand);
     document.documentElement.lang = LANG;
     set('txt-quizTitle',  u.quizTitle);
     set('txt-quizSub',    u.quizSub);

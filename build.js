@@ -36,13 +36,14 @@ function readJsonIfExists(file) {
     try { return JSON.parse(fs.readFileSync(path.join(ROOT, file), 'utf8')); } catch (e) { return {}; }
 }
 for (const L of Object.values(LANGS)) {
-    if (L.kind !== 'dictionary' || !L.enabled) continue;
+    if (L.kind !== 'dictionary') continue;
     DICT[L.code] = {
         explanations: readJsonIfExists(`${L.code}-explanations.json`),
         questions: readJsonIfExists(`${L.code}-questions.json`),
     };
-    LOCALES[L.code] = JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', `${L.code}.json`), 'utf8'));
-    console.log(`[${L.code}] ${Object.keys(DICT[L.code].explanations).length} explanations, ${Object.keys(DICT[L.code].questions).length} questions`);
+    const locFile = path.join(ROOT, 'locales', `${L.code}.json`);
+    if (fs.existsSync(locFile)) LOCALES[L.code] = JSON.parse(fs.readFileSync(locFile, 'utf8'));
+    if (L.enabled) console.log(`[${L.code}] ${Object.keys(DICT[L.code].explanations).length} explanations, ${Object.keys(DICT[L.code].questions).length} questions`);
 }
 
 // State-question explanations (DE/TR/RU) — keyed by [state_slug][qid][lang]
@@ -63,6 +64,21 @@ try {
     const total = Object.values(STATE_QUESTIONS).reduce((sum, qs) => sum + Object.keys(qs).length, 0);
     console.log(`[state-questions] loaded ${total} state-question translation entries`);
 } catch(e) { /* file optional */ }
+
+// Languages added after the shared files above keep their state texts in their own files:
+// <lang>-state-questions.json  {slug: {301: {q, opts}}}   and
+// <lang>-state-explanations.json {slug: {301: "text"}}  -> merged into the tables above.
+for (const L of Object.values(LANGS)) {
+    if (L.kind !== 'dictionary') continue;
+    const sq = readJsonIfExists(`${L.code}-state-questions.json`);
+    const se = readJsonIfExists(`${L.code}-state-explanations.json`);
+    for (const [slug, items] of Object.entries(sq)) {
+        for (const [n, v] of Object.entries(items)) ((STATE_QUESTIONS[slug] = STATE_QUESTIONS[slug] || {})[n] = STATE_QUESTIONS[slug][n] || {})[L.code] = v;
+    }
+    for (const [slug, items] of Object.entries(se)) {
+        for (const [n, v] of Object.entries(items)) ((STATE_EXPLANATIONS[slug] = STATE_EXPLANATIONS[slug] || {})[n] = STATE_EXPLANATIONS[slug][n] || {})[L.code] = v;
+    }
+}
 
 // State sub-heading labels ("Coat of Arms", "District", ... in the H3 after
 // the question number) translated per language. Same 10 labels for every
@@ -2552,7 +2568,7 @@ function buildLang(lang) {
             const stateName = (TITLES[lang] || {})[slug];
             if (slug !== 'index' && stateName) {
                 bodyHtml = bodyHtml.replace(
-                    /<h1>([^<]*?) — (State Questions|Eyalet Soruları|Вопросы по земле) \(301–310\)<\/h1>/,
+                    /<h1>([^<]*?) — ([^<]+?) \(301–310\)<\/h1>/,
                     (m, oldName, oldLabel) => `<h1>${escapeHtml(stateName)} — ${STATE_H1[lang] || oldLabel} (301–310)</h1>`
                 );
             }
@@ -2670,6 +2686,8 @@ function generateSearchIndex() {
         en:  q.en  || '',
         ur:  q.ur  || '',
         ar:  q.ar  || '',
+        // languages searched in their own text (LANGS[x].searchField) besides ur/ar
+        ...Object.fromEntries(Object.values(LANGS).filter(L => L.enabled && L.searchField && !['ur', 'ar'].includes(L.code)).map(L => [L.code, q[L.code] || ''])),
         // precompute slug so search results link directly to the right page
         slug: (() => {
             const g = Math.ceil(q.id / 50);
@@ -2832,6 +2850,31 @@ Sitemap: ${SITE_BASE_URL}/sitemap.xml
     fs.writeFileSync(path.join(ROOT, 'robots.txt'), robots);
     console.log('✓ robots.txt written');
 }
+
+// A locale file can carry the language's own tables (ui, titles, indexIntro, indexHeadings,
+// a11y, stateSubheadings, stateIntros, metaDesc); merge them into the shared tables.
+function mergeLocaleTables() {
+    const fill = (tpl, vars) => tpl.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? vars[k] : m));
+    for (const [code, loc] of Object.entries(LOCALES)) {
+        if (loc.ui) UI[code] = loc.ui;
+        if (loc.titles) TITLES[code] = loc.titles;
+        if (loc.indexIntro) INDEX_INTRO[code] = loc.indexIntro;
+        if (loc.indexHeadings) INDEX_HEADINGS[code] = loc.indexHeadings;
+        if (loc.a11y) A11Y[code] = loc.a11y;
+        if (loc.stateSubheadings) STATE_SUBHEADING_LABELS[code] = loc.stateSubheadings;
+        if (loc.stateIntros) {
+            for (const [slug, text] of Object.entries(loc.stateIntros)) (STATE_INTROS[slug] = STATE_INTROS[slug] || {})[code] = text;
+        }
+        if (loc.metaDesc) {
+            META_DESC_TEMPLATES[code] = {
+                index: loc.metaDesc.index,
+                range: (a, b) => fill(loc.metaDesc.range, { a, b }),
+                state: (t) => fill(loc.metaDesc.state, { t }),
+            };
+        }
+    }
+}
+mergeLocaleTables();
 
 // After building: a phrase that matched a page but has no translation for that language
 // would leave English on the page (error); phrases no page uses any more are only reported.

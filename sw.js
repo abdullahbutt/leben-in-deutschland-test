@@ -13,7 +13,7 @@
 
 // Cache key includes a build timestamp so every deploy invalidates the cache.
 // The build timestamp is replaced at build time by build.js.
-const CACHE_VERSION = '2026-10-28T16-09-03-260Z';
+const CACHE_VERSION = '2026-10-28T16-40-04-197Z';
 const CACHE_NAME = `gct-cache-${CACHE_VERSION}`;
 
 // All same-origin pages to pre-cache on install
@@ -22,7 +22,7 @@ const PRECACHE_URLS = [
   './index.html',
   './quiz.html',
   './quiz-data.json',
-  './assets/page.js?v=1f7d49f69c',
+  './assets/page.js?v=1342514507',
   './privacy.html',
   './sitemap.xml',
   './robots.txt',
@@ -169,6 +169,29 @@ const PRECACHE_URLS = [
   './ru/sachsen-anhalt.html',
   './ru/schleswig-holstein.html',
   './ru/thueringen.html',
+  './uk/index.html',
+  './uk/questions-001-050.html',
+  './uk/questions-051-100.html',
+  './uk/questions-101-150.html',
+  './uk/questions-151-200.html',
+  './uk/questions-201-250.html',
+  './uk/questions-251-300.html',
+  './uk/baden-wuerttemberg.html',
+  './uk/bayern.html',
+  './uk/berlin.html',
+  './uk/brandenburg.html',
+  './uk/bremen.html',
+  './uk/hamburg.html',
+  './uk/hessen.html',
+  './uk/mecklenburg-vorpommern.html',
+  './uk/niedersachsen.html',
+  './uk/nordrhein-westfalen.html',
+  './uk/rheinland-pfalz.html',
+  './uk/saarland.html',
+  './uk/sachsen.html',
+  './uk/sachsen-anhalt.html',
+  './uk/schleswig-holstein.html',
+  './uk/thueringen.html',
 ];
 
 // Install: pre-cache all known pages

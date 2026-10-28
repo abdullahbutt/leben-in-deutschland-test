@@ -32,6 +32,11 @@ const LANGS = {
         ogLocale: 'ru_RU', inLanguage: 'ru', kind: 'dictionary', source: 'english',
         enabled: true,
     },
+    uk: {
+        code: 'uk', name: 'Українська', short: 'UK', dir: 'ltr', flag: 'ua',
+        ogLocale: 'uk_UA', inLanguage: 'uk', kind: 'dictionary', source: 'english', searchField: 'uk',
+        enabled: true,
+    },
     ur: {
         code: 'ur', name: 'اردو', short: 'UR', dir: 'rtl', flag: 'pk',
         ogLocale: 'ur_PK', inLanguage: 'ur-PK', kind: 'markdown', source: 'urdu', searchField: 'ur',
@@ -64,13 +69,13 @@ const LANGS = {
 };
 
 // Order of the entries in every page's language dropdown (and the sitemap).
-const DROPDOWN_ORDER = ['en', 'de', 'tr', 'ru', 'ur', 'ar'];
+const DROPDOWN_ORDER = ['en', 'de', 'tr', 'ru', 'uk', 'ur', 'ar'];
 
 // Order in which languages are built (and precached by the service worker).
-const BUILD_ORDER = ['en', 'ur', 'ar', 'de', 'tr', 'ru'];
+const BUILD_ORDER = ['en', 'ur', 'ar', 'de', 'tr', 'ru', 'uk'];
 
 // Order of the <link rel="alternate" hreflang> tags in every page head.
-const HREFLANG_ORDER = ['en', 'de', 'tr', 'ur', 'ar', 'ru'];
+const HREFLANG_ORDER = ['en', 'de', 'tr', 'ur', 'ar', 'ru', 'uk'];
 
 const isEnabled = c => LANGS[c] && LANGS[c].enabled;
 

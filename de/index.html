@@ -15,6 +15,7 @@
     <link rel="alternate" hreflang="ur" href="https://leben.wordfeather.com/ur/index.html">
     <link rel="alternate" hreflang="ar" href="https://leben.wordfeather.com/ar/index.html">
     <link rel="alternate" hreflang="ru" href="https://leben.wordfeather.com/ru/index.html">
+    <link rel="alternate" hreflang="uk" href="https://leben.wordfeather.com/uk/index.html">
     <link rel="alternate" hreflang="x-default" href="https://leben.wordfeather.com/en/index.html">
 
     <!-- Open Graph -->
@@ -693,6 +694,7 @@
                         <a href="../de/index.html" class="active" role="menuitem"><span class="fi fi-de"></span> Deutsch</a>
                         <a href="../tr/index.html"  role="menuitem"><span class="fi fi-tr"></span> Türkçe</a>
                         <a href="../ru/index.html"  role="menuitem"><span class="fi fi-ru"></span> Русский</a>
+                        <a href="../uk/index.html"  role="menuitem"><span class="fi fi-ua"></span> Українська</a>
                         <a href="../ur/index.html"  role="menuitem" style="font-family:'Jameel Noori Nastaleeq',serif;font-size:1.05rem;"><span class="fi fi-pk"></span> اردو</a>
                         <a href="../ar/index.html"  role="menuitem" style="font-family:'Indopak Nastaleeq',serif;font-size:1.05rem;"><span class="fi fi-sa"></span> عربي</a>
                     </div>
@@ -893,6 +895,7 @@
             const isDe = lang === 'de';
             const isTr = lang === 'tr';
             const isRu = lang === 'ru';
+            const isUk = lang === 'uk';
             const searchField = null;
             let searchData = null;
 
@@ -940,7 +943,7 @@
 
                 if (!matches.length) {
                     results.innerHTML = '<div class="idx-search-empty">' +
-                        (isUr ? 'کوئی نتیجہ نہیں ملا۔' : isAr ? 'لا توجد نتائج.' : isDe ? 'Keine Ergebnisse gefunden.' : isTr ? 'Sonuç bulunamadı.' : isRu ? 'Ничего не найдено.' : 'No results found.') + '</div>';
+                        (isUr ? 'کوئی نتیجہ نہیں ملا۔' : isAr ? 'لا توجد نتائج.' : isDe ? 'Keine Ergebnisse gefunden.' : isTr ? 'Sonuç bulunamadı.' : isRu ? 'Ничего не найдено.' : isUk ? 'Нічого не знайдено.' : 'No results found.') + '</div>';
                     results.classList.add('visible');
                     return;
                 }
@@ -949,7 +952,7 @@
                     const href = './' + item.slug + '.html#q-' + item.id;
                     const primary = highlight(searchField ? (item[searchField] || item.de) : item.de, q);
                     return '<a class="idx-search-result" href="' + escHtml(href) + '">' +
-                        '<div class="idx-search-result-num">' + (isUr ? 'سوال ' : isAr ? 'السؤال ' : isDe ? 'Frage ' : isTr ? 'Soru ' : isRu ? 'Вопрос ' : 'Question ') + item.id + '</div>' +
+                        '<div class="idx-search-result-num">' + (isUr ? 'سوال ' : isAr ? 'السؤال ' : isDe ? 'Frage ' : isTr ? 'Soru ' : isRu ? 'Вопрос ' : isUk ? 'Запитання ' : 'Question ') + item.id + '</div>' +
                         '<div class="idx-search-result-text">' + primary + '</div>' +
                         '</a>';
                 }).join('');
@@ -1197,7 +1200,7 @@
 
     <button class="back-to-top" id="backToTop" aria-label="Nach oben" title="Nach oben">↑</button>
 
-    <script defer src="../assets/page.js?v=1f7d49f69c"></script>
+    <script defer src="../assets/page.js?v=1342514507"></script>
 
     <!-- Cloudflare Web Analytics (privacy-friendly, no cookies, GDPR-compliant) -->
     <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "d435b2572b82459cb083e37f7c734b75"}'></script>

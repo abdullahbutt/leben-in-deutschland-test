@@ -535,6 +535,7 @@ var LANGUAGES = {
     de: { name: 'Deutsch', flag: 'de' },
     tr: { name: 'Türkçe', flag: 'tr' },
     ru: { name: 'Русский', flag: 'ru' },
+    uk: { name: 'Українська', flag: 'ua' },
     ur: { name: 'اردو', flag: 'pk', rtl: true, font: "'Jameel Noori Nastaleeq'", size: '130%', menuSize: '1rem', explClass: 'ur-text' },
     ar: { name: 'عربي', flag: 'sa', rtl: true, font: "'Indopak Nastaleeq'", size: '125%', menuSize: '1rem' },
 };
@@ -938,6 +939,50 @@ const UI = {
         docTitle: 'Тренировочный тест — Тест на гражданство Германии',
         practiceScore: '{c}/{t} верно',
     },
+    uk: {
+        quizTitle: '🎯 Тренувальний тест',
+        quizSub: 'Оберіть режим. Усі запитання з офіційного каталогу BAMF.',
+        mode1title: 'Симуляція справжнього тесту',
+        mode1sub: '33 запитання · таймер 60 хв · Склав = 17/33 — як справжній Einbürgerungstest',
+        mode2title: 'Запитання по землі',
+        mode2sub: 'Оберіть свою землю. Дайте відповідь на 3 регіональні запитання.',
+        mode3title: 'Тренування загальних запитань',
+        mode3sub: 'По 50 запитань із 300 загальних — без таймера, суто тренування.',
+        back: 'Назад',
+        stateTitle: 'Оберіть федеральну землю',
+        stateSub: 'Ваша земля визначає, які 3 регіональні запитання увійдуть до тесту.',
+        genTitle: 'Оберіть групу запитань',
+        genSub: 'По 50 запитань у групі. Без таймера — навчайтеся у власному темпі.',
+        question: 'Запитання',
+        of: 'з',
+        next: 'Далі →',
+        finish: 'Показати результати →',
+        bestanden: 'Складено ✅',
+        nichtBestanden: 'Не складено ❌',
+        passedSub: 'Вітаємо! Ви правильно відповіли на 17 або більше запитань.',
+        failedSub: (score, total) => `Не складено. Для успіху потрібно 17/${total} — ви набрали ${score}/${total}.`,
+        passMark: 'Прохідний бал: 17 / 33',
+        reviewTitle: '📋 Запитання з неправильними відповідями:',
+        yourAnswer: 'Ваша відповідь:',
+        correctAnswer: 'Правильна відповідь:',
+        tryAgain: '🔄 Спробувати ще раз',
+        cancelQuiz: 'Скасувати',
+        newQuiz: '← Обрати інший тест',
+        backHome: '← Повернутися до посібника',
+        correctLabel: '✓ Правильно!',
+        wrongLabel: '✗ Неправильно',
+        practiceWeak: '📌 Потренувати помилки',
+        historyTitle: '📊 Ваші останні результати',
+        historyEmpty: 'Записів поки немає — пройдіть тест, щоб побачити результати.',
+        historyPass: 'СКЛАДЕНО',
+        historyFail: 'НЕ СКЛАДЕНО',
+        historyPractice: 'Тренування',
+        historyFull: 'Повний тест',
+        historyState: 'Земля',
+        practiceSummary: 'Правильних відповідей: {n}.',
+        docTitle: 'Тренувальний тест — Тест на громадянство Німеччини',
+        practiceScore: '{c}/{t} правильно',
+    },
 };
 
 // ── Init ──────────────────────────────────────────────────────────────────────
@@ -1042,6 +1087,7 @@ const CANCEL_MSG = {
     de: 'Quiz abbrechen? Ihr Fortschritt geht verloren.',
     tr: 'Sınav iptal edilsin mi? İlerlemeniz kaybolacak.',
     ru: 'Завершить тест? Ваш прогресс будет потерян.',
+    uk: 'Завершити тест? Ваш прогрес буде втрачено.',
 };
 function cancelQuiz() {
     const u = UI[LANG] || UI.en;
@@ -1078,6 +1124,8 @@ function startMode(mode) {
                  'Eyaletiniz, sınava dahil edilecek 3 bölgesel soruyu belirler.'],
             ru: ['Выберите федеральную землю',
                  'Ваша земля определяет, какие 3 региональных вопроса войдут в тест.'],
+            uk: ['Оберіть федеральну землю',
+                 'Ваша земля визначає, які 3 регіональні запитання увійдуть до тесту.'],
         };
         const t = titles[LANG] || titles.en;
         document.getElementById('txt-stateTitle').textContent = t[0];
@@ -1130,12 +1178,12 @@ function buildGenGrid() {
     const grid = document.getElementById('genGrid');
     grid.innerHTML = '';
     const sets = [
-        {label:{en:'Questions 1–50',   ur:'سوالات 1–50',   de:'Fragen 1–50',   ar:'الأسئلة 1–50',   tr:'Sorular 1–50', ru:'Вопросы 1–50'},   range:[1,50]},
-        {label:{en:'Questions 51–100', ur:'سوالات 51–100', de:'Fragen 51–100', ar:'الأسئلة 51–100', tr:'Sorular 51–100', ru:'Вопросы 51–100'}, range:[51,100]},
-        {label:{en:'Questions 101–150',ur:'سوالات 101–150',de:'Fragen 101–150',ar:'الأسئلة 101–150',tr:'Sorular 101–150', ru:'Вопросы 101–150'},range:[101,150]},
-        {label:{en:'Questions 151–200',ur:'سوالات 151–200',de:'Fragen 151–200',ar:'الأسئلة 151–200',tr:'Sorular 151–200', ru:'Вопросы 151–200'},range:[151,200]},
-        {label:{en:'Questions 201–250',ur:'سوالات 201–250',de:'Fragen 201–250',ar:'الأسئلة 201–250',tr:'Sorular 201–250', ru:'Вопросы 201–250'},range:[201,250]},
-        {label:{en:'Questions 251–300',ur:'سوالات 251–300',de:'Fragen 251–300',ar:'الأسئلة 251–300',tr:'Sorular 251–300', ru:'Вопросы 251–300'},range:[251,300]},
+        {label:{en:'Questions 1–50',   ur:'سوالات 1–50',   de:'Fragen 1–50',   ar:'الأسئلة 1–50',   tr:'Sorular 1–50', ru:'Вопросы 1–50', uk:'Запитання 1–50'},   range:[1,50]},
+        {label:{en:'Questions 51–100', ur:'سوالات 51–100', de:'Fragen 51–100', ar:'الأسئلة 51–100', tr:'Sorular 51–100', ru:'Вопросы 51–100', uk:'Запитання 51–100'}, range:[51,100]},
+        {label:{en:'Questions 101–150',ur:'سوالات 101–150',de:'Fragen 101–150',ar:'الأسئلة 101–150',tr:'Sorular 101–150', ru:'Вопросы 101–150', uk:'Запитання 101–150'},range:[101,150]},
+        {label:{en:'Questions 151–200',ur:'سوالات 151–200',de:'Fragen 151–200',ar:'الأسئلة 151–200',tr:'Sorular 151–200', ru:'Вопросы 151–200', uk:'Запитання 151–200'},range:[151,200]},
+        {label:{en:'Questions 201–250',ur:'سوالات 201–250',de:'Fragen 201–250',ar:'الأسئلة 201–250',tr:'Sorular 201–250', ru:'Вопросы 201–250', uk:'Запитання 201–250'},range:[201,250]},
+        {label:{en:'Questions 251–300',ur:'سوالات 251–300',de:'Fragen 251–300',ar:'الأسئلة 251–300',tr:'Sorular 251–300', ru:'Вопросы 251–300', uk:'Запитання 251–300'},range:[251,300]},
     ];
     sets.forEach(set => {
         const btn = document.createElement('button');

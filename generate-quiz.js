@@ -18,6 +18,13 @@ const { LANGS } = require('./languages');
 const ROOT       = __dirname;
 // Languages whose texts come from <code>-*.json dictionaries (de, tr, ru, ...).
 const DICT_LANGS = Object.values(LANGS).filter(L => L.kind === 'dictionary' && L.enabled).map(L => L.code);
+const LOCALE_ONLY_LANGS = [];
+// state titles per language, from locales/<code>.json (used for languages without inline names)
+const LOCALE_TITLES = {};
+for (const L of Object.values(LANGS)) {
+    try { LOCALE_TITLES[L.code] = JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', `${L.code}.json`), 'utf8')).titles; }
+    catch (e) { /* no locale file */ }
+}
 const SRC_EN     = path.join(ROOT, 'sources', 'english');
 const SRC_UR     = path.join(ROOT, 'sources', 'urdu');
 const SRC_AR     = path.join(ROOT, 'sources', 'arabic');
@@ -34,6 +41,17 @@ const STATE_EXPL = loadJson('state-explanations.json');
 // Turkish / Russian question + option text (index-aligned with the English options)
 const EXTRA_Q = Object.fromEntries(DICT_LANGS.map(l => [l, loadJson(`${l}-questions.json`)]));
 const STATE_Q = loadJson('state-questions.json');   // STATE_Q[slug][301] = { tr: {q, opts}, ru: {q, opts} }
+// languages with their own state files (<lang>-state-questions.json / -state-explanations.json)
+for (const code of DICT_LANGS.concat(Object.values(LANGS).filter(L => L.kind === 'dictionary').map(L => L.code))) {
+    const sq = loadJson(`${code}-state-questions.json`);
+    const se = loadJson(`${code}-state-explanations.json`);
+    for (const [slug, items] of Object.entries(sq)) {
+        for (const [n, v] of Object.entries(items)) ((STATE_Q[slug] = STATE_Q[slug] || {})[n] = STATE_Q[slug][n] || {})[code] = v;
+    }
+    for (const [slug, items] of Object.entries(se)) {
+        for (const [n, v] of Object.entries(items)) ((STATE_EXPL[slug] = STATE_EXPL[slug] || {})[n] = STATE_EXPL[slug][n] || {})[code] = v;
+    }
+}
 
 // { tr, ru } question text for a general question, or {} if missing
 function extraQuestionText(id) {
@@ -467,6 +485,10 @@ function buildStates() {
             slug,
             // every name_<lang> the metadata carries (de, en, ur, ar, tr, ru, ...)
             ...Object.fromEntries(Object.entries(meta).filter(([k]) => k.startsWith('name_'))),
+            // languages defined by a locale file use its state titles as their quiz names
+            ...Object.fromEntries(DICT_LANGS.concat(LOCALE_ONLY_LANGS)
+                .filter(l => !('name_' + l in meta) && LOCALE_TITLES[l] && LOCALE_TITLES[l][slug])
+                .map(l => ['name_' + l, LOCALE_TITLES[l][slug]])),
             questions: realQuestions || buildStateQuestion(slug, meta),
         };
         const source = realQuestions ? 'from markdown source' : 'synthetic fallback';

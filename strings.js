@@ -80,6 +80,23 @@ const STR = {
     },
 };
 
+// Languages added as a locale file bring their own strings: locales/<code>.json -> "strings".
+(function mergeLocaleStrings() {
+    const fs = require('fs');
+    const path = require('path');
+    const dir = path.join(__dirname, 'locales');
+    if (!fs.existsSync(dir)) return;
+    for (const file of fs.readdirSync(dir)) {
+        if (!/^[a-z]{2}\.json$/.test(file)) continue;
+        const code = file.slice(0, 2);
+        const loc = JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8'));
+        for (const [key, value] of Object.entries(loc.strings || {})) {
+            if (!STR[key]) throw new Error(`locales/${file}: unknown strings key "${key}"`);
+            STR[key][code] = value;
+        }
+    }
+})();
+
 /** Look up a string for `lang`, falling back to English. */
 function t(key, lang) {
     const entry = STR[key];

@@ -685,6 +685,8 @@ const UI = {
         historyFull: 'Full Test',
         historyState: 'State',
         practiceSummary: 'You answered {n} correctly.',
+        docTitle: 'Quiz — German Citizenship Test',
+        practiceScore: '{c}/{t} correct',
     },
     ur: {
         quizTitle: '🎯 مشق کوئز',
@@ -727,6 +729,8 @@ const UI = {
         historyFull: 'اصل امتحان',
         historyState: 'ریاستی',
         practiceSummary: 'آپ نے {n} سوالات درست حل کیے۔',
+        docTitle: 'کوئز — جرمن شہریت کا امتحان',
+        practiceScore: '{c}/{t} درست',
     },
     de: {
         quizTitle: '🎯 Übungsquiz',
@@ -769,6 +773,8 @@ const UI = {
         historyFull: 'Volltest',
         historyState: 'Bundesland',
         practiceSummary: 'Sie haben {n} Fragen richtig beantwortet.',
+        docTitle: 'Übungsquiz — Einbürgerungstest',
+        practiceScore: '{c}/{t} richtig',
     },
     ar: {
         quizTitle: '🎯 اختبار تدريبي',
@@ -811,6 +817,8 @@ const UI = {
         historyFull: 'الاختبار الكامل',
         historyState: 'الولاية',
         practiceSummary: 'أجبت عن {n} أسئلة بشكل صحيح.',
+        docTitle: 'اختبار التدريب — اختبار الجنسية الألمانية',
+        practiceScore: '{c}/{t} صحيحة',
     },
     tr: {
         quizTitle: '🎯 Pratik Sınavı',
@@ -853,6 +861,8 @@ const UI = {
         historyFull: 'Tam Sınav',
         historyState: 'Eyalet',
         practiceSummary: '{n} soruyu doğru cevapladınız.',
+        docTitle: 'Pratik Sınavı — Almanya Vatandaşlık Sınavı',
+        practiceScore: '{c}/{t} doğru',
     },
     ru: {
         quizTitle: '🎯 Тренировочный тест',
@@ -895,6 +905,8 @@ const UI = {
         historyFull: 'Полный тест',
         historyState: 'Земля',
         practiceSummary: 'Правильных ответов: {n}.',
+        docTitle: 'Тренировочный тест — Тест на гражданство Германии',
+        practiceScore: '{c}/{t} верно',
     },
 };
 
@@ -933,6 +945,8 @@ function applyUiLang() {
     updateQuizLangDropdown(LANG);
     const u = UI[LANG] || UI.en;
     const set = (id, val) => { const el = document.getElementById(id); if(el) el.textContent = val; };
+    document.title = u.docTitle;
+    document.documentElement.lang = LANG;
     set('txt-quizTitle',  u.quizTitle);
     set('txt-quizSub',    u.quizSub);
     set('txt-mode1title', u.mode1title);
@@ -1356,7 +1370,7 @@ function finishQuiz() {
     const verdictBox = document.getElementById('verdictBox');
     verdictBox.className = `verdict ${passed || isPracticeMode ? 'pass' : 'fail'}`;
     document.getElementById('verdictWord').textContent = isPracticeMode
-        ? `${correct}/${total} ${u.correctLabel.replace('✓ ', '')}`
+        ? u.practiceScore.replace('{c}', correct).replace('{t}', total)
         : passed ? u.bestanden : u.nichtBestanden;
     document.getElementById('scoreNum').textContent = `${correct} / ${total}`;
     document.getElementById('scoreSub').textContent = isPracticeMode

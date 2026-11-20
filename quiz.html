@@ -328,7 +328,12 @@
             gap: .65rem;
             line-height: 1.4;
             transition: background .1s, border-color .1s;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            hyphens: auto;
         }
+        .opt-btn > span:last-child { min-width: 0; }
+        #qDe { overflow-wrap: anywhere; hyphens: auto; }
         .opt-btn:hover:not(:disabled) { border-color: var(--primary); background: color-mix(in srgb, var(--primary) 8%, transparent); }
         .opt-btn:disabled { cursor: default; }
         .opt-label {
